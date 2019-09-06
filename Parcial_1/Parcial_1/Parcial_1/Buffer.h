@@ -35,8 +35,7 @@ inline void Buffer<T>::init(int x, int y)
 template<typename T>
 inline void Buffer<T>::set(int x, int y, T data)
 {
-	int pitch = W * sizeof(T);
-	*(A + (pitch * y) + (x * sizeof(T))) = data;
+	*(A + (W * y) + (x)) = data;
 }
 
 template<typename T>
