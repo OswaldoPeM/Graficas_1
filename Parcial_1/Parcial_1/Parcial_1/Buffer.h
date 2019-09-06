@@ -28,7 +28,7 @@ inline void Buffer<T>::init(int x, int y)
 	A = (T*)malloc(x * y * sizeof(T));
 	for (int i = 0; i < W*H; i++)
 	{
-		*(A + i) = i;
+		*(A + i) = 0;
 	}
 }
 
