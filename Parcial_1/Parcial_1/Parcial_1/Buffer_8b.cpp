@@ -4,8 +4,10 @@
 
 bool Buffer_8b::init(int x, int y,int FORMATO)
 {
+	m_format = FORMATO;
 	m_width = x;
 	m_height = y;
+
 	switch (FORMATO)
 	{
 	case 0:
@@ -41,18 +43,69 @@ bool Buffer_8b::init(int x, int y,int FORMATO)
 	return true;
 }
 
+void Buffer_8b::setData(int x, int y)
+{
+}
+
 void Buffer_8b::setData(int x, int y, short data)
 {
 	*(m_root + (m_width * y) + (x)) = data;
 }
 
-short * Buffer_8b::getData(int x, int y)
+void * Buffer_8b::getData(int x, int y,int rgba)
 {
-	
-	return (m_root + (m_width * y) + (x));
+	return (m_root + (m_width * y) + (x)+rgba);
 }
 
-Buffer_8b::Buffer_8b()
+double Buffer_8b::getD(int x, int y, int rgba)
+{
+	return *(m_root + (m_width * y) + (x)+rgba) / SHRT_MAX;
+}
+
+
+
+void Buffer_8b::copy(CBuffer * BUF)
+{
+	float Xb = 1 / BUF->getWidth(), Yb = 1 / BUF->getHeight();
+	int X=BUF->getWidth(), Y=BUF->getHeight();
+	short chor;
+	for (int i = 0; i < Y; i++)
+	{
+
+		for (int j = 0; j < X; j++)
+		{
+			for (int k = 0; k < m_formatStep||k<BUF->getFormat(); k++)
+			{
+				(*(m_root + int(std::round(Yb*i*m_width))*Y + int(std::round(Xb*j*m_height) + k))) = (short)BUF->getD(j,i,k) * SHRT_MAX;
+			}
+
+		}
+	}
+}
+
+
+void Buffer_8b::printBuffer()
+{
+	int j = 0, sz = m_width * m_height;
+	for (int i = 0; i < sz; i++)
+	{
+		for (int k = 0; k < m_formatStep; k++)
+		{
+		std::cout << (*(m_root + i * m_formatStep+k)) << "-";
+		}
+		std::cout << " | ";
+		if (j >= m_width - 1) {
+			j = 0;
+			std::cout << std::endl;
+		}
+		else {
+			j++;
+		}
+	}
+}
+
+Buffer_8b::Buffer_8b():
+	m_root(nullptr)
 {
 }
 

@@ -13,19 +13,19 @@ protected:
 
 public:
 
-	virtual bool init(int x, int y, int FORMATO);
-	void set(int x, int y);
+	virtual bool init(int x, int y, int FORMATO) = 0;
+	virtual void setData(int x, int y)=0;
 
 
-	short* get(int x, int y);
-	int getFormat() { return m_formatStep; }
-	int getWidth() { return m_width; }
-	int getHeight() { return m_height; }
+	virtual void* getData(int x, int y,int rgba)=0;
+	virtual double getD(int x, int y, int rgba) = 0;
+	virtual int getFormat() { return m_formatStep; }
+	virtual int getWidth() { return m_width; }
+	virtual int getHeight() { return m_height; }
 
+	virtual void copy(CBuffer* BUFFER)=0;
 
-	virtual void copy(CBuffer* BUFFER);
-
-	void printBuffer();
+	virtual void printBuffer() = 0;
 
 	CBuffer();
 	~CBuffer();

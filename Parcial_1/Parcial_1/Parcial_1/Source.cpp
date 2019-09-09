@@ -1,9 +1,10 @@
 #include<string>
-#include"CBuffer.h"
+#include"Buffer_8b.h"
+#include"Buffer_32b.h"
 
 
 int main() {
-	CBuffer* buf1,*buf2;
+	CBuffer *buf1 = NULL, *buf2 = NULL;
 	int x, y, formato=FORMAT_RGBAF32;
 	std::string opcion = "";
 	/*buf.init(5, 5);
@@ -33,9 +34,10 @@ int main() {
 		std::getline(std::cin, opcion, '\n');
 	}
 	y = std::stoi(opcion);
-	
 
-	buf.init(x, y,FORMAT_RGBAF32);
+	buf1 =new Buffer_8b();
+	buf1->init(x, y, FORMAT_R8G8);
+
 	while (opcion[0] != 'X') {
 		system("cls");
 		std::cout << "\nPara imprimir la matriz, introdusca 1.\nPara definir un valor en una cordenada intodusca 2.";
@@ -44,7 +46,7 @@ int main() {
 		switch (opcion[0])
 		{
 		case '1':
-			buf.printBuffer();
+			buf1->printBuffer();
 			std::cout << std::endl;
 			system("pause");
 			break;
@@ -59,7 +61,7 @@ int main() {
 			std::cout << "\nIntrodusca el valor:";
 			std::getline(std::cin, opcion, '\n');
 
-			buf.set(x - 1, y - 1, std::stoi(opcion));
+			buf1->setData(x - 1, y - 1);
 			std::cout << std::endl;
 			system("pause");
 			break;
@@ -71,7 +73,7 @@ int main() {
 			std::getline(std::cin, opcion, '\n');
 			y = std::stoi(opcion);
 
-			std::cout << buf.get(x - 1, y - 1);
+			std::cout << buf1->getData(x - 1, y - 1,0);
 			std::cout << std::endl;
 			system("pause");
 			break;
@@ -82,5 +84,6 @@ int main() {
 			break;
 		}
 	}
+	delete buf1;
 	return 0;
 }
