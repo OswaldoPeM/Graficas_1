@@ -6,6 +6,7 @@
 int main() {
 	CBuffer *buf1 = NULL, *buf2 = NULL;
 	int x, y, formato=FORMAT_RGBAF32;
+	double data;
 	std::string opcion = "";
 	/*buf.init(5, 5);
 	buf.printBuffer();
@@ -36,7 +37,9 @@ int main() {
 	y = std::stoi(opcion);
 
 	buf1 =new Buffer_8b();
-	buf1->init(x, y, FORMAT_R8G8);
+	buf2 = new Buffer_32b();
+	buf1->init(x, y, FORMAT_R8G8B8A8UN);
+	buf2->init(8, 8, FORMAT_RGBAF32);
 
 	while (opcion[0] != 'X') {
 		system("cls");
@@ -60,8 +63,9 @@ int main() {
 
 			std::cout << "\nIntrodusca el valor:";
 			std::getline(std::cin, opcion, '\n');
+			data = std::stod(opcion);
 
-			buf1->setData(x - 1, y - 1);
+			buf1->setData(x - 1, y - 1, data,1);
 			std::cout << std::endl;
 			system("pause");
 			break;
@@ -72,18 +76,22 @@ int main() {
 			std::cout << "\nY:";
 			std::getline(std::cin, opcion, '\n');
 			y = std::stoi(opcion);
-
-			std::cout << buf1->getData(x - 1, y - 1,0);
+			std::cout << buf1->getD(x - 1, y - 1, 0);
 			std::cout << std::endl;
 			system("pause");
 			break;
 		case '4':
 			opcion[0] = 'X';
 			break;
+		case'5':
+			buf2->copy(buf1);
+			buf2->printBuffer();
+			system("pause");
 		default:
 			break;
 		}
 	}
 	delete buf1;
+	delete buf2;
 	return 0;
 }

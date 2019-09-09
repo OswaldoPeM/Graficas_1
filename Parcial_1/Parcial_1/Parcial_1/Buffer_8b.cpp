@@ -47,9 +47,9 @@ void Buffer_8b::setData(int x, int y)
 {
 }
 
-void Buffer_8b::setData(int x, int y, short data)
+void Buffer_8b::setData(int x, int y, double data,int rgba)
 {
-	*(m_root + (m_width * y) + (x)) = data;
+	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba) = data;
 }
 
 void * Buffer_8b::getData(int x, int y,int rgba)
@@ -59,7 +59,10 @@ void * Buffer_8b::getData(int x, int y,int rgba)
 
 double Buffer_8b::getD(int x, int y, int rgba)
 {
-	return *(m_root + (m_width * y) + (x)+rgba) / SHRT_MAX;
+	x--;
+    y--;
+
+	return *(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba);
 }
 
 
@@ -78,7 +81,6 @@ void Buffer_8b::copy(CBuffer * BUF)
 			{
 				(*(m_root + int(std::round(Yb*i*m_width))*Y + int(std::round(Xb*j*m_height) + k))) = (short)BUF->getD(j,i,k) * SHRT_MAX;
 			}
-
 		}
 	}
 }

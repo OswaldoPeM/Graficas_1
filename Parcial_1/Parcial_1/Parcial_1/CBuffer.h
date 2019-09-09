@@ -14,7 +14,7 @@ protected:
 public:
 
 	virtual bool init(int x, int y, int FORMATO) = 0;
-	virtual void setData(int x, int y)=0;
+	virtual void setData(int x, int y, double data, int rgba) = 0;
 
 
 	virtual void* getData(int x, int y,int rgba)=0;
