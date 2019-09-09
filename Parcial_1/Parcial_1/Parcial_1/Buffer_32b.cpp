@@ -45,7 +45,7 @@ bool Buffer_32b::init(int x, int y, int FORMATO)
 
 void Buffer_32b::setData(int x, int y, double data,int rgba)
 {
-	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)) = data;
+	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba) = data;
 }
 
 void * Buffer_32b::getData(int x, int y,int rgba)
@@ -55,13 +55,15 @@ void * Buffer_32b::getData(int x, int y,int rgba)
 
 double Buffer_32b::getD(int x, int y, int rgba)
 {
-	return *(m_root + (m_width * y) + (x)+rgba) / FLT_MAX;
+	x--; 
+	y--;
+	return *(m_root + (m_width * y) + (x)+rgba);
 }
 
 void Buffer_32b::copy(CBuffer * BUF)
 {
 	float Xb, Yb;
-	int X = BUF->getWidth(), Y = BUF->getHeight(),cordAx,cordAy;
+	int X = BUF->getWidth(), Y = BUF->getHeight(),cordAy,cordAx;
 	int pitch = m_width * m_formatStep;
 	Xb = float(1.0f/ m_width);
 	Yb = float(1.0f / m_height);
@@ -71,8 +73,8 @@ void Buffer_32b::copy(CBuffer * BUF)
 
 		for (int j = 1; j <= m_width; j++)
 		{
-				cordAx = int(std::round(Yb*i*X));
-				cordAy = int(std::round(Xb*j*Y));
+				cordAy = int(std::round(Yb*i*Y));
+				cordAx = int(std::round(Xb*j*X));
 			for (int k = 0; k < m_formatStep || k < BUF->getFormat(); k++)
 			{
 				chor = short(BUF->getD(cordAx, cordAy, k));
