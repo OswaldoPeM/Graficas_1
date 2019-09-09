@@ -1,37 +1,7 @@
-#pragma once
-#include<stdlib.h>
-#include<iostream>
-#include<cmath>
-#include"FORMATO.h"
-
-template<typename T>
-class Buffer
-{
-	short* m_root;
-	int m_format,m_formatStep,m_bufferSizeByte;
-	int m_width, m_height;
-
-public:
-	bool init(int x, int y,int FORMATO);
-	void set(int x, int y, T data);
+#include "CBuffer.h"
 
 
-	short* get(int x, int y);
-	int getFormat() { return m_formatStep; }
-	int getWidth() { return m_width; }
-	int getHeight() { return m_height; }
-
-
-	void copy(Buffer<short> BUFFER);
-
-	void printBuffer();
-
-	Buffer();
-	~Buffer();
-};
-
-template<typename T>
-inline bool Buffer<T>::init(int x, int y, int FORMATO)
+inline bool CBuffer::init(int x, int y, int FORMATO)
 {
 	if (FORMATO > 7)return false;
 	m_format = FORMATO;
@@ -82,37 +52,34 @@ inline bool Buffer<T>::init(int x, int y, int FORMATO)
 	default:
 		break;
 	}
-	
+
 	int ps = m_formatStep * m_width * m_height;
-	
-	for (int i = 0; i <ps; i++)
+
+	for (int i = 0; i < ps; i++)
 	{
 		*(m_root + i) = i;
 	}
 	return true;
 }
 
-template<typename T>
-inline void Buffer<T>::set(int x, int y, T data)
+
+inline void CBuffer::set(int x, int y)
 {
-	*(m_root + (m_width * y) + (x)) = data;
+	*(m_root + (m_width * y) + (x));
 }
 
-template<typename T>
-inline short* Buffer<T>::get(int x, int y)
+inline short* CBuffer::get(int x, int y)
 {
 	return (m_root + (m_width * y) + (x));
 }
 
-template<typename T>
-inline void Buffer<T>::copy(Buffer<short> BUFFER)
+inline void CBuffer::copy(CBuffer* BUFFER)
 {
-	
+
 
 }
 
-template<typename T>
-inline void Buffer<T>::printBuffer()
+inline void CBuffer::printBuffer()
 {
 	int j = 0, sz = m_width * m_height;
 
@@ -158,13 +125,10 @@ inline void Buffer<T>::printBuffer()
 	}
 }
 
-template<typename T>
-inline Buffer<T>::Buffer()
+inline CBuffer::CBuffer()
 {
 }
 
-template<typename T>
-inline Buffer<T>::~Buffer()
+inline CBuffer::~CBuffer()
 {
-	free(m_root);
 }

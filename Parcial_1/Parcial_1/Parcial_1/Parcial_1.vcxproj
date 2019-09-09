@@ -20,8 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="Buffer_32b.h" />
+    <ClInclude Include="Buffer_8b.h" />
+    <ClInclude Include="CBuffer.h" />
+    <ClInclude Include="FORMATO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer_32b.cpp" />
+    <ClCompile Include="Buffer_8b.cpp" />
+    <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

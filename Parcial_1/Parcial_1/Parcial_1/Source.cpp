@@ -1,10 +1,10 @@
 #include<string>
-#include"Buffer.h"
+#include"CBuffer.h"
 
 
 int main() {
-	Buffer<int> buf;
-	int x, y;
+	CBuffer* buf1,*buf2;
+	int x, y, formato=FORMAT_RGBAF32;
 	std::string opcion = "";
 	/*buf.init(5, 5);
 	buf.printBuffer();
@@ -19,14 +19,23 @@ int main() {
 	std::cout << std::endl;
 	system("pause");*/
 
-	std::cout << "Introdusca las dimenciones de la matriz\nX:";
-	std::getline(std::cin, opcion, '\n');
-	x = std::stoi(opcion);
-	std::cout << "\nY:";
-	std::getline(std::cin, opcion, '\n');
-	y = std::stoi(opcion);
 
-	buf.init(x, y);
+	std::cout << "Introdusca las dimenciones de la matriz\nX:";
+	while (opcion[0]=='\0')
+	{
+	std::getline(std::cin, opcion, '\n');
+	}
+	x = std::stoi(opcion);
+	opcion = "\0";
+	std::cout << "\nY:";
+	while (opcion[0] == '\0')
+	{
+		std::getline(std::cin, opcion, '\n');
+	}
+	y = std::stoi(opcion);
+	
+
+	buf.init(x, y,FORMAT_RGBAF32);
 	while (opcion[0] != 'X') {
 		system("cls");
 		std::cout << "\nPara imprimir la matriz, introdusca 1.\nPara definir un valor en una cordenada intodusca 2.";
