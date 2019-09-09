@@ -66,17 +66,17 @@ void Buffer_32b::copy(CBuffer * BUF)
 	Xb = float(1.0f/ m_width);
 	Yb = float(1.0f / m_height);
 	short chor;
-	for (int i = 1; i <m_height; i++)
+	for (int i = 1; i <=m_height; i++)
 	{
 
-		for (int j = 1; j < m_width; j++)
+		for (int j = 1; j <= m_width; j++)
 		{
 				cordAx = int(std::round(Yb*i*X));
 				cordAy = int(std::round(Xb*j*Y));
 			for (int k = 0; k < m_formatStep || k < BUF->getFormat(); k++)
 			{
 				chor = short(BUF->getD(cordAx, cordAy, k));
-				(*(m_root +( (i * pitch) + (j*m_formatStep )+ k))) = chor;
+				(*(m_root +( ((i-1) * pitch) + ((j-1)*m_formatStep )+ k))) = chor;
 			}
 
 		}
