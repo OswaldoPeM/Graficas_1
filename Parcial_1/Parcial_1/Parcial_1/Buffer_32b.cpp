@@ -113,6 +113,38 @@ void Buffer_32b::clearBuffer()
 	}
 }
 
+bool Buffer_32b::line(int x1, int y1, int x2, int y2)
+{
+	float x, y, dx, dy, step;
+	int i;
+	dx = (x2 - x1);
+	dy = (y2 - y1);
+	if (abs(dx) >= abs(dy))
+		step = abs(dx);
+	else
+		step = abs(dy);
+	dx = dx / step;
+	dy = dy / step;
+	x = x1;
+	y = y1;
+	i = 1;
+	while (i <= step) {
+		if (x > 0
+			&& y>0
+			&& y<m_height
+			&& x<m_width) {
+		setData(x, y, 1, 0);
+		setData(x, y, 1, 1);
+		setData(x, y, 1, 2);
+		setData(x, y, 1, 3);
+		}
+		x = x + dx;
+		y = y + dy;
+		i = i + 1;
+	}
+	return true;
+}
+
 Buffer_32b::Buffer_32b()
 {
 }

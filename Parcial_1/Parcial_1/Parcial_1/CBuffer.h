@@ -32,6 +32,7 @@ public:
 	virtual void copy(CBuffer* BUFFER)=0;
 	virtual void printBuffer() = 0;
 	virtual void clearBuffer() = 0;
+	virtual bool line(int x1, int y1, int x2, int y2) = 0;
 
 	CBuffer();
 	~CBuffer();

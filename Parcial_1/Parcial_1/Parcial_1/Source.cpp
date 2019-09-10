@@ -5,7 +5,7 @@
 
 int main() {
 	CBuffer *buf1 = NULL, *buf2 = NULL;
-	int x, y, formato=FORMAT_RGBAF32;
+	int x, y, x2, y2;
 	double data;
 	std::string opcion = "";
 	/*buf.init(5, 5);
@@ -39,12 +39,14 @@ int main() {
 	buf1 =new Buffer_8b();
 	buf2 = new Buffer_8b();
 	buf1->init(x, y, FORMAT_R8G8B8A8UN);
-	buf2->init(8, 8, FORMAT_R8G8);
+	buf2->init(10, 10, FORMAT_R8G8);
 
 	while (opcion[0] != 'X') {
 		system("cls");
 		std::cout << "\nPara imprimir la matriz, introdusca 1.\nPara definir un valor en una cordenada intodusca 2.";
-		std::cout << "\nPara obtener el valor de una cordenada en especifico introdusca  3.\nPara salir presione 4.\n";
+		std::cout << "\nPara obtener el valor de una cordenada en especifico introdusca  3.\nPara salir presione 4.";
+		std::cout << "\nPara hace una copia de buffer 1 a buffer 2 introdusca 5.\nPara dibujar una linea de un punto a otro introdusca 6.\n";
+
 		std::getline(std::cin, opcion, '\n');
 		switch (opcion[0])
 		{
@@ -87,6 +89,23 @@ int main() {
 			buf2->copy(buf1);
 			buf2->printBuffer();
 			system("pause");
+			break;
+		case '6':
+			std::cout << "Introdusca las cordenadas\nX1:";
+			std::getline(std::cin, opcion, '\n');
+			x = std::stoi(opcion);
+			std::cout << "\nY1:";
+			std::getline(std::cin, opcion, '\n');
+			y = std::stoi(opcion);
+			std::cout << "Introdusca las cordenadas\nX2:";
+			std::getline(std::cin, opcion, '\n');
+			x2 = std::stoi(opcion);
+			std::cout << "\nY2:";
+			std::getline(std::cin, opcion, '\n');
+			y2 = std::stoi(opcion);
+
+			buf1->clearBuffer();
+			buf1->line(x , y , x2, y2);
 		default:
 			break;
 		}

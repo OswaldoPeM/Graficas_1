@@ -18,6 +18,7 @@ public:
 	void printBuffer();
 
 	void clearBuffer();
+	bool line(int x1, int y1, int x2, int y2);
 
 	Buffer_32b();
 	~Buffer_32b();

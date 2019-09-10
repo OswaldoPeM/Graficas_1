@@ -16,6 +16,7 @@ public:
 	void copy(CBuffer * BUF);
 
 	void printBuffer();
+	bool line(int x1, int y1, int x2, int y2);
 	void clearBuffer();
 
 	Buffer_8b();

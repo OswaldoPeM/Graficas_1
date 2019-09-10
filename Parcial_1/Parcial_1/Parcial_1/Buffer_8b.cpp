@@ -114,6 +114,41 @@ void Buffer_8b::printBuffer()
 	}
 }
 
+bool Buffer_8b::line(int x1, int y1, int x2, int y2)
+{
+	/* 
+	funcion sacada de :https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm)
+	*/
+	float x, y, dx, dy, step;
+	int i;
+	dx = (x2 - x1);
+	dy = (y2 - y1);
+	if (abs(dx) >= abs(dy))
+		step = abs(dx);
+	else
+		step = abs(dy);
+	dx = dx / step;
+	dy = dy / step;
+	x = x1;
+	y = y1;
+	i = 1;
+	while (i <= step) {
+		if (x >= 0
+			&& y >= 0
+			&& y < m_height
+			&& x < m_width) {
+			setData(x, y, 255, 0);
+			setData(x, y, 255, 1);
+			setData(x, y, 255, 2);
+			setData(x, y, 255, 3);
+		}
+		x = x + dx;
+		y = y + dy;
+		i = i + 1;
+	}
+	return true;
+}
+
 void Buffer_8b::clearBuffer()
 {
 	int sz = m_width * m_height*m_formatStep;
