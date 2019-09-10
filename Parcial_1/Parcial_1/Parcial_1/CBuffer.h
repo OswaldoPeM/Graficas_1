@@ -33,6 +33,7 @@ public:
 	virtual void printBuffer() = 0;
 	virtual void clearBuffer() = 0;
 	virtual bool line(int x1, int y1, int x2, int y2) = 0;
+	virtual bool circle(int x, int y, int r) = 0;
 
 	CBuffer();
 	~CBuffer();

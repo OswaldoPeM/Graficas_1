@@ -4,6 +4,7 @@
 
 bool Buffer_32b::init(int x, int y, int FORMATO)
 {
+	if (x <= 0 || y <= 0)return false;
 	m_format = FORMATO;
 	m_width = x;
 	m_height = y;
@@ -37,7 +38,7 @@ bool Buffer_32b::init(int x, int y, int FORMATO)
 
 	for (int i = 0; i < ps; i++)
 	{
-		*(m_root + i) = 1;
+		*(m_root + i) = 0;
 	}
 
 	return true;
@@ -45,6 +46,10 @@ bool Buffer_32b::init(int x, int y, int FORMATO)
 
 void Buffer_32b::setData(int x, int y, double data,int rgba)
 {
+	if (rgba >= m_formatStep) return;
+	if (x <= 0 || y <= 0)return;
+	if (x > m_width || y > m_height)return;
+
 	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba) = data;
 }
 
@@ -141,6 +146,65 @@ bool Buffer_32b::line(int x1, int y1, int x2, int y2)
 		x = x + dx;
 		y = y + dy;
 		i = i + 1;
+	}
+	return true;
+}
+
+bool Buffer_32b::circle(int x, int y, int r)
+{
+	/*
+codigo sacado de: https://www.geeksforgeeks.org/mid-point-circle-drawing-algorithm/
+*/
+	int X = r, Y = 0;
+	setData(X + x, Y + y, 1, 0);
+	setData(X + x, Y + y, 1, 1);
+	setData(X + x, Y + y, 1, 2);
+	setData(X + x, Y + y, 1, 3);
+
+	if (r > 0)
+	{
+		for (int i = 0; i < m_formatStep; i++)
+		{
+			setData(-X + x, -Y + y, 1, i);
+			setData(Y + x, X + y, 1, i);
+			setData(-Y + x, -X + y, 1, i);
+		}
+	}
+
+
+	int P = 1 - r;
+	while (X > Y)
+	{
+		Y++;
+		if (P <= 0)
+			P = P + 2 * Y + 1;
+		else
+		{
+			X--;
+			P = P + 2 * Y - 2 * X + 1;
+		}
+		if (X < Y)
+			break;
+
+		for (int i = 0; i < m_formatStep; i++)
+		{
+
+			setData(X + x, Y + y, 1, i);
+			setData(-X + x, Y + y, 1, i);
+			setData(X + x, -Y + y, 1, i);
+			setData(-X + x, -Y + y, 1, i);
+		}
+		if (X != Y)
+		{
+			for (int i = 0; i < m_formatStep; i++)
+			{
+
+				setData(Y + x, X + y, 1, i);
+				setData(-Y + x, X + y, 1, i);
+				setData(Y + x, -X + y, 1, i);
+				setData(-Y + x, -X + y, 1, i);
+			}
+		}
 	}
 	return true;
 }
