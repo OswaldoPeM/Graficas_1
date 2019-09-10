@@ -169,9 +169,9 @@ bool Buffer_8b::circle(int x, int y , int r)
 	{
 		for (int i = 0; i < m_formatStep; i++)
 		{
-			setData(X + x, -Y + y, 255, i);
+			setData(-X + x, -Y + y, 255, i);
 			setData(Y + x, X + y, 255, i);
-			setData(-Y + x, X + y, 255, i);
+			setData(-Y + x, -X + y, 255, i);
 		}
 	}
 

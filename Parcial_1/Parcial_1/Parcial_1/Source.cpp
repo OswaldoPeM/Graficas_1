@@ -120,15 +120,17 @@ int main() {
 
 	while (opcion[0] != 'X') {
 		system("cls");
+		if (currentBuf) { std::cout << " [BUFFER 1 ACTIVO]"; }
+		else {
+			std::cout <<" [BUFFER 2 ACTIVO]";
+		}
 		std::cout << "\nPara imprimir la matriz, introdusca 1.\nPara definir un valor en una cordenada intodusca 2.";
 		std::cout << "\nPara obtener el valor de una cordenada en especifico introdusca  3.\nPara salir presione 4.";
 		std::cout << "\nPara hace una copia de buffer activo a buffer pasivo introdusca 5.\nPara dibujar una linea de un punto a otro introdusca 6.";
 		std::cout << "\nPara cambiar el buffer activo a pasivo y viseversa presione 7";
-		if (currentBuf) { std::cout << " [BUFFER 1 ACTIVO]\n"; }
-		else {
-			std::cout <<" [BUFFER 2 ACTIVO]\n";
-		}
-		std::cout << "\nPara reformatear el buffer presione 8\n";
+		std::cout << "\nPara reformatear el buffer presione 8";
+		std::cout << "\nPara dibujar un circulo en el buffer presione 9";
+
 		std::getline(std::cin, opcion, '\n');
 		switch (opcion[0])
 		{
@@ -211,23 +213,42 @@ int main() {
 			if (currentBuf) {
 				buf1->clearBuffer();
 				buf1->line(x, y, x2, y2);
+				buf1->printBuffer();
 			}
 			else {
 				buf2->clearBuffer();
 				buf2->line(x, y, x2, y2);
+				buf2->printBuffer();
 			}
+			system("pause");
 		case'7':
 			if (currentBuf) { currentBuf = false; }
 			else { currentBuf = true; }
 			break;
 		case'8':
-			if (currentBuf) { formatBuffer(buf1); }
-			else { formatBuffer(buf2); }
+			if (currentBuf) { deleteBuffer(buf1); }
+			else { deleteBuffer(buf2); }
 		case'9':
-			if (currentBuf) { buf1->circle(5, 5,2); }
-			else {
-				buf2->circle(5, 5, 2);
+			std::cout << "Introdusca las cordenadas\nX:";
+			std::getline(std::cin, opcion, '\n');
+			x = std::stoi(opcion);
+			std::cout << "\nY:";
+			std::getline(std::cin, opcion, '\n');
+			y = std::stoi(opcion);
+
+			std::cout << "\nIntrodusca el radio:";
+			std::getline(std::cin, opcion, '\n');
+			x2 = std::stoi(opcion);
+
+			if (currentBuf) {
+				buf1->circle(x, y,x2); 
+				buf1->printBuffer();
 			}
+			else {
+				buf2->circle(x, y, x2);
+				buf2->printBuffer();
+			}
+			system("pause");
 		default:
 			break;
 		}
