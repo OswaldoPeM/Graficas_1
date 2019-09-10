@@ -57,7 +57,7 @@ double Buffer_32b::getD(int x, int y, int rgba)
 {
 	x--; 
 	y--;
-	return *(m_root + (m_width * y) + (x)+rgba);
+	return *(m_root + (m_width * y) + (x)+rgba) ;
 }
 
 void Buffer_32b::copy(CBuffer * BUF)
@@ -65,16 +65,16 @@ void Buffer_32b::copy(CBuffer * BUF)
 	float Xb, Yb;
 	int X = BUF->getWidth(), Y = BUF->getHeight(),cordAy,cordAx;
 	int pitch = m_width * m_formatStep;
-	Xb = float(1.0f/ m_width);
-	Yb = float(1.0f / m_height);
+	Xb = double(1.0f/ m_width);
+	Yb = double(1.0f / m_height);
 	short chor;
 	for (int i = 1; i <=m_height; i++)
 	{
 
 		for (int j = 1; j <= m_width; j++)
 		{
-				cordAy = int(std::round(Yb*i*Y));
-				cordAx = int(std::round(Xb*j*X));
+				cordAy = int(std::ceil(Yb*i*Y));
+				cordAx = int(std::ceil(Xb*j*X));
 			for (int k = 0; k < m_formatStep || k < BUF->getFormat(); k++)
 			{
 				chor = short(BUF->getD(cordAx, cordAy, k));
@@ -102,6 +102,14 @@ void Buffer_32b::printBuffer()
 		else {
 			j++;
 		}
+	}
+}
+void Buffer_32b::clearBuffer()
+{
+	int sz = m_width * m_height*m_formatStep;
+	for (int i = 0; i < sz; i++)
+	{
+		*(m_root + i) = 0;
 	}
 }
 

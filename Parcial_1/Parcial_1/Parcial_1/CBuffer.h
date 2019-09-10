@@ -24,8 +24,8 @@ public:
 	virtual int getHeight() { return m_height; }
 
 	virtual void copy(CBuffer* BUFFER)=0;
-
 	virtual void printBuffer() = 0;
+	virtual void clearBuffer() = 0;
 
 	CBuffer();
 	~CBuffer();

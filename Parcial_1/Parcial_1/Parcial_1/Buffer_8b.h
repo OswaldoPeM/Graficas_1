@@ -5,7 +5,7 @@ class Buffer_32b;
 class Buffer_8b :
 	public CBuffer
 {
-	short* m_root=nullptr;
+	unsigned char* m_root=nullptr;
 public:
 	bool init(int x, int y,int FORMATO);
 	void setData(int x, int y);
@@ -16,6 +16,7 @@ public:
 	void copy(CBuffer * BUF);
 
 	void printBuffer();
+	void clearBuffer();
 
 	Buffer_8b();
 	~Buffer_8b();

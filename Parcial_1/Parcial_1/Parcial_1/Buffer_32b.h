@@ -17,6 +17,8 @@ public:
 	void copy(CBuffer * BUF);
 	void printBuffer();
 
+	void clearBuffer();
+
 	Buffer_32b();
 	~Buffer_32b();
 };
