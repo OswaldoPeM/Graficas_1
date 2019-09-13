@@ -51,7 +51,7 @@ void Buffer_8b::setData(int x, int y)
 void Buffer_8b::setData(int x, int y, double data,int rgba)
 {
 	if (rgba >= m_formatStep) return;
-	if (x <= 0 || y <= 0)return;
+	if (x < 0 || y < 0)return;
 	if (x > m_width || y > m_height)return;
 
 	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba) = data;
@@ -117,6 +117,7 @@ void Buffer_8b::printBuffer()
 			j++;
 		}
 	}
+		std::cout << "\n";
 }
 
 bool Buffer_8b::line(int x1, int y1, int x2, int y2)
@@ -150,6 +151,38 @@ bool Buffer_8b::line(int x1, int y1, int x2, int y2)
 		x = x + dx;
 		y = y + dy;
 		i = i + 1;
+	}
+	return true;
+}
+
+bool Buffer_8b::linea(int x1, int y1, int x2, int y2)
+{
+
+	int dx = x2 - x1, dy = y2 - y1, step, k;
+	float xIncremento, yIncremento;
+	float x = x1, y = y1;
+	if (fabs(dx) > fabs(dy))
+
+		step = fabs(dx); 
+
+		else
+
+		step = fabs(dy); 
+
+	xIncremento = (float)dx / (float)step;
+
+	yIncremento = (float)dy / (float)step;
+
+	setData(round(x), round(y),255,0);
+
+	for (k = 0; k < step; k++)	{
+
+		x += xIncremento;
+
+			y += yIncremento;
+
+			setData(round(x), round(y), 255, 0);
+
 	}
 	return true;
 }

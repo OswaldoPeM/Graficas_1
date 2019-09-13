@@ -17,6 +17,7 @@ public:
 
 	void printBuffer();
 	bool line(int x1, int y1, int x2, int y2);
+	bool linea(int x1,int y1,int x2,int y2);
 	bool circle(int x, int y, int r);
 	void clearBuffer();
 

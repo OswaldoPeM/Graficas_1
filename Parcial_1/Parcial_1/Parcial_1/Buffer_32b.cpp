@@ -47,7 +47,7 @@ bool Buffer_32b::init(int x, int y, int FORMATO)
 void Buffer_32b::setData(int x, int y, double data,int rgba)
 {
 	if (rgba >= m_formatStep) return;
-	if (x <= 0 || y <= 0)return;
+	if (x < 0 || y < 0)return;
 	if (x > m_width || y > m_height)return;
 
 	*(m_root + (m_width * y*m_formatStep) + (x*m_formatStep)+rgba) = data;
@@ -108,6 +108,7 @@ void Buffer_32b::printBuffer()
 			j++;
 		}
 	}
+	std::cout << "\n";
 }
 void Buffer_32b::clearBuffer()
 {
@@ -124,18 +125,20 @@ bool Buffer_32b::line(int x1, int y1, int x2, int y2)
 	int i;
 	dx = (x2 - x1);
 	dy = (y2 - y1);
-	if (abs(dx) >= abs(dy))
+	if (abs(dx) >= abs(dy)) {
 		step = abs(dx);
-	else
+	}
+	else{
 		step = abs(dy);
+	}
 	dx = dx / step;
 	dy = dy / step;
 	x = x1;
 	y = y1;
 	i = 1;
 	while (i <= step) {
-		if (x > 0
-			&& y>0
+		if (x >= 0
+			&& y>=0
 			&& y<m_height
 			&& x<m_width) {
 		setData(x, y, 1, 0);
@@ -146,6 +149,37 @@ bool Buffer_32b::line(int x1, int y1, int x2, int y2)
 		x = x + dx;
 		y = y + dy;
 		i = i + 1;
+	}
+	return true;
+}
+
+bool Buffer_32b::linea(int x1, int y1, int x2, int y2)
+{
+	int dx = x2 - x1, dy = y2 - y1, step, k;
+	float xIncremento, yIncremento;
+	float x = x1, y = y1;
+	if (fabs(dx) > fabs(dy))
+
+		step = fabs(dx);
+
+	else
+
+		step = fabs(dy);
+
+	xIncremento = (float)dx / (float)step;
+
+	yIncremento = (float)dy / (float)step;
+
+	setData(round(x), round(y), 1, 0);
+
+	for (k = 0; k < step; k++) {
+
+		x += xIncremento;
+
+		y += yIncremento;
+
+		setData(round(x), round(y), 1, 0);
+
 	}
 	return true;
 }
