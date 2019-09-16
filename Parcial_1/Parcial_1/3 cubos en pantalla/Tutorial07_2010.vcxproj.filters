@@ -16,7 +16,11 @@
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
     <ClCompile Include="CDevice.cpp" />
-    <ClCompile Include="DeviceD3D11.cpp" />
+    <ClCompile Include="CBuffer.cpp" />
+    <ClCompile Include="VBuffer.cpp" />
+    <ClCompile Include="IBuffer.cpp" />
+    <ClCompile Include="ConstBuffer.cpp" />
+    <ClCompile Include="CInterfaceDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -31,7 +35,11 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ClInclude Include="CDevice.h" />
-    <ClInclude Include="DeviceD3D11.h" />
+    <ClInclude Include="CBuffer.h" />
+    <ClInclude Include="VBuffer.h" />
+    <ClInclude Include="IBuffer.h" />
+    <ClInclude Include="ConstBuffer.h" />
+    <ClInclude Include="CInterfaceDevice.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

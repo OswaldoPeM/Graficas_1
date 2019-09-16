@@ -5,14 +5,20 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
-
-#include "DeviceD3D11.h"
+#include <windows.h>
+#include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dcompiler.h>
+#include <xnamath.h>
+#include"CDevice.h"
+#include"CInterfaceDevice.h"
 #include "resource.h"
 
 
 //--------------------------------------------------------------------------------------
 // Structures
 //--------------------------------------------------------------------------------------
+
 //struct SimpleVertex
 //{
 //    XMFLOAT3 Pos;
@@ -43,8 +49,8 @@ HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
 D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-ID3D11Device*                       g_pd3dDevice = NULL;
-ID3D11DeviceContext*                g_pImmediateContext = NULL;
+CDevice*							g_pd3dDevice = new CDevice();
+CInterfaceDevice*					g_pImmediateContext = new CInterfaceDevice();
 IDXGISwapChain*                     g_pSwapChain = NULL;
 ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
 ID3D11Texture2D*                    g_pDepthStencil = NULL;
@@ -111,7 +117,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     }
 
     CleanupDevice();
-	delete g_Device;
     return ( int )msg.wParam;
 }
 
@@ -236,8 +241,8 @@ HRESULT InitDevice()
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
         g_driverType = driverTypes[driverTypeIndex];
-        hr = D3D11CreateDeviceAndSwapChain( NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-                                            D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext );
+		hr = g_pd3dDevice->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_featureLevel, g_pImmediateContext->getInterface());
         if( SUCCEEDED( hr ) )
             break;
     }
@@ -250,7 +255,7 @@ HRESULT InitDevice()
     if( FAILED( hr ) )
         return hr;
 
-    hr = g_pd3dDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );
+	hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRenderTargetView);
     pBackBuffer->Release();
     if( FAILED( hr ) )
         return hr;
@@ -385,7 +390,7 @@ HRESULT InitDevice()
     ZeroMemory( &bd, sizeof(bd) );
     bd.Usage = D3D11_USAGE_DEFAULT;
     bd.ByteWidth = sizeof( SimpleVertex ) * 24;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;//solo almacena vertices
     bd.CPUAccessFlags = 0;
     D3D11_SUBRESOURCE_DATA InitData;
     ZeroMemory( &InitData, sizeof(InitData) );
@@ -457,7 +462,7 @@ HRESULT InitDevice()
         return hr;
 
     // Load the Texture
-    hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL );
+	hr = g_pd3dDevice->CreateShaderResourceViewFromFile(L"rails.dds", NULL, NULL, &g_pTextureRV, NULL);
     if( FAILED( hr ) )
         return hr;
 
@@ -520,8 +525,8 @@ void CleanupDevice()
     if( g_pDepthStencilView ) g_pDepthStencilView->Release();
     if( g_pRenderTargetView ) g_pRenderTargetView->Release();
     if( g_pSwapChain ) g_pSwapChain->Release();
-    if( g_pImmediateContext ) g_pImmediateContext->Release();
-    if( g_pd3dDevice ) g_pd3dDevice->Release();
+	if (g_pImmediateContext) g_pImmediateContext->Release(); delete g_pImmediateContext;
+	if (g_pd3dDevice->getDevice()) { g_pd3dDevice->Release(); delete g_pd3dDevice; }
 }
 
 
@@ -586,6 +591,7 @@ void Render()
     // Clear the back buffer
     //
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+
     g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );
 
     //
@@ -617,10 +623,10 @@ void Render()
     g_pImmediateContext->PSSetSamplers( 0, 1, &g_pSamplerLinear );
     g_pImmediateContext->DrawIndexed( 36, 0, 0 );
 
+	// cubo de la izquierda
     cb.mWorld = XMMatrixTranspose( g_World );
     cb.vMeshColor = g_vMeshColor;
     g_pImmediateContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 ); 
-	// cubo de la izquierda
 
 	cb.mWorld = XMMatrixMultiplyTranspose(g_World, XMMatrixTranslation(-2, 0, 0));
 	cb.vMeshColor = g_vMeshColor;

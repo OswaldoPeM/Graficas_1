@@ -374,17 +374,25 @@
   </ItemDefinitionGroup>
   <ItemGroup />
   <ItemGroup>
+    <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="CDevice.cpp" />
-    <ClCompile Include="DeviceD3D11.cpp" />
+    <ClCompile Include="CInterfaceDevice.cpp" />
+    <ClCompile Include="ConstBuffer.cpp" />
+    <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
+    <ClCompile Include="VBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CBuffer.h" />
     <ClInclude Include="CDevice.h" />
-    <ClInclude Include="DeviceD3D11.h" />
+    <ClInclude Include="CInterfaceDevice.h" />
+    <ClInclude Include="ConstBuffer.h" />
+    <ClInclude Include="IBuffer.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="VBuffer.h" />
     <ResourceCompile Include="Tutorial07.rc" />
   </ItemGroup>
   <ItemGroup>
