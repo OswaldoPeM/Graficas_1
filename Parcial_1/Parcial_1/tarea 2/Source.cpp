@@ -90,8 +90,8 @@ void formatBuffer(CBuffer*&renacido) {
 		break;
 	case'7':
 		renacido = new Buffer_32b();
-		if (!renacido->init(x, y, FORMAT_RF32)) {
-			renacido->init(4, 4, FORMAT_RF32);
+		if (!renacido->init(x, y, FORMAT_RGF32)) {
+			renacido->init(4, 4, FORMAT_RGF32);
 		}
 		break;
 	default:
@@ -130,7 +130,6 @@ int main() {
 		std::cout << "\nPara cambiar el buffer activo a pasivo y viseversa presione 7";
 		std::cout << "\nPara reformatear el buffer presione 8";
 		std::cout << "\nPara dibujar un circulo en el buffer presione 9";
-		std::cout << "\nOpcion: ";
 
 		std::getline(std::cin, opcion, '\n');
 		switch (opcion[0])
@@ -213,20 +212,15 @@ int main() {
 			y2 = std::stoi(opcion);
 			if (currentBuf) {
 				buf1->clearBuffer();
-				buf1->line(--x, --y, x2, y2);
-				buf2->linea(x, y, x2, y2);
+				buf1->line(x, y, x2, y2);
 				buf1->printBuffer();
-				buf2->printBuffer();
 			}
 			else {
 				buf2->clearBuffer();
-				buf2->line(--x, --y, x2, y2);
-				buf1->linea(x, y, x2, y2);
+				buf2->line(x, y, x2, y2);
 				buf2->printBuffer();
-				buf1->printBuffer();
 			}
 			system("pause");
-			break;
 		case'7':
 			if (currentBuf) { currentBuf = false; }
 			else { currentBuf = true; }
