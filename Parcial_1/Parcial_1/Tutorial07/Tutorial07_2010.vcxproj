@@ -378,10 +378,13 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="CBuffer.cpp" />
+    <ClCompile Include="CDepthStencilView.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CInterfaceDevice.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
+    <ClCompile Include="CRenderTargetView.cpp" />
     <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CVertexShader.cpp" />
     <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
     <ClCompile Include="VBuffer.cpp" />
@@ -391,10 +394,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBuffer.h" />
+    <ClInclude Include="CDepthStencilView.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CInterfaceDevice.h" />
     <ClInclude Include="ConstBuffer.h" />
+    <ClInclude Include="CRenderTargetView.h" />
     <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="CVertexShader.h" />
     <ClInclude Include="IBuffer.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="stb_image.h" />

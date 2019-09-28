@@ -6,26 +6,6 @@
 #include <xnamath.h>
 #include"STRUCTS.h"
 
-//struct SimpleVertex
-//{
-//	XMFLOAT3 Pos;
-//	XMFLOAT2 Tex;
-//};
-//struct CBNeverChanges
-//{
-//	XMMATRIX mView;
-//};
-//struct CBChangeOnResize
-//{
-//	XMMATRIX mProjection;
-//};
-//
-//struct CBChangesEveryFrame
-//{
-//	XMMATRIX mWorld;
-//	XMFLOAT4 vMeshColor;
-//};
-
 class CDevice
 {
 protected:
@@ -98,6 +78,8 @@ public:
 		__out_opt  ID3D11SamplerState **ppSamplerState);
 
 	ULONG Release() { return  g_pd3dDevice->Release();}
+
+	void destroy();
 
 	CDevice();
 	~CDevice();

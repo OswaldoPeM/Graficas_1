@@ -89,6 +89,8 @@ public:
 
 	void ClearState(){ if (g_pImmediateContext) g_pImmediateContext->ClearState(); }
 	void Release() { if (g_pImmediateContext) g_pImmediateContext->Release(); }
+
+	void destroy();
 	
 
 	CInterfaceDevice();

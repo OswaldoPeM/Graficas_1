@@ -2,7 +2,7 @@
 
 
 
-bool CBuffer::Init(int size, BFlags FLAG, SimpleVertex * vertices)
+bool CBuffer::init(int size, BFlags FLAG, SimpleVertex * vertices)
 {
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -16,7 +16,7 @@ bool CBuffer::Init(int size, BFlags FLAG, SimpleVertex * vertices)
 	return true;
 }
 
-bool CBuffer::Init(int size, BFlags FLAG, WORD * indices)
+bool CBuffer::init(int size, BFlags FLAG, WORD * indices)
 {
 
 	ZeroMemory(&bd, sizeof(bd));
@@ -31,7 +31,7 @@ bool CBuffer::Init(int size, BFlags FLAG, WORD * indices)
 	return true;
 }
 
-bool CBuffer::Init(int size, BFlags FLAG)
+bool CBuffer::init(int size, BFlags FLAG)
 {
 
 	ZeroMemory(&bd, sizeof(bd));

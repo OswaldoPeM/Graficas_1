@@ -22,6 +22,9 @@
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="CInterfaceDevice.cpp" />
     <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CRenderTargetView.cpp" />
+    <ClCompile Include="CDepthStencilView.cpp" />
+    <ClCompile Include="CVertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -41,9 +44,12 @@
     <ClInclude Include="IBuffer.h" />
     <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="CInterfaceDevice.h" />
-    <ClInclude Include="STRUCTS.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="CRenderTargetView.h" />
+    <ClInclude Include="STRUCTS.h" />
+    <ClInclude Include="CDepthStencilView.h" />
+    <ClInclude Include="CVertexShader.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

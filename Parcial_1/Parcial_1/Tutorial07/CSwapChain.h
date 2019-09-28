@@ -6,9 +6,12 @@
 class CSwapChain
 {
 	IDXGISwapChain* g_pSwapChain;
+	DXGI_SWAP_CHAIN_DESC sd;
 public:
 	
-	IDXGISwapChain **getSwapChain();
+	IDXGISwapChain** getSwapChain();
+	DXGI_SWAP_CHAIN_DESC* getSwapChainDesc();
+
 
 	HRESULT  GetBuffer(
 		UINT Buffer,
@@ -19,7 +22,8 @@ public:
 		UINT SyncInterval,
 		UINT Flags);
 
-	bool Init();
+
+	bool init(UINT WIDTH,UINT HEIGHT, HWND hWnd);
 	void render();
 	void update();
 	void destroy();

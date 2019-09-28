@@ -7,6 +7,11 @@ IDXGISwapChain ** CSwapChain::getSwapChain()
 	return &g_pSwapChain;
 }
 
+DXGI_SWAP_CHAIN_DESC * CSwapChain::getSwapChainDesc()
+{
+	return &sd;
+}
+
 HRESULT CSwapChain::GetBuffer(
 	UINT Buffer,
 	REFIID riid,
@@ -21,8 +26,22 @@ HRESULT CSwapChain::Present(UINT SyncInterval, UINT Flags)
 	return g_pSwapChain->Present(SyncInterval, Flags);
 }
 
-bool CSwapChain::Init()
+bool CSwapChain::init(UINT WIDTH, UINT HEIGHT, HWND hWnd)
 {
+
+	ZeroMemory(&sd, sizeof(sd));
+	sd.BufferCount = 1;
+	sd.BufferDesc.Width = WIDTH;
+	sd.BufferDesc.Height = HEIGHT;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.OutputWindow = hWnd;
+	sd.SampleDesc.Count = 1;
+	sd.SampleDesc.Quality = 0;
+	sd.Windowed = TRUE;
+
 	return false;
 }
 

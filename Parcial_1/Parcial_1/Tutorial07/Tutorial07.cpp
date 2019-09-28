@@ -15,6 +15,9 @@
 #include"CInterfaceDevice.h"
 #include "CBuffer.h"
 #include "CSwapChain.h"
+#include "CRenderTargetView.h"
+#include "CDepthStencilView.h"
+#include "CVertexShader.h"
 
 #include"dependences/Assimp/include/assimp/scene.h"
 #include"dependences/Assimp/include/assimp/ai_assert.h"
@@ -25,32 +28,6 @@
 #include "resource.h"
 
 
-//--------------------------------------------------------------------------------------
-// Structures
-//--------------------------------------------------------------------------------------
-
-//struct SimpleVertex
-//{
-//    XMFLOAT3 Pos;
-//    XMFLOAT2 Tex;
-//};
-//
-//struct CBNeverChanges
-//{
-//    XMMATRIX mView;
-//};
-//
-//struct CBChangeOnResize
-//{
-//    XMMATRIX mProjection;
-//};
-//
-//struct CBChangesEveryFrame
-//{
-//    XMMATRIX mWorld;
-//    XMFLOAT4 vMeshColor;
-//};
-
 
 //--------------------------------------------------------------------------------------
 // Global Variables
@@ -60,23 +37,26 @@ HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
 D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+
 CDevice*							g_pd3dDevice = new CDevice();
 CInterfaceDevice*					g_pImmediateContext = new CInterfaceDevice();
-
 CSwapChain*							g_SwapChain = new CSwapChain();
+CRenderTargetView*					g_RenderTargetView = new CRenderTargetView();
+CDepthStencilView*					g_DepthStencilView = new CDepthStencilView();
+CVertexShader*						g_VertexShader = new CVertexShader();
 
 //IDXGISwapChain*                     g_pSwapChain = NULL;
+//ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
+//ID3D11Texture2D*                    g_pDepthStencil = NULL;
+//ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
+//ID3D11VertexShader*                 g_pVertexShader = NULL;
 
-ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
-ID3D11Texture2D*                    g_pDepthStencil = NULL;
-ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
-ID3D11VertexShader*                 g_pVertexShader = NULL;
+
 ID3D11PixelShader*                  g_pPixelShader = NULL;
 ID3D11InputLayout*                  g_pVertexLayout = NULL;
 
 CBuffer*							g_pVBuffer = new CBuffer();
 CBuffer*							g_pIBuffer = new CBuffer();
-
 CBuffer*							g_pCBNCBuffer = new CBuffer();
 CBuffer*							g_pCBChangeOnResiz = new CBuffer();
 CBuffer*							g_pCBChangesEveryFram = new CBuffer();
@@ -91,6 +71,7 @@ CBuffer*							g_pCBChangesEveryFram = new CBuffer();
 
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11SamplerState*                 g_pSamplerLinear = NULL;
+
 XMMATRIX                            g_World;
 XMMATRIX                            g_View;
 XMMATRIX                            g_Projection;
@@ -253,7 +234,7 @@ HRESULT InitDevice()
     };
     UINT numFeatureLevels = ARRAYSIZE( featureLevels );
 
-    DXGI_SWAP_CHAIN_DESC sd;
+    /*DXGI_SWAP_CHAIN_DESC sd;
     ZeroMemory( &sd, sizeof( sd ) );
     sd.BufferCount = 1;
     sd.BufferDesc.Width = width;
@@ -265,13 +246,15 @@ HRESULT InitDevice()
     sd.OutputWindow = g_hWnd;
     sd.SampleDesc.Count = 1;
     sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
+    sd.Windowed = TRUE;*/
+
+	g_SwapChain->init(width, height, g_hWnd);
 
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
         g_driverType = driverTypes[driverTypeIndex];
 		hr = g_pd3dDevice->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, &sd, g_SwapChain->getSwapChain(), &g_featureLevel, g_pImmediateContext->getInterface());
+			D3D11_SDK_VERSION, g_SwapChain->getSwapChainDesc(), g_SwapChain->getSwapChain(), &g_featureLevel, g_pImmediateContext->getInterface());
         if( SUCCEEDED( hr ) )
             break;
     }
@@ -286,13 +269,16 @@ HRESULT InitDevice()
     if( FAILED( hr ) )
         return hr;
 
-	hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRenderTargetView);
+	hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, g_RenderTargetView->getRenderTargetView());
+
     pBackBuffer->Release();
     if( FAILED( hr ) )
         return hr;
 
     // Create depth stencil texture
-    D3D11_TEXTURE2D_DESC descDepth;
+
+    /*D3D11_TEXTURE2D_DESC descDepth;
+
     ZeroMemory( &descDepth, sizeof(descDepth) );
     descDepth.Width = width;
     descDepth.Height = height;
@@ -304,22 +290,27 @@ HRESULT InitDevice()
     descDepth.Usage = D3D11_USAGE_DEFAULT;
     descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
     descDepth.CPUAccessFlags = 0;
-    descDepth.MiscFlags = 0;
-    hr = g_pd3dDevice->CreateTexture2D( &descDepth, NULL, &g_pDepthStencil );
+    descDepth.MiscFlags = 0;*/
+
+
+	g_DepthStencilView->init(width, height);
+
+	hr = g_pd3dDevice->CreateTexture2D(g_DepthStencilView->getDescDepth(), NULL, g_DepthStencilView->getDepthStencil());
     if( FAILED( hr ) )
         return hr;
 
     // Create the depth stencil view
-    D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+    /*D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
     ZeroMemory( &descDSV, sizeof(descDSV) );
     descDSV.Format = descDepth.Format;
     descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    descDSV.Texture2D.MipSlice = 0;
-    hr = g_pd3dDevice->CreateDepthStencilView( g_pDepthStencil, &descDSV, &g_pDepthStencilView );
+    descDSV.Texture2D.MipSlice = 0;*/
+
+	hr = g_pd3dDevice->CreateDepthStencilView(*g_DepthStencilView->getDepthStencil(), g_DepthStencilView->getDescDepthStencilView(), g_DepthStencilView->getDepthStencilView());
     if( FAILED( hr ) )
         return hr;
 
-    g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, g_pDepthStencilView );
+    g_pImmediateContext->OMSetRenderTargets( 1, g_RenderTargetView->getRenderTargetView(), *g_DepthStencilView->getDepthStencilView());
 
     // Setup the viewport
     D3D11_VIEWPORT vp;
@@ -342,7 +333,7 @@ HRESULT InitDevice()
     }
 
     // Create the vertex shader
-    hr = g_pd3dDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader );
+    hr = g_pd3dDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, g_VertexShader->getVertexShader());
     if( FAILED( hr ) )
     {    
         pVSBlob->Release();
@@ -428,7 +419,7 @@ HRESULT InitDevice()
     //InitData.pSysMem = vertices;
 
 
-	g_pVBuffer->Init(24,VERTEX,vertices);
+	g_pVBuffer->init(24,VERTEX,vertices);
 
 
     hr = g_pd3dDevice->CreateBuffer(g_pVBuffer->getBufferDesc(), g_pVBuffer->getInitData(), g_pVBuffer->getBuffer());
@@ -469,7 +460,7 @@ HRESULT InitDevice()
     bd.CPUAccessFlags = 0;
     InitData.pSysMem = indices;*/
 
-	g_pIBuffer->Init(36, INDEX, indices);
+	g_pIBuffer->init(36, INDEX, indices);
 
 	hr = g_pd3dDevice->CreateBuffer(g_pIBuffer->getBufferDesc(), g_pIBuffer->getInitData() , g_pIBuffer->getBuffer());
     if( FAILED( hr ) )
@@ -487,14 +478,14 @@ HRESULT InitDevice()
     bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     bd.CPUAccessFlags = 0;*/
 
-	g_pCBNCBuffer->Init(sizeof(CBNeverChanges), CONSTANT);
+	g_pCBNCBuffer->init(sizeof(CBNeverChanges), CONSTANT);
 
     hr = g_pd3dDevice->CreateBuffer(g_pCBNCBuffer->getBufferDesc(), NULL, g_pCBNCBuffer->getBuffer());
     if( FAILED( hr ) )
         return hr;
     
     //bd.ByteWidth = sizeof(CBChangeOnResize);
-	g_pCBChangeOnResiz->Init(sizeof(CBChangeOnResize), CONSTANT);
+	g_pCBChangeOnResiz->init(sizeof(CBChangeOnResize), CONSTANT);
 
     hr = g_pd3dDevice->CreateBuffer(g_pCBChangeOnResiz->getBufferDesc(), NULL, g_pCBChangeOnResiz->getBuffer());
     if( FAILED( hr ) )
@@ -502,7 +493,7 @@ HRESULT InitDevice()
     
     //bd.ByteWidth = sizeof(CBChangesEveryFrame);
 
-	g_pCBChangesEveryFram->Init(sizeof(CBChangesEveryFrame), CONSTANT);
+	g_pCBChangesEveryFram->init(sizeof(CBChangesEveryFrame), CONSTANT);
 
 	hr = g_pd3dDevice->CreateBuffer(g_pCBChangesEveryFram->getBufferDesc() , NULL, g_pCBChangesEveryFram->getBuffer());
     if( FAILED( hr ) )
@@ -571,15 +562,18 @@ void CleanupDevice()
     //if( g_pIndexBuffer ) g_pIndexBuffer->Release();
 	if(g_pIBuffer)g_pIBuffer->destroy();
     if( g_pVertexLayout ) g_pVertexLayout->Release();
-    if( g_pVertexShader ) g_pVertexShader->Release();
+	if (g_VertexShader) g_VertexShader->destroy();
+    //if( g_pVertexShader ) g_pVertexShader->Release();
     if( g_pPixelShader ) g_pPixelShader->Release();
-    if( g_pDepthStencil ) g_pDepthStencil->Release();
-    if( g_pDepthStencilView ) g_pDepthStencilView->Release();
-    if( g_pRenderTargetView ) g_pRenderTargetView->Release();
+    //if( g_pDepthStencil ) g_pDepthStencil->Release();
+	//if( g_pDepthStencilView ) g_pDepthStencilView->Release();
+	if (g_DepthStencilView)g_DepthStencilView->destroy();
+    //if( g_pRenderTargetView ) g_pRenderTargetView->Release();
+	if (g_RenderTargetView)g_RenderTargetView->destroy();
     //if( g_pSwapChain ) g_pSwapChain->Release();
 	if (g_SwapChain)g_SwapChain->destroy();
-	if (g_pImmediateContext) g_pImmediateContext->Release(); delete g_pImmediateContext;
-	if (g_pd3dDevice->getDevice()) { g_pd3dDevice->Release(); delete g_pd3dDevice; }
+	if (g_pImmediateContext) { g_pImmediateContext->destroy(); }
+	if (g_pd3dDevice) { g_pd3dDevice->destroy(); }
 }
 
 
@@ -645,12 +639,12 @@ void Render()
     //
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 
-    g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );
+	g_pImmediateContext->ClearRenderTargetView(*g_RenderTargetView->getRenderTargetView(), ClearColor);
 
     //
     // Clear the depth buffer to 1.0 (max depth)
     //
-    g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    g_pImmediateContext->ClearDepthStencilView(*g_DepthStencilView->getDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
     //
     // Update variables that change once per frame
@@ -666,7 +660,7 @@ void Render()
     //
     // Render the cube
     //
-    g_pImmediateContext->VSSetShader( g_pVertexShader, NULL, 0 );
+    g_pImmediateContext->VSSetShader(*g_VertexShader->getVertexShader(), NULL, 0 );
     g_pImmediateContext->VSSetConstantBuffers( 0, 1, g_pCBNCBuffer->getBuffer());
     g_pImmediateContext->VSSetConstantBuffers( 1, 1, g_pCBChangeOnResiz->getBuffer());
     g_pImmediateContext->VSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());

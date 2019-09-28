@@ -98,6 +98,12 @@ HRESULT CDevice::CreateSamplerState(
 	return  g_pd3dDevice->CreateSamplerState(pSamplerDesc, ppSamplerState);
 }
 
+void CDevice::destroy()
+{
+	if (g_pd3dDevice)g_pd3dDevice->Release();
+	delete this;
+}
+
 CDevice::CDevice()
 {
 }

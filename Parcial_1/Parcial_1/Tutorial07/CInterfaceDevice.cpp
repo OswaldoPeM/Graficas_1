@@ -132,6 +132,12 @@ void CInterfaceDevice::DrawIndexed(
 	g_pImmediateContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 }
 
+void CInterfaceDevice::destroy()
+{
+	if (g_pImmediateContext)g_pImmediateContext->Release();
+	delete this;
+}
+
 CInterfaceDevice::CInterfaceDevice()
 {
 }

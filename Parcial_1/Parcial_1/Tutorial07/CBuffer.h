@@ -16,9 +16,11 @@ class CBuffer
 	D3D11_SUBRESOURCE_DATA InitData;
 
 public:
-	bool Init(int size, BFlags FLAG, SimpleVertex *vertices);
-	bool Init(int size, BFlags FLAG, WORD *indices);
-	bool Init(int size, BFlags FLAG);
+
+	bool init(int size, BFlags FLAG, SimpleVertex *vertices);
+	bool init(int size, BFlags FLAG, WORD *indices);
+	bool init(int size, BFlags FLAG);
+
 	void update();
 	void render();
 	void destroy();
