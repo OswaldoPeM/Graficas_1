@@ -21,6 +21,7 @@
     <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="CInterfaceDevice.cpp" />
+    <ClCompile Include="CSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -42,6 +43,7 @@
     <ClInclude Include="CInterfaceDevice.h" />
     <ClInclude Include="STRUCTS.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="CSwapChain.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

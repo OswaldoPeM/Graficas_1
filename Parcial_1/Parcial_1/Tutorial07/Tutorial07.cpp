@@ -10,9 +10,11 @@
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 #include <xnamath.h>
+
 #include"CDevice.h"
 #include"CInterfaceDevice.h"
 #include "CBuffer.h"
+#include "CSwapChain.h"
 
 #include"dependences/Assimp/include/assimp/scene.h"
 #include"dependences/Assimp/include/assimp/ai_assert.h"
@@ -53,13 +55,18 @@
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
+
 HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
 D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
 CDevice*							g_pd3dDevice = new CDevice();
 CInterfaceDevice*					g_pImmediateContext = new CInterfaceDevice();
-IDXGISwapChain*                     g_pSwapChain = NULL;
+
+CSwapChain*							g_SwapChain = new CSwapChain();
+
+//IDXGISwapChain*                     g_pSwapChain = NULL;
+
 ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
 ID3D11Texture2D*                    g_pDepthStencil = NULL;
 ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
@@ -75,11 +82,11 @@ CBuffer*							g_pCBChangeOnResiz = new CBuffer();
 CBuffer*							g_pCBChangesEveryFram = new CBuffer();
 
 
-ID3D11Buffer*                       g_pVertexBuffer = NULL;
-ID3D11Buffer*                       g_pIndexBuffer = NULL;
-ID3D11Buffer*                       g_pCBNeverChanges = NULL;
-ID3D11Buffer*                       g_pCBChangeOnResize = NULL;
-ID3D11Buffer*                       g_pCBChangesEveryFrame = NULL;
+//ID3D11Buffer*                       g_pVertexBuffer = NULL;
+//ID3D11Buffer*                       g_pIndexBuffer = NULL;
+//ID3D11Buffer*                       g_pCBNeverChanges = NULL;
+//ID3D11Buffer*                       g_pCBChangeOnResize = NULL;
+//ID3D11Buffer*                       g_pCBChangesEveryFrame = NULL;
 
 
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
@@ -264,7 +271,7 @@ HRESULT InitDevice()
     {
         g_driverType = driverTypes[driverTypeIndex];
 		hr = g_pd3dDevice->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_featureLevel, g_pImmediateContext->getInterface());
+			D3D11_SDK_VERSION, &sd, g_SwapChain->getSwapChain(), &g_featureLevel, g_pImmediateContext->getInterface());
         if( SUCCEEDED( hr ) )
             break;
     }
@@ -273,7 +280,9 @@ HRESULT InitDevice()
 
     // Create a render target view
     ID3D11Texture2D* pBackBuffer = NULL;
-    hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
+
+    //hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
+	hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
     if( FAILED( hr ) )
         return hr;
 
@@ -551,15 +560,15 @@ void CleanupDevice()
 
     if( g_pSamplerLinear ) g_pSamplerLinear->Release();
     if( g_pTextureRV ) g_pTextureRV->Release();
-    if( g_pCBNeverChanges ) g_pCBNeverChanges->Release();
+    //if( g_pCBNeverChanges ) g_pCBNeverChanges->Release();
 	if (g_pCBNCBuffer)g_pCBNCBuffer->destroy();
-    if( g_pCBChangeOnResize ) g_pCBChangeOnResize->Release();
+    //if( g_pCBChangeOnResize ) g_pCBChangeOnResize->Release();
 	if (g_pCBChangeOnResiz) g_pCBChangeOnResiz->destroy();
-    if( g_pCBChangesEveryFrame ) g_pCBChangesEveryFrame->Release();
+    //if( g_pCBChangesEveryFrame ) g_pCBChangesEveryFrame->Release();
 	if (g_pCBChangesEveryFram)g_pCBChangesEveryFram->destroy();
-    if( g_pVertexBuffer ) g_pVertexBuffer->Release();
+    //if( g_pVertexBuffer ) g_pVertexBuffer->Release();
 	if (g_pVBuffer)g_pVBuffer->destroy();
-    if( g_pIndexBuffer ) g_pIndexBuffer->Release();
+    //if( g_pIndexBuffer ) g_pIndexBuffer->Release();
 	if(g_pIBuffer)g_pIBuffer->destroy();
     if( g_pVertexLayout ) g_pVertexLayout->Release();
     if( g_pVertexShader ) g_pVertexShader->Release();
@@ -567,7 +576,8 @@ void CleanupDevice()
     if( g_pDepthStencil ) g_pDepthStencil->Release();
     if( g_pDepthStencilView ) g_pDepthStencilView->Release();
     if( g_pRenderTargetView ) g_pRenderTargetView->Release();
-    if( g_pSwapChain ) g_pSwapChain->Release();
+    //if( g_pSwapChain ) g_pSwapChain->Release();
+	if (g_SwapChain)g_SwapChain->destroy();
 	if (g_pImmediateContext) g_pImmediateContext->Release(); delete g_pImmediateContext;
 	if (g_pd3dDevice->getDevice()) { g_pd3dDevice->Release(); delete g_pd3dDevice; }
 }
@@ -688,5 +698,6 @@ void Render()
     //
     // Present our back buffer to our front buffer
     //
-    g_pSwapChain->Present( 0, 0 );
+    //g_pSwapChain->Present( 0, 0 );
+	g_SwapChain->Present(0, 0);
 }
