@@ -25,6 +25,11 @@
     <ClCompile Include="CRenderTargetView.cpp" />
     <ClCompile Include="CDepthStencilView.cpp" />
     <ClCompile Include="CVertexShader.cpp" />
+    <ClCompile Include="CPixelShader.cpp" />
+    <ClCompile Include="CInputLayout.cpp" />
+    <ClCompile Include="CShaderResourceView.cpp" />
+    <ClCompile Include="CSamplerState.cpp" />
+    <ClCompile Include="CCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -50,6 +55,11 @@
     <ClInclude Include="STRUCTS.h" />
     <ClInclude Include="CDepthStencilView.h" />
     <ClInclude Include="CVertexShader.h" />
+    <ClInclude Include="CPixelShader.h" />
+    <ClInclude Include="CInputLayout.h" />
+    <ClInclude Include="CShaderResourceView.h" />
+    <ClInclude Include="CSamplerState.h" />
+    <ClInclude Include="CCamera.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

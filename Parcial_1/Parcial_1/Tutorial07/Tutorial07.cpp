@@ -6,11 +6,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #include <windows.h>
+
+//DirectX
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 #include <xnamath.h>
 
+// Abstracciones 
 #include"CDevice.h"
 #include"CInterfaceDevice.h"
 #include "CBuffer.h"
@@ -18,7 +21,13 @@
 #include "CRenderTargetView.h"
 #include "CDepthStencilView.h"
 #include "CVertexShader.h"
+#include "CPixelShader.h"
+#include"CInputLayout.h"
+#include"CShaderResourceView.h"
+#include"CSamplerState.h"
 
+
+// ASSIMP
 #include"dependences/Assimp/include/assimp/scene.h"
 #include"dependences/Assimp/include/assimp/ai_assert.h"
 #include"dependences/Assimp/include/assimp/cimport.h"
@@ -38,22 +47,24 @@ HWND                                g_hWnd = NULL;
 D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
 
+
 CDevice*							g_pd3dDevice = new CDevice();
 CInterfaceDevice*					g_pImmediateContext = new CInterfaceDevice();
 CSwapChain*							g_SwapChain = new CSwapChain();
 CRenderTargetView*					g_RenderTargetView = new CRenderTargetView();
 CDepthStencilView*					g_DepthStencilView = new CDepthStencilView();
 CVertexShader*						g_VertexShader = new CVertexShader();
+CPixelShader*						g_PixelShader = new CPixelShader();
+CInputLayout*						g_VertexLayout = new CInputLayout();
 
 //IDXGISwapChain*                     g_pSwapChain = NULL;
 //ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
 //ID3D11Texture2D*                    g_pDepthStencil = NULL;
 //ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
 //ID3D11VertexShader*                 g_pVertexShader = NULL;
+//ID3D11PixelShader*                  g_pPixelShader = NULL;
+//ID3D11InputLayout*                  g_pVertexLayout = NULL;
 
-
-ID3D11PixelShader*                  g_pPixelShader = NULL;
-ID3D11InputLayout*                  g_pVertexLayout = NULL;
 
 CBuffer*							g_pVBuffer = new CBuffer();
 CBuffer*							g_pIBuffer = new CBuffer();
@@ -68,9 +79,11 @@ CBuffer*							g_pCBChangesEveryFram = new CBuffer();
 //ID3D11Buffer*                       g_pCBChangeOnResize = NULL;
 //ID3D11Buffer*                       g_pCBChangesEveryFrame = NULL;
 
+CShaderResourceView*				g_TextureRV = new CShaderResourceView();
+CSamplerState*						g_SamplerLinear = new CSamplerState();
 
-ID3D11ShaderResourceView*           g_pTextureRV = NULL;
-ID3D11SamplerState*                 g_pSamplerLinear = NULL;
+//ID3D11ShaderResourceView*           g_pTextureRV = NULL;
+//ID3D11SamplerState*                 g_pSamplerLinear = NULL;
 
 XMMATRIX                            g_World;
 XMMATRIX                            g_View;
@@ -341,22 +354,21 @@ HRESULT InitDevice()
     }
 
     // Define the input layout
-    D3D11_INPUT_ELEMENT_DESC layout[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-    };
-    UINT numElements = ARRAYSIZE( layout );
+    
 
-    // Create the input layout
-    hr = g_pd3dDevice->CreateInputLayout( layout, numElements, pVSBlob->GetBufferPointer(),
-                                          pVSBlob->GetBufferSize(), &g_pVertexLayout );
+	g_VertexLayout->setLayoutDesc("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, INPUT_PER_VERTEX_DATA, 0);
+	g_VertexLayout->setLayoutDesc("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, INPUT_PER_VERTEX_DATA, 0);
+    UINT numElements = g_VertexLayout->getLayoutSize();
+	
+	// Create the input layout
+    hr = g_pd3dDevice->CreateInputLayout(g_VertexLayout->getLayoutDesc(), numElements, pVSBlob->GetBufferPointer(),
+                                          pVSBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
     pVSBlob->Release();
     if( FAILED( hr ) )
         return hr;
 
     // Set the input layout
-    g_pImmediateContext->IASetInputLayout( g_pVertexLayout );
+    g_pImmediateContext->IASetInputLayout(*g_VertexLayout->getInputLayout());
 
     // Compile the pixel shader
     ID3DBlob* pPSBlob = NULL;
@@ -369,7 +381,7 @@ HRESULT InitDevice()
     }
 
     // Create the pixel shader
-    hr = g_pd3dDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader );
+    hr = g_pd3dDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, g_PixelShader->getPixelShader());
     pPSBlob->Release();
     if( FAILED( hr ) )
         return hr;
@@ -500,7 +512,7 @@ HRESULT InitDevice()
         return hr;
 
     // Load the Texture
-	hr = g_pd3dDevice->CreateShaderResourceViewFromFile(L"rails.dds", NULL, NULL, &g_pTextureRV, NULL);
+	hr = g_pd3dDevice->CreateShaderResourceViewFromFile(L"rails.dds", NULL, NULL, g_TextureRV->getTextureRV(), NULL);
     if( FAILED( hr ) )
         return hr;
 
@@ -514,7 +526,7 @@ HRESULT InitDevice()
     sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
     sampDesc.MinLOD = 0;
     sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-    hr = g_pd3dDevice->CreateSamplerState( &sampDesc, &g_pSamplerLinear );
+    hr = g_pd3dDevice->CreateSamplerState( &sampDesc, g_SamplerLinear->getSamplerLinear());
     if( FAILED( hr ) )
         return hr;
 
@@ -549,8 +561,10 @@ void CleanupDevice()
 {
     if( g_pImmediateContext ) g_pImmediateContext->ClearState();
 
-    if( g_pSamplerLinear ) g_pSamplerLinear->Release();
-    if( g_pTextureRV ) g_pTextureRV->Release();
+    //if( g_pSamplerLinear ) g_pSamplerLinear->Release();
+	if (g_SamplerLinear) g_SamplerLinear->destroy();
+    //if( g_pTextureRV ) g_pTextureRV->Release();
+	if (g_TextureRV) g_TextureRV->destoy();
     //if( g_pCBNeverChanges ) g_pCBNeverChanges->Release();
 	if (g_pCBNCBuffer)g_pCBNCBuffer->destroy();
     //if( g_pCBChangeOnResize ) g_pCBChangeOnResize->Release();
@@ -561,10 +575,12 @@ void CleanupDevice()
 	if (g_pVBuffer)g_pVBuffer->destroy();
     //if( g_pIndexBuffer ) g_pIndexBuffer->Release();
 	if(g_pIBuffer)g_pIBuffer->destroy();
-    if( g_pVertexLayout ) g_pVertexLayout->Release();
-	if (g_VertexShader) g_VertexShader->destroy();
+    //if( g_pVertexLayout ) g_pVertexLayout->Release();
+	if (g_VertexLayout)g_VertexLayout->destoy();
     //if( g_pVertexShader ) g_pVertexShader->Release();
-    if( g_pPixelShader ) g_pPixelShader->Release();
+	if (g_VertexShader) g_VertexShader->destroy();
+   // if( g_pPixelShader ) g_pPixelShader->Release();
+	if (g_PixelShader) g_PixelShader->destroy();
     //if( g_pDepthStencil ) g_pDepthStencil->Release();
 	//if( g_pDepthStencilView ) g_pDepthStencilView->Release();
 	if (g_DepthStencilView)g_DepthStencilView->destroy();
@@ -664,10 +680,10 @@ void Render()
     g_pImmediateContext->VSSetConstantBuffers( 0, 1, g_pCBNCBuffer->getBuffer());
     g_pImmediateContext->VSSetConstantBuffers( 1, 1, g_pCBChangeOnResiz->getBuffer());
     g_pImmediateContext->VSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_pImmediateContext->PSSetShader( g_pPixelShader, NULL, 0 );
+    g_pImmediateContext->PSSetShader( *g_PixelShader->getPixelShader(), NULL, 0 );
     g_pImmediateContext->PSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_pImmediateContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
-    g_pImmediateContext->PSSetSamplers( 0, 1, &g_pSamplerLinear );
+    g_pImmediateContext->PSSetShaderResources( 0, 1, g_TextureRV->getTextureRV());
+    g_pImmediateContext->PSSetSamplers( 0, 1, g_SamplerLinear->getSamplerLinear());
     g_pImmediateContext->DrawIndexed( 36, 0, 0 );
 
 	// cubo de la izquierda

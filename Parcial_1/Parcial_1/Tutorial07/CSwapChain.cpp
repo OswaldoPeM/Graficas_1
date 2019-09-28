@@ -21,7 +21,9 @@ HRESULT CSwapChain::GetBuffer(
 	return g_pSwapChain->GetBuffer(Buffer, riid, ppSurface);
 }
 
-HRESULT CSwapChain::Present(UINT SyncInterval, UINT Flags)
+HRESULT CSwapChain::Present(
+	UINT SyncInterval,
+	UINT Flags)
 {
 	return g_pSwapChain->Present(SyncInterval, Flags);
 }
