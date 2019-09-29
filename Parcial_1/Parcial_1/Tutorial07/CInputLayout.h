@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <d3dcompiler.h>
@@ -28,6 +29,7 @@ public:
 		UINT alignedByteOffset,
 		INPUT_CLASSIFICATION InputSlotClass,
 		UINT InstanceDataStepRate);
+
 
 	void destoy();
 

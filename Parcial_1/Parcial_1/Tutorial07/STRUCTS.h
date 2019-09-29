@@ -2,7 +2,7 @@
 #include <xnamath.h>
 struct SimpleVertex
 {
-	XMFLOAT3 Pos;
+	XMFLOAT4 Pos;
 	XMFLOAT2 Tex;
 };
 struct CBNeverChanges
