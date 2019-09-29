@@ -14,8 +14,9 @@ typedef enum ProjectionType {
 
 class CCamera
 {
-	float movementMagnitude = 0.3f;
+	float movementMagnitude = 0.003f;
 	float lookRotationMagnitude = 0.1f;
+
 	XMVECTOR Eye = XMVectorSet(0.0f, 1.0f, -6.0f, 0.0f);
 	XMVECTOR LookAt = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -30,13 +31,14 @@ public:
 	XMVECTOR* getUp();
 	XMVECTOR* getFront();
 	XMVECTOR* getRight();
-	XMMATRIX* getMView();
+	XMMATRIX getViewMatrix();
 
 	void setEye(XMVECTOR* vec);
 	void setLookAt(XMVECTOR* vec);
 	void setUp(XMVECTOR* vec);
 	void setFront(XMVECTOR* vec);
 	void setRight(XMVECTOR* vec);
+	void setViewMatrix();
 
 	void moveLeft();
 	void moveRight();

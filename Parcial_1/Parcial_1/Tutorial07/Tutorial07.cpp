@@ -88,15 +88,15 @@ CSamplerState*						g_SamplerLinear = new CSamplerState();
 //ID3D11SamplerState*                 g_pSamplerLinear = NULL;
 
 XMMATRIX                            g_World;
-XMMATRIX                            g_View;
-XMMATRIX                            g_Projection;
+//XMMATRIX                            g_View;
+//XMMATRIX                            g_Projection;
 XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
 
 const aiScene*                      g_model;
 Assimp::Importer					importador;
 //CDevice*							g_Device = new DeviceD3D11();
 
-CCameraManager*						CamMan;
+CCameraManager*						CamMan = new CCameraManager();
 
 
 //--------------------------------------------------------------------------------------
@@ -131,6 +131,69 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     MSG msg = {0};
     while( WM_QUIT != msg.message )
     {
+		if (msg.message == WM_KEYDOWN)
+		{
+			XMVECTOR rot;
+			XMFLOAT3 movement(0.0f, 0.0f, 0.0f);
+			switch (msg.wParam)
+			{
+			case VK_LEFT:
+			{
+				movement.x -= 1;
+				break;
+			}
+
+			case VK_RIGHT:
+			{
+				movement.x += 1;
+				break;
+			}
+
+			case VK_UP:
+			{
+				movement.z += 1;
+				break;
+			}
+
+			case VK_DOWN:
+			{	
+				movement.z -= 1;
+				break;
+			}
+			case VK_NUMPAD1:
+				movement.y -= 1;
+				break;
+			case VK_NUMPAD4:
+				movement.y += 1;
+				break;
+			case VK_SPACE:
+			{
+				RECT rc;
+				GetClientRect(g_hWnd, &rc);
+				UINT width = rc.right - rc.left;
+				UINT height = rc.bottom - rc.top;
+				CamMan->swichProjection(width, height);
+
+				CBChangeOnResize cbChangesOnResize;
+				cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
+				g_pImmediateContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0);
+				break;
+			}
+			default:
+				break;
+			}
+			CamMan->move(&movement);
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_pImmediateContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);
+
+			
+		}
+		if (msg.message == WM_SIZE) {
+
+		}
+
+
         if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
         {
             TranslateMessage( &msg );
@@ -618,17 +681,21 @@ HRESULT InitDevice()
     XMVECTOR Eye = XMVectorSet( 0.0f, 3.0f, -6.0f, 0.0f );
     XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
     XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    g_View = XMMatrixLookAtLH( Eye, At, Up );
+    //g_View = XMMatrixLookAtLH( Eye, At, Up );
+
+	CamMan->init();
 
     CBNeverChanges cbNeverChanges;
-    cbNeverChanges.mView = XMMatrixTranspose( g_View );
+	cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
     g_pImmediateContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0 );
 
     // Initialize the projection matrix
-    g_Projection = XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
+    //g_Projection = XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
+	CamMan->setProjectionMatrix(width, height);
+
 	//g_Projection = XMMatrixOrthographicLH(width/90, height/90, 0.001f, 100.0f);
     CBChangeOnResize cbChangesOnResize;
-    cbChangesOnResize.mProjection = XMMatrixTranspose( g_Projection );
+	cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
     g_pImmediateContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0 );
 
     return S_OK;
@@ -641,7 +708,7 @@ HRESULT InitDevice()
 void CleanupDevice()
 {
     if( g_pImmediateContext ) g_pImmediateContext->ClearState();
-
+	if (CamMan) CamMan->destroy();
     //if( g_pSamplerLinear ) g_pSamplerLinear->Release();
 	if (g_SamplerLinear) g_SamplerLinear->destroy();
     //if( g_pTextureRV ) g_pTextureRV->Release();
@@ -752,6 +819,7 @@ void Render()
 	cpy_g = XMMatrixMultiplyTranspose(XMMatrixScaling(cos(t)*cos(t), cos(t)*cos(t), cos(t)*cos(t)), cpy_g);
     cb1.mWorld = XMMatrixMultiplyTranspose(cpy_g, XMMatrixTranslation(2, 0, 0));
     cb1.vMeshColor = g_vMeshColor;
+
     g_pImmediateContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb1, 0, 0 );
 
     //
