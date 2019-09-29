@@ -183,14 +183,24 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				break;
 			}
 			CamMan->move(&movement);
+			
 			CBNeverChanges cbNeverChanges;
 			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
 			g_pImmediateContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);
 
 			
 		}
-		if (msg.message == WM_SIZE) {
 
+
+		if (msg.message == RI_MOUSE_LEFT_BUTTON_DOWN) {
+			if (true) {
+				int x = 0;
+			}
+			/*RECT rc;
+			GetClientRect(g_hWnd, &rc);
+			UINT width = rc.right - rc.left;
+			UINT height = rc.bottom - rc.top;
+			CamMan->setProjectionMatrix(width, height);*/
 		}
 
 
@@ -678,9 +688,11 @@ HRESULT InitDevice()
     g_World = XMMatrixIdentity();
 
     // Initialize the view matrix
-    XMVECTOR Eye = XMVectorSet( 0.0f, 3.0f, -6.0f, 0.0f );
+
+
+   /* XMVECTOR Eye = XMVectorSet( 0.0f, 3.0f, -6.0f, 0.0f );
     XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+    XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );*/
     //g_View = XMMatrixLookAtLH( Eye, At, Up );
 
 	CamMan->init();
