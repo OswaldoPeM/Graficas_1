@@ -379,6 +379,7 @@
   <ItemGroup>
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCameraManager.cpp" />
     <ClCompile Include="CDepthStencilView.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CInputLayout.cpp" />
@@ -400,6 +401,7 @@
   <ItemGroup>
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCameraManager.h" />
     <ClInclude Include="CDepthStencilView.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CInputLayout.h" />

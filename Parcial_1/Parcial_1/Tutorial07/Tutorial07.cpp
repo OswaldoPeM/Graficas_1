@@ -26,6 +26,8 @@
 #include"CShaderResourceView.h"
 #include"CSamplerState.h"
 
+//Camara
+#include"CCameraManager.h"
 
 // ASSIMP
 #include"dependences/Assimp/include/assimp/scene.h"
@@ -94,6 +96,7 @@ const aiScene*                      g_model;
 Assimp::Importer					importador;
 //CDevice*							g_Device = new DeviceD3D11();
 
+CCameraManager*						CamMan;
 
 
 //--------------------------------------------------------------------------------------
@@ -212,8 +215,76 @@ HRESULT CompileShaderFromFile( WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR sz
 
     return S_OK;
 }
+// Reflect https://takinginitiative.wordpress.com/2011/12/11/directx-1011-basic-shader-reflection-automatic-input-layout-creation/
 
+HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob)
+{
+	// Reflect shader info
+	ID3D11ShaderReflection* pVertexShaderReflection = NULL;
+	if (FAILED(D3DReflect(pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pVertexShaderReflection)))
+	{
+		return S_FALSE;
+	}
 
+	// Get shader info
+	D3D11_SHADER_DESC shaderDesc;
+	pVertexShaderReflection->GetDesc(&shaderDesc);
+
+	// Read input layout description from shader info
+	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
+	for (unsigned int i = 0; i < shaderDesc.InputParameters; i++)
+	{
+		D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
+		pVertexShaderReflection->GetInputParameterDesc(i, &paramDesc);
+
+		// fill out input element desc
+		D3D11_INPUT_ELEMENT_DESC elementDesc;
+		elementDesc.SemanticName = paramDesc.SemanticName;
+		elementDesc.SemanticIndex = paramDesc.SemanticIndex;
+		elementDesc.InputSlot = 0;
+		elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+		elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		elementDesc.InstanceDataStepRate = 0;
+
+		// determine DXGI format
+		if (paramDesc.Mask == 1)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 3)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 7)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 15)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		}
+
+		//save element desc
+		inputLayoutDesc.push_back(elementDesc);
+	}
+
+	// Try to create Input Layout
+	HRESULT hr = g_pd3dDevice->CreateInputLayout(&inputLayoutDesc[0], inputLayoutDesc.size(), pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
+
+	//Free allocation shader reflection memory
+	pVertexShaderReflection->Release();
+
+	
+	return hr;
+}
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
 //--------------------------------------------------------------------------------------
@@ -358,15 +429,25 @@ HRESULT InitDevice()
 
 	g_VertexLayout->setLayoutDesc("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, INPUT_PER_VERTEX_DATA, 0);
 	g_VertexLayout->setLayoutDesc("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, INPUT_PER_VERTEX_DATA, 0);
-    UINT numElements = g_VertexLayout->getLayoutSize();
-	
-	// Create the input layout
-    hr = g_pd3dDevice->CreateInputLayout(g_VertexLayout->getLayoutDesc(), numElements, pVSBlob->GetBufferPointer(),
-                                          pVSBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
-    pVSBlob->Release();
-    if( FAILED( hr ) )
-        return hr;
 
+	//// Create the input layout
+
+	hr = CreateInputLayoutDescFromVertexShaderSignature(pVSBlob);
+	if (FAILED(hr))
+	{
+		pVSBlob->Release();
+		return hr;
+	}
+
+ //   UINT numElements = g_VertexLayout->getLayoutSize();
+	//
+ //   hr = g_pd3dDevice->CreateInputLayout(g_VertexLayout->getLayoutDesc(), numElements, pVSBlob->GetBufferPointer(),
+ //                                         pVSBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
+ //   pVSBlob->Release();
+ //   if( FAILED( hr ) )
+ //       return hr;
+
+	pVSBlob->Release();
     // Set the input layout
     g_pImmediateContext->IASetInputLayout(*g_VertexLayout->getInputLayout());
 
@@ -389,38 +470,38 @@ HRESULT InitDevice()
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f ,1), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
     };
 
-    D3D11_BUFFER_DESC bd;
+    //D3D11_BUFFER_DESC bd;
     //ZeroMemory( &bd, sizeof(bd) );
     //bd.Usage = D3D11_USAGE_DEFAULT;
     //bd.ByteWidth = sizeof( SimpleVertex ) * 24;
@@ -545,7 +626,7 @@ HRESULT InitDevice()
 
     // Initialize the projection matrix
     g_Projection = XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
-    
+	//g_Projection = XMMatrixOrthographicLH(width/90, height/90, 0.001f, 100.0f);
     CBChangeOnResize cbChangesOnResize;
     cbChangesOnResize.mProjection = XMMatrixTranspose( g_Projection );
     g_pImmediateContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0 );
