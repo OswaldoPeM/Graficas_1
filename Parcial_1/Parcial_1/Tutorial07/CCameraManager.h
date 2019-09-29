@@ -21,6 +21,7 @@ public:
 
 	void setProjectionMatrix(UINT width, UINT height);
 	void swichProjection(UINT width, UINT height);
+	void actLookAt();
 
 	void move(XMFLOAT3* mat);
 	void rotate(XMVECTOR* vec);

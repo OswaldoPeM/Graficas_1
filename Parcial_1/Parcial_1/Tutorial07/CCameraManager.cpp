@@ -30,16 +30,25 @@ void CCameraManager::swichProjection(UINT width, UINT height)
 	setProjectionMatrix(width, height);
 }
 
+void CCameraManager::actLookAt()
+{
+	camera.updateLookAt();
+}
+
 void CCameraManager::move(XMFLOAT3 * mat)
 {
-	if (mat->x < 0)camera.moveRight();
-	if (mat->x > 0)camera.moveLeft();
+	if (mat->x > 0)camera.moveRight();
+	if (mat->x < 0)camera.moveLeft();
 	if (mat->y > 0)camera.moveUp();
 	if (mat->y < 0)camera.moveDown();
 	if (mat->z > 0)camera.moveForward();
 	if (mat->z < 0)camera.moveBack();
 
 	camera.update();
+	camera.setViewMatrix();
+
+
+
 }
 
 void CCameraManager::rotate(XMVECTOR * vec)

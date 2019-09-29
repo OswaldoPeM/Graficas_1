@@ -48,6 +48,7 @@ public:
 	void moveBack();
 
 	void rotate(XMVECTOR* vec);
+	void updateLookAt();
 
 	bool init();
 	void render();
