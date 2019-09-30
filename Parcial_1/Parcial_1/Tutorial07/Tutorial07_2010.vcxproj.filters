@@ -31,6 +31,8 @@
     <ClCompile Include="CSamplerState.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCameraManager.cpp" />
+    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CMeshManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -62,6 +64,8 @@
     <ClInclude Include="CSamplerState.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCameraManager.h" />
+    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CMeshManager.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

@@ -28,13 +28,13 @@
 
 //Camara
 #include"CCameraManager.h"
+//Mesh
+#include"CMeshManager.h"
 
-// ASSIMP
-#include"dependences/Assimp/include/assimp/scene.h"
-#include"dependences/Assimp/include/assimp/ai_assert.h"
-#include"dependences/Assimp/include/assimp/cimport.h"
-#include"dependences/Assimp/include/assimp/postprocess.h"
-#include"dependences/Assimp/include/assimp/Importer.hpp"
+//ImGui
+#include"dependences/ImGuiDirectX/imgui.h"
+#include "dependences/ImGuiDirectX/imgui_impl_win32.h"
+#include "dependences/ImGuiDirectX/imgui_impl_dx11.h"
 
 #include "resource.h"
 
@@ -92,12 +92,10 @@ XMMATRIX                            g_World;
 //XMMATRIX                            g_Projection;
 XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
 
-const aiScene*                      g_model;
-Assimp::Importer					importador;
 //CDevice*							g_Device = new DeviceD3D11();
 
 CCameraManager*						CamMan = new CCameraManager();
-
+CMeshManager*						MeshMan = new CMeshManager();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -127,6 +125,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         return 0;
     }
 
+	
     // Main message loop
     MSG msg = {0};
     while( WM_QUIT != msg.message )
@@ -192,7 +191,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 
 
-		if (msg.message == RI_MOUSE_LEFT_BUTTON_DOWN) {
+		if (msg.message == WM_EXITSIZEMOVE) {
 			if (true) {
 				int x = 0;
 			}
@@ -540,6 +539,43 @@ HRESULT InitDevice()
     if( FAILED( hr ) )
         return hr;
 
+	MeshMan->init("Scene\\Scene.fbx", aiProcess_Triangulate);
+	MeshMan->getMeshes()->size();
+	for (unsigned int i = 0; i < MeshMan->getMeshes()->size() ; i++)
+	{
+		//CreateVertex Buffer
+		hr = g_pd3dDevice->CreateBuffer(
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getBufferDesc(),
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getInitData(),
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer());
+
+		if (FAILED(hr))
+			return hr;
+
+		// Set vertex buffer
+		UINT stride = sizeof(SimpleVertex);
+		UINT offset = 0;
+		g_pImmediateContext->IASetVertexBuffers(
+			0, 1, MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer(), &stride, &offset);
+
+		//create indexBuffer
+		hr = g_pd3dDevice->CreateBuffer(
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getBufferDesc(),
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getInitData(),
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getBuffer());
+		if (FAILED(hr))
+			return hr;
+
+		//set index buffer
+		g_pImmediateContext->IASetIndexBuffer(
+			*MeshMan->getMeshes()[0][i].getIndexBuffer()->getBuffer(), 
+			DXGI_FORMAT_R16_UINT,
+			0);
+
+	}
+
+
+
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
@@ -627,10 +663,12 @@ HRESULT InitDevice()
     InitData.pSysMem = indices;*/
 
 	g_pIBuffer->init(36, INDEX, indices);
-
 	hr = g_pd3dDevice->CreateBuffer(g_pIBuffer->getBufferDesc(), g_pIBuffer->getInitData() , g_pIBuffer->getBuffer());
     if( FAILED( hr ) )
         return hr;
+
+
+
 
     // Set index buffer
 	g_pImmediateContext->IASetIndexBuffer(*g_pIBuffer->getBuffer(), DXGI_FORMAT_R16_UINT, 0);
@@ -721,6 +759,7 @@ void CleanupDevice()
 {
     if( g_pImmediateContext ) g_pImmediateContext->ClearState();
 	if (CamMan) CamMan->destroy();
+	if (MeshMan)MeshMan->destroy();
     //if( g_pSamplerLinear ) g_pSamplerLinear->Release();
 	if (g_SamplerLinear) g_SamplerLinear->destroy();
     //if( g_pTextureRV ) g_pTextureRV->Release();
@@ -801,7 +840,7 @@ void Render()
     }
 
     // Rotate cube around the origin
-    g_World = XMMatrixRotationY( t );
+     g_World = XMMatrixRotationY( t );
 
 
 
@@ -868,6 +907,7 @@ void Render()
 	
     //
     // Present our back buffer to our front buffer
+	
     //
     //g_pSwapChain->Present( 0, 0 );
 	g_SwapChain->Present(0, 0);

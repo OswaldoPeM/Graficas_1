@@ -384,6 +384,8 @@
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CInputLayout.cpp" />
     <ClCompile Include="CInterfaceDevice.cpp" />
+    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CMeshManager.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="CPixelShader.cpp" />
     <ClCompile Include="CRenderTargetView.cpp" />
@@ -406,6 +408,8 @@
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CInputLayout.h" />
     <ClInclude Include="CInterfaceDevice.h" />
+    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CMeshManager.h" />
     <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="CPixelShader.h" />
     <ClInclude Include="CRenderTargetView.h" />
