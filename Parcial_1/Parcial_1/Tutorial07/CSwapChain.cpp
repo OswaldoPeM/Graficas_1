@@ -28,6 +28,16 @@ HRESULT CSwapChain::Present(
 	return g_pSwapChain->Present(SyncInterval, Flags);
 }
 
+HRESULT CSwapChain::ResizeBuffer(
+	UINT BufferCount, 
+	UINT Width,
+	UINT Height, 
+	DXGI_FORMAT NewFormat,
+	UINT SwapChainFlags)
+{
+	return g_pSwapChain->ResizeBuffers(BufferCount, Width, Height, NewFormat, SwapChainFlags);
+}
+
 bool CSwapChain::init(UINT WIDTH, UINT HEIGHT, HWND hWnd)
 {
 

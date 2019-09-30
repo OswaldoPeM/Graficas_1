@@ -9,10 +9,13 @@ public:
 
 	ID3D11RenderTargetView** getRenderTargetView();
 
+
+
 	bool Init();
 	void render();
 	void update();
 	void destroy();
+	void Release();
 
 	CRenderTargetView();
 	~CRenderTargetView();
