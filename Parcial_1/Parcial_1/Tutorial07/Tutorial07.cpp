@@ -100,8 +100,8 @@ XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
 CCameraManager*						CamMan = new CCameraManager();
 CMeshManager*						MeshMan = new CMeshManager();
 
-
-
+POINT								MPos;
+bool								MousePressed = false;
 
 
 //--------------------------------------------------------------------------------------
@@ -135,6 +135,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	
     // Main message loop
     MSG msg = {0};
+	
     while( WM_QUIT != msg.message )
     {
 		if (msg.message == WM_KEYDOWN)
@@ -172,17 +173,23 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			case VK_NUMPAD4:
 				movement.y += 1;
 				break;
+
+			
 			case VK_SPACE:
 			{
-				RECT rc;
-				GetClientRect(g_hWnd, &rc);
-				UINT width = rc.right - rc.left;
-				UINT height = rc.bottom - rc.top;
-				CamMan->swichProjection(width, height);
+				if (true)
+				{
 
-				CBChangeOnResize cbChangesOnResize;
-				cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
-				g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0);
+					RECT rc;
+					GetClientRect(g_hWnd, &rc);
+					UINT width = rc.right - rc.left;
+					UINT height = rc.bottom - rc.top;
+					CamMan->swichProjection(width, height);
+
+					CBChangeOnResize cbChangesOnResize;
+					cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
+					g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0);
+				}
 				break;
 			}
 			default:
@@ -197,6 +204,20 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			
 		}
 
+		if (MousePressed) {
+
+			POINT lastPos = MPos;
+			GetPhysicalCursorPos(&MPos);
+			lastPos.x = lastPos.x - MPos.x;
+			lastPos.y = lastPos.y - MPos.y;
+			CamMan->rotate(&lastPos);
+
+			CamMan->update();
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);
+
+		}
 
 		if (msg.message == WM_EXITSIZEMOVE) {
 			if (true) {
@@ -712,25 +733,22 @@ void CleanupDevice()
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    PAINTSTRUCT ps;
-    HDC hdc;
-
-    switch( message )
-    {
-	case WM_EXITSIZEMOVE: 
+	PAINTSTRUCT ps;
+	HDC hdc;
+	switch (message)
+	{
+	case WM_EXITSIZEMOVE:
 		if (true)
-		{	
+		{
 			RECT rc;
 			GetClientRect(g_hWnd, &rc);
 			UINT width = rc.right - rc.left;
 			UINT height = rc.bottom - rc.top;
 			g_DeviceContext->OMSetRenderTargets(0, 0, 0);
 			g_RenderTargetView->Release();
-
 			HRESULT hr;
-
 			hr = g_SwapChain->ResizeBuffer(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
 			if (FAILED(hr))
 				return hr;
@@ -759,20 +777,45 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &ChOnResize, 0, 0);
 		}
 		break;
-        case WM_PAINT:
-            hdc = BeginPaint( hWnd, &ps );
-            EndPaint( hWnd, &ps );
-            break;
+	case WM_LBUTTONDOWN:
 
-        case WM_DESTROY:
-            PostQuitMessage( 0 );
-            break;
+		/*if (MPos.x != 0 || MPos.y != 0) {
+			POINT lastPos=MPos;
+			GetPhysicalCursorPos(&MPos);
+			lastPos.x = lastPos.x - MPos.x;
+			lastPos.y = lastPos.y - MPos.y;
+			CamMan->rotate(&lastPos);
 
-        default:
-            return DefWindowProc( hWnd, message, wParam, lParam );
-    }
+			CamMan->update();
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);\
+			}*/
 
-    return 0;
+
+		GetPhysicalCursorPos(&MPos);
+		MousePressed = true;
+
+		break;
+	case WM_LBUTTONUP:
+		MPos.x = 0;
+		MPos.y = 0;
+		MousePressed = false;
+		break;
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	return 0;
 }
 
 

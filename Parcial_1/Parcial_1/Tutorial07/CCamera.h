@@ -7,15 +7,11 @@
 https://computergraphics.stackexchange.com/questions/2383/whats-the-difference-between-orthographic-and-perspective-projection ,
 https://people.cs.clemson.edu/~dhouse/courses/405/notes/projections.pdf */
 
-typedef enum ProjectionType {
-	ORTOGRAPHIC,
-	PERSPECTIVE
-};
-
 class CCamera
 {
 	float movementMagnitude = 0.01f;
-	float lookRotationMagnitude = 0.1f;
+	float movementFix = 12.5;
+	float lookRotationMagnitude = 0.01f;
 
 	XMVECTOR Eye = XMVectorSet(0.0f, 1.0f, -6.0f, 0.0f);
 	XMVECTOR LookAt = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -47,7 +43,7 @@ public:
 	void moveForward();
 	void moveBack();
 
-	void rotate(XMVECTOR* vec);
+	void rotate(POINT* vec);
 	void updateLookAt();
 
 	bool init();
