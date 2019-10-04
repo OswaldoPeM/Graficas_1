@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns:atg="http://atg.xbox.com" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{a43c5c25-0e86-4a20-b64a-883785ff74fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{9d1ee43d-873c-45bf-b807-0959a301cf01}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tutorial07.cpp" />
+    <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CBuffer.cpp" />
+    <ClCompile Include="VBuffer.cpp" />
+    <ClCompile Include="IBuffer.cpp" />
+    <ClCompile Include="ConstBuffer.cpp" />
+    <ClCompile Include="CInterfaceDevice.cpp" />
+    <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CRenderTargetView.cpp" />
+    <ClCompile Include="CDepthStencilView.cpp" />
+    <ClCompile Include="CVertexShader.cpp" />
+    <ClCompile Include="CPixelShader.cpp" />
+    <ClCompile Include="CInputLayout.cpp" />
+    <ClCompile Include="CShaderResourceView.cpp" />
+    <ClCompile Include="CSamplerState.cpp" />
+    <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCameraManager.cpp" />
+    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CMeshManager.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CViewport.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tutorial07.fx">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CLInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </CLInclude>
+    <ResourceCompile Include="Tutorial07.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CBuffer.h" />
+    <ClInclude Include="VBuffer.h" />
+    <ClInclude Include="IBuffer.h" />
+    <ClInclude Include="ConstBuffer.h" />
+    <ClInclude Include="CInterfaceDevice.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="CRenderTargetView.h" />
+    <ClInclude Include="STRUCTS.h" />
+    <ClInclude Include="CDepthStencilView.h" />
+    <ClInclude Include="CVertexShader.h" />
+    <ClInclude Include="CPixelShader.h" />
+    <ClInclude Include="CInputLayout.h" />
+    <ClInclude Include="CShaderResourceView.h" />
+    <ClInclude Include="CSamplerState.h" />
+    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CCameraManager.h" />
+    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CMeshManager.h" />
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CViewport.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

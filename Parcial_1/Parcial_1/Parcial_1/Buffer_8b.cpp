@@ -154,35 +154,55 @@ bool Buffer_8b::line(int x1, int y1, int x2, int y2)
 	}
 	return true;
 }
-
+//funcion sacada de https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm
 bool Buffer_8b::linea(int x1, int y1, int x2, int y2)
 {
 
-	int dx = x2 - x1, dy = y2 - y1, step, k;
-	float xIncremento, yIncremento;
-	float x = x1, y = y1;
-	if (fabs(dx) > fabs(dy))
+	const bool steep = (fabs(y2 - y1) > fabs(x2 - x1));
+	if (steep)
+	{
+		std::swap(x1, y1);
+		std::swap(x2, y2);
+	}
 
-		step = fabs(dx); 
+	if (x1 > x2)
+	{
+		std::swap(x1, x2);
+		std::swap(y1, y2);
+	}
 
+	const float dx = x2 - x1;
+	const float dy = fabs(y2 - y1);
+
+	float error = dx / 2.0f;
+	const int ystep = (y1 < y2) ? 1 : -1;
+	int y = (int)y1;
+
+	const int maxX = (int)x2;
+
+	for (int x = (int)x1; x < maxX; x++)
+	{
+		if (steep)
+		{
+			setData(x, y, 255, 0);
+			setData(x, y, 255, 1);
+			setData(x, y, 255, 2);
+			setData(x, y, 255, 3);
+		}
 		else
+		{
+			setData(x, y, 255, 0);
+			setData(x, y, 255, 1);
+			setData(x, y, 255, 2);
+			setData(x, y, 255, 3);
+		}
 
-		step = fabs(dy); 
-
-	xIncremento = (float)dx / (float)step;
-
-	yIncremento = (float)dy / (float)step;
-
-	setData(round(x), round(y),255,0);
-
-	for (k = 0; k < step; k++)	{
-
-		x += xIncremento;
-
-			y += yIncremento;
-
-			setData(round(x), round(y), 255, 0);
-
+		error -= dy;
+		if (error < 0)
+		{
+			y += ystep;
+			error += dx;
+		}
 	}
 	return true;
 }
