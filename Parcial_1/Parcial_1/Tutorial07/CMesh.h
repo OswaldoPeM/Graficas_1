@@ -1,6 +1,12 @@
 #pragma once
 
 #include"CBuffer.h"
+#include"CDevice.h"
+#include"CVertexShader.h"
+#include"CPixelShader.h"
+#include"CSamplerState.h"
+
+#include"CInterfaceDevice.h"
 #include"stb_image.h"
 #include"dependences/Assimp/include/assimp/scene.h"
 #include"dependences/Assimp/include/assimp/ai_assert.h"
@@ -13,6 +19,7 @@ class CMesh
 	
 	CBuffer VertexBuffer;
 	CBuffer IndexBuffer;
+	unsigned int numVertex, numIndex;
 	XMMATRIX Position;
 	unsigned int materialIndex;
 	SimpleVertex *vertices = NULL;
@@ -22,7 +29,12 @@ public:
 	
 	CBuffer* getVertexBuffer();
 	CBuffer* getIndexBuffer();
-	XMMATRIX* getPosition();
+	unsigned int getNumV();
+	unsigned int getNumI();
+	unsigned int getMatIndx();
+	XMMATRIX getPosition();
+
+	void setPosition(XMMATRIX pos);
 
 	bool init();
 	void render();

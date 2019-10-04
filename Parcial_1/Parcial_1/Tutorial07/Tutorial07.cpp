@@ -13,6 +13,7 @@
 #include <d3dcompiler.h>
 #include <xnamath.h>
 
+
 // Abstracciones 
 #include"CDevice.h"
 #include"CInterfaceDevice.h"
@@ -93,7 +94,7 @@ CSamplerState*						g_SamplerLinear = new CSamplerState();
 XMMATRIX                            g_World;
 //XMMATRIX                            g_View;
 //XMMATRIX                            g_Projection;
-XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
+XMFLOAT4                            g_vMeshColor( 1, 1, 1, 1.0f );
 
 //CDevice*							g_Device = new DeviceD3D11();
 
@@ -221,7 +222,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		if (msg.message == WM_EXITSIZEMOVE) {
 			if (true) {
-				int x = 0;
 			}
 			/*RECT rc;
 			GetClientRect(g_hWnd, &rc);
@@ -382,7 +382,7 @@ HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob)
 	//Free allocation shader reflection memory
 	pVertexShaderReflection->Release();
 
-	
+
 	return hr;
 }
 //--------------------------------------------------------------------------------------
@@ -508,7 +508,7 @@ HRESULT InitDevice()
     if( FAILED( hr ) )
         return hr;
 
-	MeshMan->init("Scene\\Scene.fbx", aiProcess_Triangulate);
+	MeshMan->init("Scene\\Scene.fbx", aiProcess_Triangulate, g_Device);
 	MeshMan->getMeshes()->size();
 	for (unsigned int i = 0; i < MeshMan->getMeshes()->size() ; i++)
 	{
@@ -524,8 +524,7 @@ HRESULT InitDevice()
 		// Set vertex buffer
 		UINT stride = sizeof(SimpleVertex);
 		UINT offset = 0;
-		g_DeviceContext->IASetVertexBuffers(
-			0, 1, MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer(), &stride, &offset);
+		g_DeviceContext->IASetVertexBuffers(0, 1, MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer(), &stride, &offset);
 
 		//create indexBuffer
 		hr = g_Device->CreateBuffer(
@@ -628,7 +627,6 @@ HRESULT InitDevice()
     // Set primitive topology
     g_DeviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
-
 	g_pCBNCBuffer->init(sizeof(CBNeverChanges), CONSTANT);
 
     hr = g_Device->CreateBuffer(g_pCBNCBuffer->getBufferDesc(), NULL, g_pCBNCBuffer->getBuffer());
@@ -651,9 +649,16 @@ HRESULT InitDevice()
         return hr;
 
     // Load the Texture
-	hr = g_Device->CreateShaderResourceViewFromFile(L"rails.dds", NULL, NULL, g_TextureRV->getTextureRV(), NULL);
+	hr = g_Device->CreateShaderResourceViewFromFile(L"Toad_a.dds", NULL, NULL, g_TextureRV->getTextureRV(), NULL);
     if( FAILED( hr ) )
         return hr;
+	for (unsigned int i = 0; i < MeshMan->getTexture()->size(); i++)
+	{
+		hr = g_Device->CreateShaderResourceViewFromFile(MeshMan->getTexture()[0][i].getPath(), NULL, NULL, MeshMan->getTexture()[0][i].getTextureRV(), NULL);
+		
+		if (FAILED(hr))
+			return hr;
+	}
 
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
@@ -685,6 +690,23 @@ HRESULT InitDevice()
     CBChangeOnResize cbChangesOnResize;
 	cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
     g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0 );
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX11_Init(g_Device->getDevice(), *g_DeviceContext->getInterface());
+	ImGui::StyleColorsLight();
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::Begin("Frames");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::SetWindowSize(ImVec2(400, 50));
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::End();
+	ImGui::Render();
+
 
     return S_OK;
 }
@@ -840,19 +862,14 @@ void Render()
     }
 
     // Rotate cube around the origin
-     g_World = XMMatrixRotationY( t );
 
+     //g_World = XMMatrixRotationY( t );
 
-
-    // Modify the color
-    g_vMeshColor.x = ( sinf( t * 1.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.y = ( cosf( t * 3.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.z = ( sinf( t * 5.0f ) + 1.0f ) * 0.5f;
 
     //
     // Clear the back buffer
     //
-    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+    float ClearColor[4] = { 0.3f, 0.05f, 0.0f, 1.0f }; // red, green, blue, alpha
 
 	g_DeviceContext->ClearRenderTargetView(*g_RenderTargetView->getRenderTargetView(), ClearColor);
 
@@ -864,47 +881,22 @@ void Render()
     //
     // Update variables that change once per frame
     //
-	XMMATRIX cpy_g = XMMatrixIdentity();
-    CBChangesEveryFrame cb;
-	CBChangesEveryFrame cb1;
-	cpy_g = XMMatrixMultiplyTranspose(XMMatrixScaling(cos(t)*cos(t), cos(t)*cos(t), cos(t)*cos(t)), cpy_g);
-    cb1.mWorld = XMMatrixMultiplyTranspose(cpy_g, XMMatrixTranslation(2, 0, 0));
-    cb1.vMeshColor = g_vMeshColor;
 
-    g_DeviceContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb1, 0, 0 );
+	shadersBuffers SB = { g_pCBNCBuffer ,g_pCBChangeOnResiz,g_pCBChangesEveryFram,g_VertexShader,g_PixelShader,g_SamplerLinear };
 
-    //
-    // Render the cube
-    //
-    g_DeviceContext->VSSetShader(*g_VertexShader->getVertexShader(), NULL, 0 );
-    g_DeviceContext->VSSetConstantBuffers( 0, 1, g_pCBNCBuffer->getBuffer());
-    g_DeviceContext->VSSetConstantBuffers( 1, 1, g_pCBChangeOnResiz->getBuffer());
-    g_DeviceContext->VSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_DeviceContext->PSSetShader( *g_PixelShader->getPixelShader(), NULL, 0 );
-    g_DeviceContext->PSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_DeviceContext->PSSetShaderResources( 0, 1, g_TextureRV->getTextureRV());
-    g_DeviceContext->PSSetSamplers( 0, 1, g_SamplerLinear->getSamplerLinear());
-    g_DeviceContext->DrawIndexed( 36, 0, 0 );
 
-	// cubo de la izquierda
-    cb.mWorld = XMMatrixTranspose( g_World );
-    cb.vMeshColor = g_vMeshColor;
-    g_DeviceContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0 );
+	MeshMan->render(g_DeviceContext, SB);
 
-	cb.mWorld = XMMatrixMultiplyTranspose(g_World, XMMatrixTranslation(-2, 0, 0));
-	cb.vMeshColor = g_vMeshColor;
-	g_DeviceContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0);
-    g_DeviceContext->DrawIndexed( 36, 0, 0 );
 
-	//cubo de la centro
-	g_World = XMMatrixMultiplyTranspose(g_World, XMMatrixTranslation(0, 0, 0));
-	g_World = XMMatrixMultiplyTranspose(XMMatrixScaling(sin(t)*sin(t),sin(t)*sin(t), sin(t)*sin(t)), g_World);
-	cb.mWorld = XMMatrixTranspose(g_World);
-	cb.vMeshColor = g_vMeshColor;
-	g_DeviceContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0);
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::Begin("Frames");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-    g_DeviceContext->DrawIndexed( 36, 0, 0 );
-	
     //
     // Present our back buffer to our front buffer
 	

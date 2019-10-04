@@ -8,6 +8,7 @@ typedef enum BFlags
 	VERTEX= 0x1L,
 	INDEX= 0x2L,
 	CONSTANT= 0x4L,
+
 };
 
 class CBuffer

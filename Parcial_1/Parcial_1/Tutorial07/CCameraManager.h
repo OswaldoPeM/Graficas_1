@@ -3,6 +3,7 @@
 
 class CCameraManager
 {
+	//CCamera
 	CCamera camera;
 
 	bool isPerspective;

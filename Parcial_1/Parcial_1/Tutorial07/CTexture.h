@@ -1,6 +1,12 @@
 #pragma once
 
 #include"CDepthStencilView.h"
+
+enum DataType
+{
+	dds=0,
+	tga=1,
+};
 class CTexture
 {
 	ID3D11Texture2D* Texture = NULL;

@@ -395,6 +395,11 @@
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CVertexShader.cpp" />
     <ClCompile Include="CViewport.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_draw.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_dx11.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_win32.cpp" />
+    <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp" />
     <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
     <ClCompile Include="VBuffer.cpp" />
@@ -421,6 +426,14 @@
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CVertexShader.h" />
     <ClInclude Include="CViewport.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imconfig.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imgui.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_dx11.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_win32.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imgui_internal.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_rectpack.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_textedit.h" />
+    <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h" />
     <ClInclude Include="IBuffer.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="stb_image.h" />
