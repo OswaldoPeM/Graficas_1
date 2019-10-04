@@ -3,6 +3,7 @@
 
 class CCameraManager
 {
+	//CCamera
 	CCamera camera;
 
 	bool isPerspective;
@@ -24,7 +25,7 @@ public:
 	void actLookAt();
 
 	void move(XMFLOAT3* mat);
-	void rotate(XMVECTOR* vec);
+	void rotate(POINT* vec);
 
 	bool init();
 	void render();

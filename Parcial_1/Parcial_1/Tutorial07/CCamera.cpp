@@ -75,37 +75,49 @@ void CCamera::setViewMatrix()
 void CCamera::moveLeft()
 {
 	Eye -= Right * movementMagnitude;
+	LookAt -= Right * movementMagnitude;
+	
 }
 
 void CCamera::moveRight()
 {
 	Eye += Right * movementMagnitude;
+	LookAt += Right * movementMagnitude;
 	
 }
 
 void CCamera::moveUp()
 {
-	Eye += Up*movementMagnitude;
+	Eye += Up*movementMagnitude*movementFix;
+	LookAt += Up*movementMagnitude*movementFix;
+	
 }
 
 void CCamera::moveDown()
 {
-	Eye -= Up*movementMagnitude;
+	Eye -= Up * movementMagnitude*movementFix;
+	LookAt -= Up * movementMagnitude*movementFix;
+	
 }
 
 void CCamera::moveForward()
 {
 	Eye += Front * movementMagnitude;
+	LookAt += Front * movementMagnitude;
 }
 
 void CCamera::moveBack()
 {
 	Eye -= Front * movementMagnitude;
+	LookAt -= Front * movementMagnitude;
+	
 }
 
-void CCamera::rotate(XMVECTOR * vec)
+void CCamera::rotate(POINT* vec)
 {
-	LookAt += *vec * lookRotationMagnitude;
+	Eye += Right * lookRotationMagnitude * (vec->x);
+	update();
+	Eye -= Up * lookRotationMagnitude * (vec->y);
 }
 
 void CCamera::updateLookAt()

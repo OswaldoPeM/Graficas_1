@@ -51,10 +51,11 @@ void CCameraManager::move(XMFLOAT3 * mat)
 
 }
 
-void CCameraManager::rotate(XMVECTOR * vec)
+void CCameraManager::rotate(POINT * vec)
 {
 	camera.rotate(vec);
 	camera.update();
+	camera.setViewMatrix();
 }
 
 bool CCameraManager::init()
@@ -69,6 +70,7 @@ void CCameraManager::render()
 
 void CCameraManager::update()
 {
+	camera.update();
 }
 
 void CCameraManager::destroy()

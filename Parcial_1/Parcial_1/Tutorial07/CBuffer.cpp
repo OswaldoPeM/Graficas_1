@@ -81,4 +81,5 @@ CBuffer::CBuffer()
 
 CBuffer::~CBuffer()
 {
+	//if (ptr_buffer)ptr_buffer->Release();
 }

@@ -26,6 +26,11 @@ void CRenderTargetView::destroy()
 	delete this;
 }
 
+void CRenderTargetView::Release()
+{
+	ptr_RenderTargetView->Release();
+}
+
 CRenderTargetView::CRenderTargetView()
 {
 }

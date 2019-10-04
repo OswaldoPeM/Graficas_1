@@ -87,8 +87,13 @@ HRESULT CDevice::CreateShaderResourceViewFromFile(
 	ID3D11ShaderResourceView ** ppTexture, 
 	HRESULT * pHResult)
 {
-	return D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, pSrcFile, 
-		pLoadInfo, pPump, ppTexture, pHResult);
+	return D3DX11CreateShaderResourceViewFromFile(
+		g_pd3dDevice, 
+		pSrcFile, 
+		pLoadInfo, 
+		pPump,
+		ppTexture, 
+		pHResult);
 }
 
 HRESULT CDevice::CreateSamplerState(
