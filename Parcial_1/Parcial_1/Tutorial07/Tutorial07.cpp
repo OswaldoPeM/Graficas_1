@@ -13,6 +13,7 @@
 #include <d3dcompiler.h>
 #include <xnamath.h>
 
+
 // Abstracciones 
 #include"CDevice.h"
 #include"CInterfaceDevice.h"
@@ -25,14 +26,18 @@
 #include"CInputLayout.h"
 #include"CShaderResourceView.h"
 #include"CSamplerState.h"
+#include"CTexture.h"
+#include"CViewport.h"
 
+//Camara
+#include"CCameraManager.h"
+//Mesh
+#include"CMeshManager.h"
 
-// ASSIMP
-#include"dependences/Assimp/include/assimp/scene.h"
-#include"dependences/Assimp/include/assimp/ai_assert.h"
-#include"dependences/Assimp/include/assimp/cimport.h"
-#include"dependences/Assimp/include/assimp/postprocess.h"
-#include"dependences/Assimp/include/assimp/Importer.hpp"
+//ImGui
+#include"dependences/ImGuiDirectX/imgui.h"
+#include "dependences/ImGuiDirectX/imgui_impl_win32.h"
+#include "dependences/ImGuiDirectX/imgui_impl_dx11.h"
 
 #include "resource.h"
 
@@ -48,8 +53,8 @@ D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
 
 
-CDevice*							g_pd3dDevice = new CDevice();
-CInterfaceDevice*					g_pImmediateContext = new CInterfaceDevice();
+CDevice*							g_Device = new CDevice();
+CInterfaceDevice*					g_DeviceContext = new CInterfaceDevice();
 CSwapChain*							g_SwapChain = new CSwapChain();
 CRenderTargetView*					g_RenderTargetView = new CRenderTargetView();
 CDepthStencilView*					g_DepthStencilView = new CDepthStencilView();
@@ -80,20 +85,24 @@ CBuffer*							g_pCBChangesEveryFram = new CBuffer();
 //ID3D11Buffer*                       g_pCBChangesEveryFrame = NULL;
 
 CShaderResourceView*				g_TextureRV = new CShaderResourceView();
+CTexture							g_Texture;
 CSamplerState*						g_SamplerLinear = new CSamplerState();
 
 //ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 //ID3D11SamplerState*                 g_pSamplerLinear = NULL;
 
 XMMATRIX                            g_World;
-XMMATRIX                            g_View;
-XMMATRIX                            g_Projection;
-XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
+//XMMATRIX                            g_View;
+//XMMATRIX                            g_Projection;
+XMFLOAT4                            g_vMeshColor( 1, 1, 1, 1.0f );
 
-const aiScene*                      g_model;
-Assimp::Importer					importador;
 //CDevice*							g_Device = new DeviceD3D11();
 
+CCameraManager*						CamMan = new CCameraManager();
+CMeshManager*						MeshMan = new CMeshManager();
+
+POINT								MPos;
+bool								MousePressed = false;
 
 
 //--------------------------------------------------------------------------------------
@@ -124,10 +133,104 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         return 0;
     }
 
+	
     // Main message loop
     MSG msg = {0};
+	
     while( WM_QUIT != msg.message )
     {
+		if (msg.message == WM_KEYDOWN)
+		{
+			XMVECTOR rot;
+			XMFLOAT3 movement(0.0f, 0.0f, 0.0f);
+			switch (msg.wParam)
+			{
+			case VK_LEFT:
+			{
+				movement.x -= 1;
+				break;
+			}
+
+			case VK_RIGHT:
+			{
+				movement.x += 1;
+				break;
+			}
+
+			case VK_UP:
+			{
+				movement.z += 1;
+				break;
+			}
+
+			case VK_DOWN:
+			{	
+				movement.z -= 1;
+				break;
+			}
+			case VK_NUMPAD1:
+				movement.y -= 1;
+				break;
+			case VK_NUMPAD4:
+				movement.y += 1;
+				break;
+
+			
+			case VK_SPACE:
+			{
+				if (true)
+				{
+
+					RECT rc;
+					GetClientRect(g_hWnd, &rc);
+					UINT width = rc.right - rc.left;
+					UINT height = rc.bottom - rc.top;
+					CamMan->swichProjection(width, height);
+
+					CBChangeOnResize cbChangesOnResize;
+					cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
+					g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0);
+				}
+				break;
+			}
+			default:
+				break;
+			}
+			CamMan->move(&movement);
+			
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);
+
+			
+		}
+
+		if (MousePressed) {
+
+			POINT lastPos = MPos;
+			GetPhysicalCursorPos(&MPos);
+			lastPos.x = lastPos.x - MPos.x;
+			lastPos.y = lastPos.y - MPos.y;
+			CamMan->rotate(&lastPos);
+
+			CamMan->update();
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);
+
+		}
+
+		if (msg.message == WM_EXITSIZEMOVE) {
+			if (true) {
+			}
+			/*RECT rc;
+			GetClientRect(g_hWnd, &rc);
+			UINT width = rc.right - rc.left;
+			UINT height = rc.bottom - rc.top;
+			CamMan->setProjectionMatrix(width, height);*/
+		}
+
+
         if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
         {
             TranslateMessage( &msg );
@@ -212,8 +315,76 @@ HRESULT CompileShaderFromFile( WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR sz
 
     return S_OK;
 }
+// Reflect https://takinginitiative.wordpress.com/2011/12/11/directx-1011-basic-shader-reflection-automatic-input-layout-creation/
+
+HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob)
+{
+	// Reflect shader info
+	ID3D11ShaderReflection* pVertexShaderReflection = NULL;
+	if (FAILED(D3DReflect(pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pVertexShaderReflection)))
+	{
+		return S_FALSE;
+	}
+
+	// Get shader info
+	D3D11_SHADER_DESC shaderDesc;
+	pVertexShaderReflection->GetDesc(&shaderDesc);
+
+	// Read input layout description from shader info
+	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
+	for (unsigned int i = 0; i < shaderDesc.InputParameters; i++)
+	{
+		D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
+		pVertexShaderReflection->GetInputParameterDesc(i, &paramDesc);
+
+		// fill out input element desc
+		D3D11_INPUT_ELEMENT_DESC elementDesc;
+		elementDesc.SemanticName = paramDesc.SemanticName;
+		elementDesc.SemanticIndex = paramDesc.SemanticIndex;
+		elementDesc.InputSlot = 0;
+		elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+		elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		elementDesc.InstanceDataStepRate = 0;
+
+		// determine DXGI format
+		if (paramDesc.Mask == 1)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 3)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 7)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		}
+		else if (paramDesc.Mask <= 15)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		}
+
+		//save element desc
+		inputLayoutDesc.push_back(elementDesc);
+	}
+
+	// Try to create Input Layout
+	HRESULT hr = g_Device->CreateInputLayout(&inputLayoutDesc[0], inputLayoutDesc.size(), pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
+
+	//Free allocation shader reflection memory
+	pVertexShaderReflection->Release();
 
 
+	return hr;
+}
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
 //--------------------------------------------------------------------------------------
@@ -247,27 +418,13 @@ HRESULT InitDevice()
     };
     UINT numFeatureLevels = ARRAYSIZE( featureLevels );
 
-    /*DXGI_SWAP_CHAIN_DESC sd;
-    ZeroMemory( &sd, sizeof( sd ) );
-    sd.BufferCount = 1;
-    sd.BufferDesc.Width = width;
-    sd.BufferDesc.Height = height;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = g_hWnd;
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;*/
-
 	g_SwapChain->init(width, height, g_hWnd);
 
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
         g_driverType = driverTypes[driverTypeIndex];
-		hr = g_pd3dDevice->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, g_SwapChain->getSwapChainDesc(), g_SwapChain->getSwapChain(), &g_featureLevel, g_pImmediateContext->getInterface());
+		hr = g_Device->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, g_SwapChain->getSwapChainDesc(), g_SwapChain->getSwapChain(), &g_featureLevel, g_DeviceContext->getInterface());
         if( SUCCEEDED( hr ) )
             break;
     }
@@ -275,65 +432,28 @@ HRESULT InitDevice()
         return hr;
 
     // Create a render target view
-    ID3D11Texture2D* pBackBuffer = NULL;
 
-    //hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
-	hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-    if( FAILED( hr ) )
-        return hr;
-
-	hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, g_RenderTargetView->getRenderTargetView());
-
-    pBackBuffer->Release();
-    if( FAILED( hr ) )
-        return hr;
-
-    // Create depth stencil texture
-
-    /*D3D11_TEXTURE2D_DESC descDepth;
-
-    ZeroMemory( &descDepth, sizeof(descDepth) );
-    descDepth.Width = width;
-    descDepth.Height = height;
-    descDepth.MipLevels = 1;
-    descDepth.ArraySize = 1;
-    descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    descDepth.SampleDesc.Count = 1;
-    descDepth.SampleDesc.Quality = 0;
-    descDepth.Usage = D3D11_USAGE_DEFAULT;
-    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    descDepth.CPUAccessFlags = 0;
-    descDepth.MiscFlags = 0;*/
-
-
+	CTexture BackBuffer;
+	hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)BackBuffer.getTexture());
+	if (FAILED(hr))
+		return hr;
+	hr = g_Device->CreateRenderTargetView(*BackBuffer.getTexture(), NULL, g_RenderTargetView->getRenderTargetView());
+	BackBuffer.Realase();
+	if (FAILED(hr))
+		return hr;
 	g_DepthStencilView->init(width, height);
-
-	hr = g_pd3dDevice->CreateTexture2D(g_DepthStencilView->getDescDepth(), NULL, g_DepthStencilView->getDepthStencil());
-    if( FAILED( hr ) )
-        return hr;
-
-    // Create the depth stencil view
-    /*D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-    ZeroMemory( &descDSV, sizeof(descDSV) );
-    descDSV.Format = descDepth.Format;
-    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-    descDSV.Texture2D.MipSlice = 0;*/
-
-	hr = g_pd3dDevice->CreateDepthStencilView(*g_DepthStencilView->getDepthStencil(), g_DepthStencilView->getDescDepthStencilView(), g_DepthStencilView->getDepthStencilView());
-    if( FAILED( hr ) )
-        return hr;
-
-    g_pImmediateContext->OMSetRenderTargets( 1, g_RenderTargetView->getRenderTargetView(), *g_DepthStencilView->getDepthStencilView());
+	hr = g_Device->CreateTexture2D(g_DepthStencilView->getDescDepth(), NULL, g_DepthStencilView->getDepthStencil());
+	if (FAILED(hr))
+		return hr;
+	hr = g_Device->CreateDepthStencilView(*g_DepthStencilView->getDepthStencil(), g_DepthStencilView->getDescDepthStencilView(), g_DepthStencilView->getDepthStencilView());
+	if (FAILED(hr))
+		return hr;
+	g_DeviceContext->OMSetRenderTargets(1, g_RenderTargetView->getRenderTargetView(), *g_DepthStencilView->getDepthStencilView());
 
     // Setup the viewport
-    D3D11_VIEWPORT vp;
-    vp.Width = (FLOAT)width;
-    vp.Height = (FLOAT)height;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    g_pImmediateContext->RSSetViewports( 1, &vp );
+	CViewport viewport;
+	viewport.init(0, 0, (FLOAT)width, (FLOAT)height, 0.0f, 1.0f);
+	g_DeviceContext->RSSetViewports(1, viewport.getVP());
 
     // Compile the vertex shader
     ID3DBlob* pVSBlob = NULL;
@@ -346,7 +466,7 @@ HRESULT InitDevice()
     }
 
     // Create the vertex shader
-    hr = g_pd3dDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, g_VertexShader->getVertexShader());
+    hr = g_Device->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, g_VertexShader->getVertexShader());
     if( FAILED( hr ) )
     {    
         pVSBlob->Release();
@@ -358,17 +478,19 @@ HRESULT InitDevice()
 
 	g_VertexLayout->setLayoutDesc("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, INPUT_PER_VERTEX_DATA, 0);
 	g_VertexLayout->setLayoutDesc("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, INPUT_PER_VERTEX_DATA, 0);
-    UINT numElements = g_VertexLayout->getLayoutSize();
-	
-	// Create the input layout
-    hr = g_pd3dDevice->CreateInputLayout(g_VertexLayout->getLayoutDesc(), numElements, pVSBlob->GetBufferPointer(),
-                                          pVSBlob->GetBufferSize(), g_VertexLayout->getInputLayout());
-    pVSBlob->Release();
-    if( FAILED( hr ) )
-        return hr;
 
+	//// Create the input layout
+
+	hr = CreateInputLayoutDescFromVertexShaderSignature(pVSBlob);
+	if (FAILED(hr))
+	{
+		pVSBlob->Release();
+		return hr;
+	}
+
+	pVSBlob->Release();
     // Set the input layout
-    g_pImmediateContext->IASetInputLayout(*g_VertexLayout->getInputLayout());
+    g_DeviceContext->IASetInputLayout(*g_VertexLayout->getInputLayout());
 
     // Compile the pixel shader
     ID3DBlob* pPSBlob = NULL;
@@ -381,70 +503,94 @@ HRESULT InitDevice()
     }
 
     // Create the pixel shader
-    hr = g_pd3dDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, g_PixelShader->getPixelShader());
+    hr = g_Device->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, g_PixelShader->getPixelShader());
     pPSBlob->Release();
     if( FAILED( hr ) )
         return hr;
 
+	MeshMan->init("Scene\\Scene.fbx", aiProcess_Triangulate, g_Device);
+	MeshMan->getMeshes()->size();
+	for (unsigned int i = 0; i < MeshMan->getMeshes()->size() ; i++)
+	{
+		//CreateVertex Buffer
+		hr = g_Device->CreateBuffer(
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getBufferDesc(),
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getInitData(),
+			MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer());
+
+		if (FAILED(hr))
+			return hr;
+
+		// Set vertex buffer
+		UINT stride = sizeof(SimpleVertex);
+		UINT offset = 0;
+		g_DeviceContext->IASetVertexBuffers(0, 1, MeshMan->getMeshes()[0][i].getVertexBuffer()->getBuffer(), &stride, &offset);
+
+		//create indexBuffer
+		hr = g_Device->CreateBuffer(
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getBufferDesc(),
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getInitData(),
+			MeshMan->getMeshes()[0][i].getIndexBuffer()->getBuffer());
+		if (FAILED(hr))
+			return hr;
+
+		//set index buffer
+		g_DeviceContext->IASetIndexBuffer(
+			*MeshMan->getMeshes()[0][i].getIndexBuffer()->getBuffer(), 
+			DXGI_FORMAT_R16_UINT,
+			0);
+
+	}
+
+
+
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f ,1), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f ,1), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f ,1), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, -1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, -1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
+				 
+        { XMFLOAT4( -1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, -1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 1.0f ) },
+        { XMFLOAT4( 1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 1.0f, 0.0f ) },
+        { XMFLOAT4( -1.0f, 1.0f, 1.0f,1 ), XMFLOAT2( 0.0f, 0.0f ) },
     };
-
-    D3D11_BUFFER_DESC bd;
-    //ZeroMemory( &bd, sizeof(bd) );
-    //bd.Usage = D3D11_USAGE_DEFAULT;
-    //bd.ByteWidth = sizeof( SimpleVertex ) * 24;
-    //bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;//solo almacena vertices
-    //bd.CPUAccessFlags = 0;
-    //D3D11_SUBRESOURCE_DATA InitData;
-    //ZeroMemory( &InitData, sizeof(InitData) );
-    //InitData.pSysMem = vertices;
-
 
 	g_pVBuffer->init(24,VERTEX,vertices);
 
 
-    hr = g_pd3dDevice->CreateBuffer(g_pVBuffer->getBufferDesc(), g_pVBuffer->getInitData(), g_pVBuffer->getBuffer());
+    hr = g_Device->CreateBuffer(g_pVBuffer->getBufferDesc(), g_pVBuffer->getInitData(), g_pVBuffer->getBuffer());
     if( FAILED( hr ) )
         return hr;
 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
     UINT offset = 0;
-    g_pImmediateContext->IASetVertexBuffers( 0, 1, g_pVBuffer->getBuffer(), &stride, &offset );
+    g_DeviceContext->IASetVertexBuffers( 0, 1, g_pVBuffer->getBuffer(), &stride, &offset );
 
     // Create index buffer
-    // Create vertex buffer
     WORD indices[] =
     {
         3,1,0,
@@ -466,40 +612,31 @@ HRESULT InitDevice()
         23,20,22
     };
 
-    /*bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof( WORD ) * 36;
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    bd.CPUAccessFlags = 0;
-    InitData.pSysMem = indices;*/
 
 	g_pIBuffer->init(36, INDEX, indices);
-
-	hr = g_pd3dDevice->CreateBuffer(g_pIBuffer->getBufferDesc(), g_pIBuffer->getInitData() , g_pIBuffer->getBuffer());
+	hr = g_Device->CreateBuffer(g_pIBuffer->getBufferDesc(), g_pIBuffer->getInitData() , g_pIBuffer->getBuffer());
     if( FAILED( hr ) )
         return hr;
 
+
+
+
     // Set index buffer
-	g_pImmediateContext->IASetIndexBuffer(*g_pIBuffer->getBuffer(), DXGI_FORMAT_R16_UINT, 0);
+	g_DeviceContext->IASetIndexBuffer(*g_pIBuffer->getBuffer(), DXGI_FORMAT_R16_UINT, 0);
 
     // Set primitive topology
-    g_pImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
-    // Create the constant buffers
-    /*bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(CBNeverChanges);
-    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    bd.CPUAccessFlags = 0;*/
+    g_DeviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	g_pCBNCBuffer->init(sizeof(CBNeverChanges), CONSTANT);
 
-    hr = g_pd3dDevice->CreateBuffer(g_pCBNCBuffer->getBufferDesc(), NULL, g_pCBNCBuffer->getBuffer());
+    hr = g_Device->CreateBuffer(g_pCBNCBuffer->getBufferDesc(), NULL, g_pCBNCBuffer->getBuffer());
     if( FAILED( hr ) )
         return hr;
     
     //bd.ByteWidth = sizeof(CBChangeOnResize);
 	g_pCBChangeOnResiz->init(sizeof(CBChangeOnResize), CONSTANT);
 
-    hr = g_pd3dDevice->CreateBuffer(g_pCBChangeOnResiz->getBufferDesc(), NULL, g_pCBChangeOnResiz->getBuffer());
+    hr = g_Device->CreateBuffer(g_pCBChangeOnResiz->getBufferDesc(), NULL, g_pCBChangeOnResiz->getBuffer());
     if( FAILED( hr ) )
         return hr;
     
@@ -507,14 +644,21 @@ HRESULT InitDevice()
 
 	g_pCBChangesEveryFram->init(sizeof(CBChangesEveryFrame), CONSTANT);
 
-	hr = g_pd3dDevice->CreateBuffer(g_pCBChangesEveryFram->getBufferDesc() , NULL, g_pCBChangesEveryFram->getBuffer());
+	hr = g_Device->CreateBuffer(g_pCBChangesEveryFram->getBufferDesc() , NULL, g_pCBChangesEveryFram->getBuffer());
     if( FAILED( hr ) )
         return hr;
 
     // Load the Texture
-	hr = g_pd3dDevice->CreateShaderResourceViewFromFile(L"rails.dds", NULL, NULL, g_TextureRV->getTextureRV(), NULL);
+	hr = g_Device->CreateShaderResourceViewFromFile(L"Toad_a.dds", NULL, NULL, g_TextureRV->getTextureRV(), NULL);
     if( FAILED( hr ) )
         return hr;
+	for (unsigned int i = 0; i < MeshMan->getTexture()->size(); i++)
+	{
+		hr = g_Device->CreateShaderResourceViewFromFile(MeshMan->getTexture()[0][i].getPath(), NULL, NULL, MeshMan->getTexture()[0][i].getTextureRV(), NULL);
+		
+		if (FAILED(hr))
+			return hr;
+	}
 
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
@@ -526,7 +670,7 @@ HRESULT InitDevice()
     sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
     sampDesc.MinLOD = 0;
     sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-    hr = g_pd3dDevice->CreateSamplerState( &sampDesc, g_SamplerLinear->getSamplerLinear());
+    hr = g_Device->CreateSamplerState( &sampDesc, g_SamplerLinear->getSamplerLinear());
     if( FAILED( hr ) )
         return hr;
 
@@ -534,21 +678,35 @@ HRESULT InitDevice()
     g_World = XMMatrixIdentity();
 
     // Initialize the view matrix
-    XMVECTOR Eye = XMVectorSet( 0.0f, 3.0f, -6.0f, 0.0f );
-    XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    g_View = XMMatrixLookAtLH( Eye, At, Up );
+
+	CamMan->init();
 
     CBNeverChanges cbNeverChanges;
-    cbNeverChanges.mView = XMMatrixTranspose( g_View );
-    g_pImmediateContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0 );
+	cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+    g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0 );
 
     // Initialize the projection matrix
-    g_Projection = XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
-    
+	CamMan->setProjectionMatrix(width, height);
     CBChangeOnResize cbChangesOnResize;
-    cbChangesOnResize.mProjection = XMMatrixTranspose( g_Projection );
-    g_pImmediateContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0 );
+	cbChangesOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
+    g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &cbChangesOnResize, 0, 0 );
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX11_Init(g_Device->getDevice(), *g_DeviceContext->getInterface());
+	ImGui::StyleColorsLight();
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::Begin("Frames");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::SetWindowSize(ImVec2(400, 50));
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::End();
+	ImGui::Render();
+
 
     return S_OK;
 }
@@ -559,8 +717,9 @@ HRESULT InitDevice()
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-    if( g_pImmediateContext ) g_pImmediateContext->ClearState();
-
+    if( g_DeviceContext ) g_DeviceContext->ClearState();
+	if (CamMan) CamMan->destroy();
+	if (MeshMan)MeshMan->destroy();
     //if( g_pSamplerLinear ) g_pSamplerLinear->Release();
 	if (g_SamplerLinear) g_SamplerLinear->destroy();
     //if( g_pTextureRV ) g_pTextureRV->Release();
@@ -588,35 +747,97 @@ void CleanupDevice()
 	if (g_RenderTargetView)g_RenderTargetView->destroy();
     //if( g_pSwapChain ) g_pSwapChain->Release();
 	if (g_SwapChain)g_SwapChain->destroy();
-	if (g_pImmediateContext) { g_pImmediateContext->destroy(); }
-	if (g_pd3dDevice) { g_pd3dDevice->destroy(); }
+	if (g_DeviceContext) { g_DeviceContext->destroy(); }
+	if (g_Device) { g_Device->destroy(); }
 }
 
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    PAINTSTRUCT ps;
-    HDC hdc;
+	PAINTSTRUCT ps;
+	HDC hdc;
+	switch (message)
+	{
+	case WM_EXITSIZEMOVE:
+		if (true)
+		{
+			RECT rc;
+			GetClientRect(g_hWnd, &rc);
+			UINT width = rc.right - rc.left;
+			UINT height = rc.bottom - rc.top;
+			g_DeviceContext->OMSetRenderTargets(0, 0, 0);
+			g_RenderTargetView->Release();
+			HRESULT hr;
+			hr = g_SwapChain->ResizeBuffer(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+			if (FAILED(hr))
+				return hr;
+			CTexture BackBuffer;
+			hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)BackBuffer.getTexture());
+			if (FAILED(hr))
+				return hr;
+			hr = g_Device->CreateRenderTargetView(*BackBuffer.getTexture(), NULL, g_RenderTargetView->getRenderTargetView());
+			BackBuffer.Realase();
+			if (FAILED(hr))
+				return hr;
+			g_DepthStencilView->init(width, height);
+			hr = g_Device->CreateTexture2D(g_DepthStencilView->getDescDepth(), NULL, g_DepthStencilView->getDepthStencil());
+			if (FAILED(hr))
+				return hr;
+			hr = g_Device->CreateDepthStencilView(*g_DepthStencilView->getDepthStencil(), g_DepthStencilView->getDescDepthStencilView(), g_DepthStencilView->getDepthStencilView());
+			if (FAILED(hr))
+				return hr;
+			g_DeviceContext->OMSetRenderTargets(1, g_RenderTargetView->getRenderTargetView(), *g_DepthStencilView->getDepthStencilView());
+			CViewport viewport;
+			viewport.init(0, 0, (FLOAT)width, (FLOAT)height, 0.0f, 1.0f);
+			g_DeviceContext->RSSetViewports(1, viewport.getVP());
+			CamMan->setProjectionMatrix(width, height);
+			CBChangeOnResize ChOnResize;
+			ChOnResize.mProjection = XMMatrixTranspose(CamMan->getProjectionMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBChangeOnResiz->getBuffer(), 0, NULL, &ChOnResize, 0, 0);
+		}
+		break;
+	case WM_LBUTTONDOWN:
 
-    switch( message )
-    {
-        case WM_PAINT:
-            hdc = BeginPaint( hWnd, &ps );
-            EndPaint( hWnd, &ps );
-            break;
+		/*if (MPos.x != 0 || MPos.y != 0) {
+			POINT lastPos=MPos;
+			GetPhysicalCursorPos(&MPos);
+			lastPos.x = lastPos.x - MPos.x;
+			lastPos.y = lastPos.y - MPos.y;
+			CamMan->rotate(&lastPos);
 
-        case WM_DESTROY:
-            PostQuitMessage( 0 );
-            break;
+			CamMan->update();
+			CBNeverChanges cbNeverChanges;
+			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
+			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);\
+			}*/
 
-        default:
-            return DefWindowProc( hWnd, message, wParam, lParam );
-    }
 
-    return 0;
+		GetPhysicalCursorPos(&MPos);
+		MousePressed = true;
+
+		break;
+	case WM_LBUTTONUP:
+		MPos.x = 0;
+		MPos.y = 0;
+		MousePressed = false;
+		break;
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	return 0;
 }
 
 
@@ -641,72 +862,44 @@ void Render()
     }
 
     // Rotate cube around the origin
-    g_World = XMMatrixRotationY( t );
 
+     //g_World = XMMatrixRotationY( t );
 
-
-    // Modify the color
-    g_vMeshColor.x = ( sinf( t * 1.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.y = ( cosf( t * 3.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.z = ( sinf( t * 5.0f ) + 1.0f ) * 0.5f;
 
     //
     // Clear the back buffer
     //
-    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+    float ClearColor[4] = { 0.3f, 0.05f, 0.0f, 1.0f }; // red, green, blue, alpha
 
-	g_pImmediateContext->ClearRenderTargetView(*g_RenderTargetView->getRenderTargetView(), ClearColor);
+	g_DeviceContext->ClearRenderTargetView(*g_RenderTargetView->getRenderTargetView(), ClearColor);
 
     //
     // Clear the depth buffer to 1.0 (max depth)
     //
-    g_pImmediateContext->ClearDepthStencilView(*g_DepthStencilView->getDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    g_DeviceContext->ClearDepthStencilView(*g_DepthStencilView->getDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
     //
     // Update variables that change once per frame
     //
-	XMMATRIX cpy_g = XMMatrixIdentity();
-    CBChangesEveryFrame cb;
-	CBChangesEveryFrame cb1;
-	cpy_g = XMMatrixMultiplyTranspose(XMMatrixScaling(cos(t)*cos(t), cos(t)*cos(t), cos(t)*cos(t)), cpy_g);
-    cb1.mWorld = XMMatrixMultiplyTranspose(cpy_g, XMMatrixTranslation(2, 0, 0));
-    cb1.vMeshColor = g_vMeshColor;
-    g_pImmediateContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb1, 0, 0 );
 
-    //
-    // Render the cube
-    //
-    g_pImmediateContext->VSSetShader(*g_VertexShader->getVertexShader(), NULL, 0 );
-    g_pImmediateContext->VSSetConstantBuffers( 0, 1, g_pCBNCBuffer->getBuffer());
-    g_pImmediateContext->VSSetConstantBuffers( 1, 1, g_pCBChangeOnResiz->getBuffer());
-    g_pImmediateContext->VSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_pImmediateContext->PSSetShader( *g_PixelShader->getPixelShader(), NULL, 0 );
-    g_pImmediateContext->PSSetConstantBuffers( 2, 1, g_pCBChangesEveryFram->getBuffer());
-    g_pImmediateContext->PSSetShaderResources( 0, 1, g_TextureRV->getTextureRV());
-    g_pImmediateContext->PSSetSamplers( 0, 1, g_SamplerLinear->getSamplerLinear());
-    g_pImmediateContext->DrawIndexed( 36, 0, 0 );
+	shadersBuffers SB = { g_pCBNCBuffer ,g_pCBChangeOnResiz,g_pCBChangesEveryFram,g_VertexShader,g_PixelShader,g_SamplerLinear };
 
-	// cubo de la izquierda
-    cb.mWorld = XMMatrixTranspose( g_World );
-    cb.vMeshColor = g_vMeshColor;
-    g_pImmediateContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0 );
 
-	cb.mWorld = XMMatrixMultiplyTranspose(g_World, XMMatrixTranslation(-2, 0, 0));
-	cb.vMeshColor = g_vMeshColor;
-	g_pImmediateContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0);
-    g_pImmediateContext->DrawIndexed( 36, 0, 0 );
+	MeshMan->render(g_DeviceContext, SB);
 
-	//cubo de la centro
-	g_World = XMMatrixMultiplyTranspose(g_World, XMMatrixTranslation(0, 0, 0));
-	g_World = XMMatrixMultiplyTranspose(XMMatrixScaling(sin(t)*sin(t),sin(t)*sin(t), sin(t)*sin(t)), g_World);
-	cb.mWorld = XMMatrixTranspose(g_World);
-	cb.vMeshColor = g_vMeshColor;
-	g_pImmediateContext->UpdateSubresource(*g_pCBChangesEveryFram->getBuffer(), 0, NULL, &cb, 0, 0);
 
-    g_pImmediateContext->DrawIndexed( 36, 0, 0 );
-	
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::Begin("Frames");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
     //
     // Present our back buffer to our front buffer
+	
     //
     //g_pSwapChain->Present( 0, 0 );
 	g_SwapChain->Present(0, 0);

@@ -22,6 +22,13 @@ public:
 		UINT SyncInterval,
 		UINT Flags);
 
+	HRESULT ResizeBuffer(
+		UINT BufferCount,
+		UINT Width,
+		UINT Height,
+		DXGI_FORMAT NewFormat,
+		UINT SwapChainFlags);	
+
 
 	bool init(UINT WIDTH,UINT HEIGHT, HWND hWnd);
 	void render();

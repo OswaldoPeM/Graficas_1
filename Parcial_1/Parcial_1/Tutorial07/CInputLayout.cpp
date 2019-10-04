@@ -36,6 +36,7 @@ void CInputLayout::setLayoutDesc(
 	}
 }
 
+
 void CInputLayout::destoy()
 {
 	if(g_pVertexLayout)g_pVertexLayout->Release();
