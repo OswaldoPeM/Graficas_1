@@ -25,7 +25,7 @@ CMesh::CMesh(aiMesh * mesh)
 				 1),
 				XMFLOAT2(
 				 (float)mesh->mTextureCoords[0][i].x ,
-				 (float)mesh->mTextureCoords[0][i].y )
+				 -(float)mesh->mTextureCoords[0][i].y )
 		};
 	}
 	for (int i = 0, j = 0; i < mesh->mNumFaces; i++)

@@ -3,7 +3,7 @@
 
 #include"CMesh.h"
 #include"CShaderResourceView.h"
-struct shadersBuffers {
+struct RenderBuffers {
 	CBuffer* NCh;
 	CBuffer* ChR;
 	CBuffer* ChEF;
@@ -23,7 +23,7 @@ public:
 	std::vector<CShaderResourceView>* getTexture();
 
 	bool init(const std::string& pFile, unsigned int pFlags, CDevice* Device);
-	void render(CInterfaceDevice* DeviceContext, shadersBuffers SB );
+	void render(CInterfaceDevice* DeviceContext, RenderBuffers SB );
 	void update();
 	void destroy();
 

@@ -882,7 +882,7 @@ void Render()
     // Update variables that change once per frame
     //
 
-	shadersBuffers SB = { g_pCBNCBuffer ,g_pCBChangeOnResiz,g_pCBChangesEveryFram,g_VertexShader,g_PixelShader,g_SamplerLinear };
+	RenderBuffers SB = { g_pCBNCBuffer ,g_pCBChangeOnResiz,g_pCBChangesEveryFram,g_VertexShader,g_PixelShader,g_SamplerLinear };
 
 
 	MeshMan->render(g_DeviceContext, SB);

@@ -33,7 +33,7 @@ bool CMeshManager::init(const std::string & pFile, unsigned int pFlags, CDevice*
 
 			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
 				
-				std::string FullPath = "";
+				std::string FullPath = "resources//";
 				FullPath = FullPath + Path.data;
 				FullPath[FullPath.size() - 3] = 'd';
 				FullPath[FullPath.size() - 2] = 'd';
@@ -47,7 +47,7 @@ bool CMeshManager::init(const std::string & pFile, unsigned int pFlags, CDevice*
 	return true;
 }
 
-void CMeshManager::render(CInterfaceDevice* DeviceContext, shadersBuffers SB)
+void CMeshManager::render(CInterfaceDevice* DeviceContext, RenderBuffers SB)
 {
 	CBChangesEveryFrame cb;
 	XMMATRIX g_World = XMMatrixIdentity();
@@ -57,6 +57,7 @@ void CMeshManager::render(CInterfaceDevice* DeviceContext, shadersBuffers SB)
 
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
+		t = (i & 1) ? -t : t;
 		meshes[i].setPosition(XMMatrixRotationY(t*i));
 
 		cb.vMeshColor = g_vMeshColor;
@@ -89,9 +90,9 @@ void CMeshManager::render(CInterfaceDevice* DeviceContext, shadersBuffers SB)
 			*meshes[i].getIndexBuffer()->getBuffer(),
 			DXGI_FORMAT_R16_UINT,
 			0);
-		//DeviceContext->PSSetSamplers(0, 1, SB.SS->getSamplerLinear());
 		DeviceContext->PSSetSamplers(0, 1, SB.SS->getSamplerLinear());
 		DeviceContext->DrawIndexed(meshes[i].getNumI()*3, 0, 0);
+		t = (i & 1) ? -t : t;
 	}
 }
 
