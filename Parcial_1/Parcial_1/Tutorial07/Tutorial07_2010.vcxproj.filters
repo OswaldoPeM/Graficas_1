@@ -53,6 +53,7 @@
     <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="CComp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -112,6 +113,7 @@
     <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="CComp.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

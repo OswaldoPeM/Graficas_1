@@ -800,24 +800,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_LBUTTONDOWN:
-
-		/*if (MPos.x != 0 || MPos.y != 0) {
-			POINT lastPos=MPos;
-			GetPhysicalCursorPos(&MPos);
-			lastPos.x = lastPos.x - MPos.x;
-			lastPos.y = lastPos.y - MPos.y;
-			CamMan->rotate(&lastPos);
-
-			CamMan->update();
-			CBNeverChanges cbNeverChanges;
-			cbNeverChanges.mView = XMMatrixTranspose(CamMan->getViewMatrix());
-			g_DeviceContext->UpdateSubresource(*g_pCBNCBuffer->getBuffer(), 0, NULL, &cbNeverChanges, 0, 0);\
-			}*/
-
-
 		GetPhysicalCursorPos(&MPos);
 		MousePressed = true;
-
 		break;
 	case WM_LBUTTONUP:
 		MPos.x = 0;
