@@ -56,6 +56,8 @@
     <ClCompile Include="CComp.cpp" />
     <ClCompile Include="CActor.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="CSingleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx">
@@ -118,6 +120,8 @@
     <ClInclude Include="CComp.h" />
     <ClInclude Include="CActor.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="AABB.h" />
+    <ClInclude Include="CSingleton.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

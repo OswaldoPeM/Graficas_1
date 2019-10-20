@@ -84,13 +84,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>DXUT\Optional;DXUT\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -99,8 +99,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>DXUT\Optional;DXUT\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SupportJustMyCode>false</SupportJustMyCode>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -120,12 +120,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\x64;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -133,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>DXUT\Optional;DXUT\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -142,8 +143,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,7 +157,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>DXUT\Optional;DXUT\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -165,34 +166,45 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\x64;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="dependences\ImGuiDirectX\imconfig.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imgui.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_dx11.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_win32.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_internal.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_rectpack.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_textedit.h" />
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h" />
+    <ClInclude Include="dependences\ImGui\imconfig.h" />
+    <ClInclude Include="dependences\ImGui\imgui.h" />
+    <ClInclude Include="dependences\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="dependences\ImGui\imgui_impl_glut.h" />
+    <ClInclude Include="dependences\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="dependences\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="dependences\ImGui\imgui_internal.h" />
+    <ClInclude Include="dependences\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="dependences\ImGui\imstb_textedit.h" />
+    <ClInclude Include="dependences\ImGui\imstb_truetype.h" />
+    <ClInclude Include="enumers.h" />
     <ClInclude Include="Header.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="RAABB.h" />
+    <ClInclude Include="RActor.h" />
+    <ClInclude Include="RBuffer.h" />
+    <ClInclude Include="RComponent.h" />
+    <ClInclude Include="RModule.h" />
+    <ClInclude Include="RRenderManager.h" />
+    <ClInclude Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui.cpp" />
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_draw.cpp" />
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_dx11.cpp" />
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_win32.cpp" />
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="dependences\ImGui\imgui.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_impl_glut.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="dependences\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="RAABB.cpp" />
+    <ClCompile Include="RActor.cpp" />
+    <ClCompile Include="RBuffer.cpp" />
+    <ClCompile Include="RComponent.cpp" />
     <ClCompile Include="REngine_test.cpp" />
+    <ClCompile Include="RRenderManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

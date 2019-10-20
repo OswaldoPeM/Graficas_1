@@ -18,58 +18,103 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imconfig.h">
+    <ClInclude Include="RActor.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RComponent.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RAABB.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="enumers.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RBuffer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGui\imconfig.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imgui.h">
+    <ClInclude Include="dependences\ImGui\imgui.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_dx11.h">
+    <ClInclude Include="dependences\ImGui\imgui_impl_dx11.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_impl_win32.h">
+    <ClInclude Include="dependences\ImGui\imgui_impl_glut.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imgui_internal.h">
+    <ClInclude Include="dependences\ImGui\imgui_impl_opengl3.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_rectpack.h">
+    <ClInclude Include="dependences\ImGui\imgui_impl_win32.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_textedit.h">
+    <ClInclude Include="dependences\ImGui\imgui_internal.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h">
+    <ClInclude Include="dependences\ImGui\imstb_rectpack.h">
       <Filter>ImGuiDx</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGui\imstb_textedit.h">
+      <Filter>ImGuiDx</Filter>
+    </ClInclude>
+    <ClInclude Include="dependences\ImGui\imstb_truetype.h">
+      <Filter>ImGuiDx</Filter>
+    </ClInclude>
+    <ClInclude Include="RRenderManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RModule.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="REngine_test.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui.cpp">
+    <ClCompile Include="RActor.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RComponent.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RAABB.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RBuffer.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGui\imgui.cpp">
       <Filter>ImGuiDx</Filter>
     </ClCompile>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_draw.cpp">
+    <ClCompile Include="dependences\ImGui\imgui_draw.cpp">
       <Filter>ImGuiDx</Filter>
     </ClCompile>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_dx11.cpp">
+    <ClCompile Include="dependences\ImGui\imgui_impl_dx11.cpp">
       <Filter>ImGuiDx</Filter>
     </ClCompile>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_win32.cpp">
+    <ClCompile Include="dependences\ImGui\imgui_impl_glut.cpp">
       <Filter>ImGuiDx</Filter>
     </ClCompile>
-    <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp">
+    <ClCompile Include="dependences\ImGui\imgui_impl_opengl3.cpp">
       <Filter>ImGuiDx</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGuiDx</Filter>
+    </ClCompile>
+    <ClCompile Include="dependences\ImGui\imgui_widgets.cpp">
+      <Filter>ImGuiDx</Filter>
+    </ClCompile>
+    <ClCompile Include="RRenderManager.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

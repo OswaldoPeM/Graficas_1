@@ -1,14 +1,13 @@
 // REngine_test.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
 //
 #include"Header.h";
-#include "pch.h"
 #include <iostream>
+#include"RAABB.h"
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	return 0;
 }
-
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
 

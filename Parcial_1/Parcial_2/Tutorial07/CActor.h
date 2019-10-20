@@ -8,7 +8,7 @@ public:
 
 	std::vector<CComp>* getComp();
 
-	void setComp(CComp* comp);
+	void addComp(CComp* comp);
 	void destroyComp(int index);
 
 

@@ -397,6 +397,7 @@
     <ClCompile Include="CRenderTargetView.cpp" />
     <ClCompile Include="CSamplerState.cpp" />
     <ClCompile Include="CShaderResourceView.cpp" />
+    <ClCompile Include="CSingleton.cpp" />
     <ClCompile Include="CSwapChain.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CVertexShader.cpp" />
@@ -432,6 +433,7 @@
     <ClInclude Include="CRenderTargetView.h" />
     <ClInclude Include="CSamplerState.h" />
     <ClInclude Include="CShaderResourceView.h" />
+    <ClInclude Include="CSingleton.h" />
     <ClInclude Include="CSwapChain.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CVertexShader.h" />

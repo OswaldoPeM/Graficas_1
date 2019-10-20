@@ -1,6 +1,6 @@
 #pragma once
 #include <d3d11.h>
-#include <d3dx11.h>
+//#include <d3dx11.h>
 #include "STRUCTS.h"
 
 typedef enum BFlags
@@ -11,6 +11,9 @@ typedef enum BFlags
 
 };
 
+/**
+	*Describes a buffer resource.
+*/
 class CBuffer
 {
 	ID3D11Buffer* ptr_buffer = NULL;
