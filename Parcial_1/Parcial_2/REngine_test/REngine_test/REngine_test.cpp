@@ -3,9 +3,14 @@
 #include"Header.h";
 #include <iostream>
 #include"RAABB.h"
+#include"RRenderManager.h"
 
 int main()
 {
+	RRenderManager::StartUp(NULL);
+	RBuffer* buffer;
+	//buffer->init();
+	RRenderManager::ShutDown();
 	return 0;
 }
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar

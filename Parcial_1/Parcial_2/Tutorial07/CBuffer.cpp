@@ -1,5 +1,5 @@
 #include "CBuffer.h"
-
+#include "CSingleton.h"
 
 
 bool CBuffer::init(int size, BFlags FLAG, SimpleVertex * vertices)
@@ -12,7 +12,7 @@ bool CBuffer::init(int size, BFlags FLAG, SimpleVertex * vertices)
 
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertices;
-
+	CSingleton::getInstance();
 	return true;
 }
 

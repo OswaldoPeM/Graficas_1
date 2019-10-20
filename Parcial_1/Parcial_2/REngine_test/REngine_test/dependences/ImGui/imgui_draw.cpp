@@ -555,7 +555,7 @@ void ImDrawList::ChannelsSplit(int channels_count)
 
 void ImDrawList::ChannelsMerge()
 {
-    // Note that we never use or rely on channels.Size because it is merely a buffer that we never shrink back to 0 to keep all sub-buffers ready for use.
+    // Note that we never use or rely on channels.Size because it is merely a m_buffer that we never shrink back to 0 to keep all sub-buffers ready for use.
     if (_ChannelsCount <= 1)
         return;
 
@@ -688,7 +688,7 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
         const int vtx_count = thick_line ? points_count*4 : points_count*3;
         PrimReserve(idx_count, vtx_count);
 
-        // Temporary buffer
+        // Temporary m_buffer
         ImVec2* temp_normals = (ImVec2*)alloca(points_count * (thick_line ? 5 : 3) * sizeof(ImVec2)); //-V630
         ImVec2* temp_points = temp_normals + points_count;
 
@@ -714,7 +714,7 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 temp_points[(points_count-1)*2+1] = points[points_count-1] - temp_normals[points_count-1] * AA_SIZE;
             }
 
-            // FIXME-OPT: Merge the different loops, possibly remove the temporary buffer.
+            // FIXME-OPT: Merge the different loops, possibly remove the temporary m_buffer.
             unsigned int idx1 = _VtxCurrentIdx;
             for (int i1 = 0; i1 < count; i1++)
             {
@@ -769,7 +769,7 @@ void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32
                 temp_points[(points_count-1)*4+3] = points[points_count-1] - temp_normals[points_count-1] * (half_inner_thickness + AA_SIZE);
             }
 
-            // FIXME-OPT: Merge the different loops, possibly remove the temporary buffer.
+            // FIXME-OPT: Merge the different loops, possibly remove the temporary m_buffer.
             unsigned int idx1 = _VtxCurrentIdx;
             for (int i1 = 0; i1 < count; i1++)
             {
@@ -1288,7 +1288,7 @@ void ImDrawData::DeIndexAllBuffers()
 }
 
 // Helper to scale the ClipRect field of each ImDrawCmd.
-// Use if your final output buffer is at a different scale than draw_data->DisplaySize,
+// Use if your final output m_buffer is at a different scale than draw_data->DisplaySize,
 // or if there is a difference between your window resolution and framebuffer resolution.
 void ImDrawData::ScaleClipRects(const ImVec2& fb_scale)
 {
@@ -1627,7 +1627,7 @@ ImFont* ImFontAtlas::AddFontFromFileTTF(const char* filename, float size_pixels,
     return AddFontFromMemoryTTF(data, (int)data_size, size_pixels, &font_cfg, glyph_ranges);
 }
 
-// NB: Transfer ownership of 'ttf_data' to ImFontAtlas, unless font_cfg_template->FontDataOwnedByAtlas == false. Owned TTF buffer will be deleted after Build().
+// NB: Transfer ownership of 'ttf_data' to ImFontAtlas, unless font_cfg_template->FontDataOwnedByAtlas == false. Owned TTF m_buffer will be deleted after Build().
 ImFont* ImFontAtlas::AddFontFromMemoryTTF(void* ttf_data, int ttf_size, float size_pixels, const ImFontConfig* font_cfg_template, const ImWchar* glyph_ranges)
 {
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
@@ -1874,7 +1874,7 @@ bool    ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         dst_tmp_array[dst_i].GlyphsSet.Clear();
     dst_tmp_array.clear();
 
-    // Allocate packing character data and flag packed characters buffer as non-packed (x0=y0=x1=y1=0)
+    // Allocate packing character data and flag packed characters m_buffer as non-packed (x0=y0=x1=y1=0)
     // (We technically don't need to zero-clear buf_rects, but let's do it for the sake of sanity)
     ImVector<stbrp_rect> buf_rects;
     ImVector<stbtt_packedchar> buf_packedchars;
@@ -2790,7 +2790,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
         }
 
     // For large text, scan for the last visible line in order to avoid over-reserving in the call to PrimReserve()
-    // Note that very large horizontal line will still be affected by the issue (e.g. a one megabyte string buffer without a newline will likely crash atm)
+    // Note that very large horizontal line will still be affected by the issue (e.g. a one megabyte string m_buffer without a newline will likely crash atm)
     if (text_end - s > 10000 && !word_wrap_enabled)
     {
         const char* s_end = s;

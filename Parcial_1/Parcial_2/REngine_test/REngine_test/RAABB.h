@@ -37,7 +37,7 @@ class RAABB :
 	  *[6]Front	Bottom	Left
 	  *[7]Front	Bottom	Right 
 	*/
-	Rvertex4f m_vertex[8];
+	RVec4f m_vertex[8];
 public:
 
 	bool init();
@@ -45,7 +45,7 @@ public:
 	void update();
 	void destroy();
 
-	RAABB(Rvertex4f &max, Rvertex4f &min);
+	RAABB(RVec4f &max, RVec4f &min);
 	RAABB();
 	~RAABB();
 };

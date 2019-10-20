@@ -4,8 +4,8 @@ class CSingleton
 	CSingleton();
 	~CSingleton();
 public:
-	CSingleton& getInstance();
-
+	static CSingleton& getInstance();
+	
 
 };
 

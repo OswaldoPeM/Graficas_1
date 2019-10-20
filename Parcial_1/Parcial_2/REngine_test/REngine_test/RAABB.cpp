@@ -20,7 +20,7 @@ void RAABB::destroy()
 	free(this);
 }
 
-RAABB::RAABB(Rvertex4f & max, Rvertex4f & min) :
+RAABB::RAABB(RVec4f & max, RVec4f & min) :
 	m_vertex{
 		{ min.x,max.y,min.z,1},{ max.x,max.y,min.z,1},
 		{ min.x,min.y,min.z,1},{ max.x,min.y,min.z,1},

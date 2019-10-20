@@ -1,15 +1,16 @@
 #include "RBuffer.h"
+#include"RRenderManager.h"
 
 
-
-bool RBuffer::init(BUFFER_DESC &desc,SimpleVertex *vertices)
+bool RBuffer::init(BufferKey &DATA)
 {
 	m_description.clear();
 	m_initData.clear();
 
-	m_description = desc;
-	m_initData.pSysMem = vertices;
+	m_description	 = DATA.desc;
+	m_initData		 = DATA.data;
 #ifdef DX
+	RRenderManager::CreateBuffer(*this);
 #elif GL
 	RDevice::getDevice().CreateBuffer(1,m_buffer);
 #endif // DX|GL

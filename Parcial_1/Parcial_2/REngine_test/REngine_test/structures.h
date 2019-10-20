@@ -3,9 +3,9 @@
 
 
 /**
-	*float {x, y, z, w }
+	*float[4] {x, y, z, w }
 */
-struct Rvertex4f
+struct RVec4f
 {
 	float x;
 	float y;
@@ -14,23 +14,23 @@ struct Rvertex4f
 };
 
 /**
-	float{x, y}
+	float[2] {x, y}
 */
-struct Rvertex2f
+struct RVec2f
 {
 	float x;
 	float y;
 };
 
 /**
-	* {Rvertex4f,Rvertex2f} 
+	* {RVec4f,RVec2f} 
 	{Pos:{x, y, z, w },
 	Tex:{x, y}}
 */
 struct SimpleVertex
 {
-	Rvertex4f Pos;
-	Rvertex2f Tex;
+	RVec4f Pos;
+	RVec2f Tex;
 };
 
 struct CBNeverChanges
@@ -46,7 +46,7 @@ struct CBChangeOnResize
 struct CBChangesEveryFrame
 {
 	glm::mat4 mWorld;
-	Rvertex4f vMeshColor;
+	RVec4f vMeshColor;
 };
 
 struct BUFFER_DESC
@@ -70,7 +70,13 @@ struct SUBRESOURCE_DATA
 	unsigned int SysMemSlicePitch;
 	void clear() { memset(this, 0, sizeof(this)); }
 };
-
+/**
+	*Buffer init parameters
+*/
+struct BufferKey {
+	BUFFER_DESC			desc;
+	SUBRESOURCE_DATA	data; 
+};
 /**
 	*Cordenates at space.
 	long {x,y}
@@ -86,4 +92,17 @@ struct RPoint {
 struct RRect {
 	long width;
 	long height;
+};
+
+struct D3D11_TEXTURE2D_DESC {
+	unsigned int             Width;
+	unsigned int             Height;
+	unsigned int             MipLevels;
+	unsigned int             ArraySize;
+	DXGI_FORMAT      Format;
+	DXGI_SAMPLE_DESC SampleDesc;
+	D3D11_USAGE      Usage;
+	unsigned int             BindFlags;
+	unsigned int             CPUAccessFlags;
+	unsigned int             MiscFlags;
 };
