@@ -13,8 +13,8 @@ typedef enum INPUT_CLASSIFICATION
 
 class CInputLayout
 {
-	ID3D11InputLayout* g_pVertexLayout = NULL;
-	D3D11_INPUT_ELEMENT_DESC layoutDesc[2];
+		ID3D11InputLayout* g_pVertexLayout = NULL;
+		D3D11_INPUT_ELEMENT_DESC layoutDesc[2];
 
 public:
 	ID3D11InputLayout** getInputLayout();

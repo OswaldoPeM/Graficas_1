@@ -189,6 +189,8 @@
     <ClInclude Include="RComponent.h" />
     <ClInclude Include="RModule.h" />
     <ClInclude Include="RRenderManager.h" />
+    <ClInclude Include="RVertexShader.h" />
+    <ClInclude Include="RViewport.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +207,8 @@
     <ClCompile Include="RComponent.cpp" />
     <ClCompile Include="REngine_test.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
+    <ClCompile Include="RVertexShader.cpp" />
+    <ClCompile Include="RViewport.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

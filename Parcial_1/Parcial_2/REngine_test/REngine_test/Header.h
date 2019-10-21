@@ -1,6 +1,6 @@
 #pragma once
 #define DX 1
-#define GL 2
+//#define GL 2
 
 
 
@@ -17,6 +17,7 @@
 #include"dependences/Assimp/include/assimp/cimport.h"
 #include"dependences/Assimp/include/assimp/postprocess.h"
 #include"dependences/Assimp/include/assimp/Importer.hpp"
+
 
 /**
 	*Math library.
@@ -39,18 +40,18 @@
 	*Individual Includes by api.
  */
 
-//#ifdef DX 
+#ifdef DX 
 	#include <d3d11.h>
 	//#include <d3dx11.h>
 	#include <d3dcompiler.h>
 	//#include <xnamath.h>
 	#include "dependences/ImGui/imgui_impl_dx11.h"
-//#elif GL 
+#elif GL 
 	#include"dependences/INCLUDES/OpenGLRoot/GLEW/include/GL/glew.h"
 	#include "dependences/ImGui/imgui_impl_opengl3.h"	
 	//#include"dependences/INCLUDES/freeglut/include/GL/freeglut.h"
 
-//#endif // DX
+#endif // DX
 
 
 

@@ -72,7 +72,9 @@ enum RESOURCE_MISC_FLAG {
 };
 
 /**
-	*Format of data
+	*Resource data formats, including fully-typed and typeless formats.
+		A list of modifiers at the bottom of the page more fully describes
+		each format type.
 */
 enum FORMAT
 {
@@ -200,15 +202,43 @@ enum FORMAT
 
 	FORMAT_FORCE_UINT = 0xffffffff
 };
+/**
+	*Flags indicating the method the raster uses to create an image on a surface.
+*/
+enum MODE_SCANLINE_ORDER
+{
+	MODE_SCANLINE_ORDER_UNSPECIFIED = 0,
+	MODE_SCANLINE_ORDER_PROGRESSIVE = 1,
+	MODE_SCANLINE_ORDER_UPPER_FIELD_FIRST = 2,
+	MODE_SCANLINE_ORDER_LOWER_FIELD_FIRST = 3
+};
+/**
+	*Flags indicating how an image is stretched to fit a given monitor's resolution.
+*/
+enum MODE_SCALING {
+	MODE_SCALING_UNSPECIFIED = 0,
+	MODE_SCALING_CENTERED = 1,
+	MODE_SCALING_STRETCHED = 2
+};
+enum SWAP_EFFECT
+{
+	SWAP_EFFECT_DISCARD = 0,
+	SWAP_EFFECT_SEQUENTIAL = 1,
+	SWAP_EFFECT_FLIP_SEQUENTIAL = 3,
+	SWAP_EFFECT_FLIP_DISCARD = 4
+};
+/**
+	*Specifies how to access a resource used in a depth-stencil view.
+*/
 enum DSV_DIMENSION
 {
-	DSV_DIMENSION_UNKNOWN = 0,
-	DSV_DIMENSION_TEXTURE1D = 1,
-	DSV_DIMENSION_TEXTURE1DARRAY = 2,
-	DSV_DIMENSION_TEXTURE2D = 3,
-	DSV_DIMENSION_TEXTURE2DARRAY = 4,
-	DSV_DIMENSION_TEXTURE2DMS = 5,
-	DSV_DIMENSION_TEXTURE2DMSARRAY = 6
+	DSV_DIMENSION_UNKNOWN			= 0,
+	DSV_DIMENSION_TEXTURE1D			= 1,
+	DSV_DIMENSION_TEXTURE1DARRAY	= 2,
+	DSV_DIMENSION_TEXTURE2D			= 3,
+	DSV_DIMENSION_TEXTURE2DARRAY	= 4,
+	DSV_DIMENSION_TEXTURE2DMS		= 5,
+	DSV_DIMENSION_TEXTURE2DMSARRAY	= 6
 };
 
 enum result {
@@ -223,4 +253,32 @@ enum result {
 	_HANDLE			= 0x80070006,	//Handle that is not valid
 	_OUTOFMEMORY	= 0x8007000E,	//Failed to allocate necessary memory
 	_INVALIDARG		= 0x80070057	//One or more arguments are not valid
+};
+/**
+	*Driver type options.
+*/
+enum DRIVER_TYPE
+{
+	DRIVER_TYPE_UNKNOWN = 0,
+	DRIVER_TYPE_HARDWARE = (DRIVER_TYPE_UNKNOWN + 1),
+	DRIVER_TYPE_REFERENCE = (DRIVER_TYPE_HARDWARE + 1),
+	DRIVER_TYPE_NULL = (DRIVER_TYPE_REFERENCE + 1),
+	DRIVER_TYPE_SOFTWARE = (DRIVER_TYPE_NULL + 1),
+	DRIVER_TYPE_WARP = (DRIVER_TYPE_SOFTWARE + 1)
+};
+
+/**
+	*Describes the set of features targeted BY device.
+*/
+enum FEATURE_LEVEL
+{
+	FEATURE_LEVEL_9_1 = 0x9100,
+	FEATURE_LEVEL_9_2 = 0x9200,
+	FEATURE_LEVEL_9_3 = 0x9300,
+	FEATURE_LEVEL_10_0 = 0xa000,
+	FEATURE_LEVEL_10_1 = 0xa100,
+	FEATURE_LEVEL_11_0 = 0xb000,
+	FEATURE_LEVEL_11_1 = 0xb100,
+	FEATURE_LEVEL_12_0 = 0xc000,
+	FEATURE_LEVEL_12_1 = 0xc100
 };

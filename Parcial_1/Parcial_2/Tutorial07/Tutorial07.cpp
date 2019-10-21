@@ -460,8 +460,8 @@ HRESULT InitDevice()
     // Define the input layout
     
 
-	g_VertexLayout->setLayoutDesc("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, INPUT_PER_VERTEX_DATA, 0);
-	g_VertexLayout->setLayoutDesc("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, INPUT_PER_VERTEX_DATA, 0);
+	//g_VertexLayout->setLayoutDesc("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, INPUT_PER_VERTEX_DATA, 0);
+	//g_VertexLayout->setLayoutDesc("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, INPUT_PER_VERTEX_DATA, 0);
 
 	//// Create the input layout
 

@@ -4,13 +4,14 @@
 #include <iostream>
 #include"RAABB.h"
 #include"RRenderManager.h"
-
+RModule<RRenderManager> Modulo;
 int main()
 {
-	RRenderManager::StartUp(NULL);
-	RBuffer* buffer;
-	//buffer->init();
-	RRenderManager::ShutDown();
+	//DeviceKey key;
+	//RRenderManager::StartUp((void*) &key);
+	//RBuffer* buffer;
+	////buffer->init();
+	//RRenderManager::ShutDown();
 	return 0;
 }
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar

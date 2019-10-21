@@ -1565,8 +1565,7 @@ C_ENUM aiReturn aiGetMaterialTexture(const C_STRUCT aiMaterial* mat,
 
 #ifdef __cplusplus
 }
-
-#include "material.inl"
+#include"material.inl"
 
 #endif //!__cplusplus
 #endif //!!AI_MATERIAL_H_INC

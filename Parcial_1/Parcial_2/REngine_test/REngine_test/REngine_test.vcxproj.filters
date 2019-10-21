@@ -75,6 +75,12 @@
     <ClInclude Include="RModule.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="RViewport.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RVertexShader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="REngine_test.cpp">
@@ -114,6 +120,12 @@
       <Filter>ImGuiDx</Filter>
     </ClCompile>
     <ClCompile Include="RRenderManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RViewport.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RVertexShader.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

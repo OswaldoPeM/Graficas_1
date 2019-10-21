@@ -1,4 +1,5 @@
 #include "RRenderManager.h"
+#include<Windows.h>
 
 
 
@@ -9,6 +10,30 @@ RRenderManager::RRenderManager()
 
 RRenderManager::~RRenderManager()
 {
+}
+
+
+
+int RRenderManager::CreateDeviceAndSwapChain(DeviceKey & key)
+{
+#ifdef DX
+	D3D11CreateDeviceAndSwapChain(
+		NULL,
+		(D3D_DRIVER_TYPE)key.DriverType,
+		key.Software,
+		key.Flags,
+		(const D3D_FEATURE_LEVEL*)key.pFeatureLevels,
+		key.FeatureLevels,
+		key.SDKVersion,
+		(DXGI_SWAP_CHAIN_DESC*)key.pSwapChainDesc,
+		&Instance().m_swapChain,
+		&Instance().m_Device,
+		(D3D_FEATURE_LEVEL*)key.pFeatureLevel,
+		&Instance().m_InterfaceDevice
+	);
+#endif // DX
+
+	return _OK;
 }
 
 int RRenderManager::CreateBuffer(RBuffer & buffer)
@@ -64,4 +89,23 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 #endif // GL
 
 	return _OK;
+}
+
+int RRenderManager::CreateVertexShader(RVertexShader & vertexShader)
+{
+	Instance().m_Device->CreateVertexShader(
+		vertexShader.getBlob()->GetBufferPointer(),
+		vertexShader.getBlob()->GetBufferSize(),
+		NULL, (ID3D11VertexShader**)vertexShader.getVertexShader());
+}
+
+int RRenderManager::CreateInputLayout(RVertexShader & vertexShader)
+{
+	Instance().m_Device->CreateInputLayout(
+		&vertexShader.getVecILDesc()[0],
+		vertexShader.getVecILDesc().size(),
+		vertexShader.getBlob()->GetBufferPointer(),
+		vertexShader.getBlob()->GetBufferSize(),
+		vertexShader.getInputLayout()
+	);
 }
