@@ -1,5 +1,5 @@
 #include "RRenderManager.h"
-#include<Windows.h>
+
 
 
 
@@ -20,7 +20,7 @@ int RRenderManager::CreateDeviceAndSwapChain(DeviceKey & key)
 	D3D11CreateDeviceAndSwapChain(
 		NULL,
 		(D3D_DRIVER_TYPE)key.DriverType,
-		key.Software,
+		(HMODULE)key.Software,
 		key.Flags,
 		(const D3D_FEATURE_LEVEL*)key.pFeatureLevels,
 		key.FeatureLevels,
@@ -40,10 +40,10 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 {
 
 #ifdef DX
-	Instance().m_Device->CreateBuffer(
+	/*Instance().m_Device->CreateBuffer(
 		(D3D11_BUFFER_DESC*)buffer.getDesc(),
 		(D3D11_SUBRESOURCE_DATA*)buffer.getData(),
-		(ID3D11Buffer**)buffer.getBuffer());
+		(ID3D11Buffer**)buffer.getBuffer());*/
 #endif // DX
 #ifdef GL
 	GLuint							*loc = (GLuint*)buffer.getBuffer();
@@ -54,10 +54,6 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 	case BIND_VERTEX_BUFFER:		flag = GL_ARRAY_BUFFER; break;
 	case BIND_INDEX_BUFFER:			flag = GL_ELEMENT_ARRAY_BUFFER; break;
 	case BIND_CONSTANT_BUFFER:		flag = GL_UNIFORM_BUFFER; break;
-	case BIND_SHADER_RESOURCE:		flag = int(0x8892); break;
-	case BIND_STREAM_OUTPUT:		flag = int(0x8892); break;
-	case BIND_RENDER_TARGET:		flag = int(0x8892); break;
-	case BIND_UNORDERED_ACCESS:		flag = int(0x8892); break;
 	default:break;
 	}
 
@@ -93,19 +89,21 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 
 int RRenderManager::CreateVertexShader(RVertexShader & vertexShader)
 {
-	Instance().m_Device->CreateVertexShader(
+	/*Instance().m_Device->CreateVertexShader(
 		vertexShader.getBlob()->GetBufferPointer(),
 		vertexShader.getBlob()->GetBufferSize(),
-		NULL, (ID3D11VertexShader**)vertexShader.getVertexShader());
+		NULL, (ID3D11VertexShader**)vertexShader.getVertexShader());*/
+	return 0;
 }
 
-int RRenderManager::CreateInputLayout(RVertexShader & vertexShader)
+int RRenderManager::CreateInputLayout(RVertexShader& vertexShader)
 {
-	Instance().m_Device->CreateInputLayout(
+	/*Instance().m_Device->CreateInputLayout(
 		&vertexShader.getVecILDesc()[0],
 		vertexShader.getVecILDesc().size(),
 		vertexShader.getBlob()->GetBufferPointer(),
 		vertexShader.getBlob()->GetBufferSize(),
 		vertexShader.getInputLayout()
-	);
+	);*/
+	return 0;
 }

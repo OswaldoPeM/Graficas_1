@@ -41,8 +41,9 @@
  */
 
 #ifdef DX 
+#define UNICODE
 	#include <d3d11.h>
-	//#include <d3dx11.h>
+	#include <d3dx11.h>
 	#include <d3dcompiler.h>
 	//#include <xnamath.h>
 	#include "dependences/ImGui/imgui_impl_dx11.h"

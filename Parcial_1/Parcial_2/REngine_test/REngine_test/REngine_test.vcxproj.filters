@@ -81,6 +81,9 @@
     <ClInclude Include="RVertexShader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="D3DX11async.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="REngine_test.cpp">

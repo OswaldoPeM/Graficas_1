@@ -85,11 +85,6 @@ struct BUFFER_DESC
 	unsigned int StructureByteStride;
 	void clear() { memset(this, 0, sizeof(this)); }
 };
-struct SAMPLE_DESC
-{
-	unsigned int Count;
-	unsigned int Quality;
-};
 /**
 	*Describes a 2D texture.
 */
@@ -114,7 +109,7 @@ struct SWAP_CHAIN_DESC
 	SAMPLE_DESC SampleDesc;
 	unsigned int BufferUsage;
 	unsigned int BufferCount;
-	HWND OutputWindow;
+	void* OutputWindow;
 	bool Windowed;
 	SWAP_EFFECT SwapEffect;
 	unsigned int Flags;
@@ -159,14 +154,14 @@ struct RRect {
 
 
 
-struct DEPTH_STENCIL_VIEW_DESC {
-	DSV_DIMENSION		viewDimension;
-	FORMAT				format;
-	UINT                mipSlice;
-	UINT                firstArraySlice;
-	UINT                arraySize;
-	UINT                flags;
-};
+//struct STENCIL_VIEW_DESC {
+//	DSV_DIMENSION		viewDimension;
+//	FORMAT				format;
+//	UINT                mipSlice;
+//	UINT                firstArraySlice;
+//	UINT                arraySize;
+//	UINT                flags;
+//};
 /**
 	*init parameters
 */
@@ -177,7 +172,7 @@ struct BufferKey {
 struct DeviceKey {
 	void* pAdapter=NULL;
 	DRIVER_TYPE DriverType;
-	HMODULE Software=NULL;
+	void* Software=NULL;
 	unsigned int Flags;
 	const FEATURE_LEVEL *pFeatureLevels;
 	unsigned int FeatureLevels;

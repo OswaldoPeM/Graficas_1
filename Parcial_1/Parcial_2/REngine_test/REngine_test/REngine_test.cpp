@@ -4,9 +4,10 @@
 #include <iostream>
 #include"RAABB.h"
 #include"RRenderManager.h"
-RModule<RRenderManager> Modulo;
 int main()
 {
+	DeviceKey llaveslocas;
+	RRenderManager::StartUp(NULL);
 	//DeviceKey key;
 	//RRenderManager::StartUp((void*) &key);
 	//RBuffer* buffer;

@@ -31,11 +31,11 @@ int RVertexShader::CompileShaderFromFile(const wchar_t* szFileName, const char *
 	return _OK;
 }
 
-int RVertexShader::CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob * pShaderBlob, ID3D11VertexShader** vertexshader)
+int RVertexShader::CreateInputLayoutDescFromVertexShaderSignature()
 {
 	// Reflect shader info
 	ID3D11ShaderReflection* pVertexShaderReflection = NULL;
-	if (FAILED(D3DReflect(pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pVertexShaderReflection)))
+	if (FAILED(D3DReflect(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&pVertexShaderReflection)))
 	{
 		return S_FALSE;
 	}
@@ -45,7 +45,6 @@ int RVertexShader::CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob * pSh
 	pVertexShaderReflection->GetDesc(&shaderDesc);
 
 	// Read input layout description from shader info
-	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
 	for (unsigned int i = 0; i < shaderDesc.InputParameters; i++)
 	{
 		D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
@@ -91,12 +90,7 @@ int RVertexShader::CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob * pSh
 	}
 
 	// Try to create Input Layout
-	int hr = RRenderManager::Instance().->CreateInputLayout(
-		&inputLayoutDesc[0],
-		inputLayoutDesc.size(),
-		pShaderBlob->GetBufferPointer(),
-		pShaderBlob->GetBufferSize(),
-		vertexshader->getInputLayout());
+	int hr = RRenderManager::Instance().CreateInputLayout(*this);
 
 	//Free allocation shader reflection memory
 	pVertexShaderReflection->Release();

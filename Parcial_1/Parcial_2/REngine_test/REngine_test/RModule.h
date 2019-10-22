@@ -83,7 +83,7 @@ public:
 		if (!IsShutDown())
 		{
 			std::cout << "soModule", "StartUp()", "Trying to start an already started module.";
-			return EC_FALSE;
+			return 1;
 		}
 
 		_Instance() = new T;
@@ -151,13 +151,13 @@ protected:
 	*			that of a base class.
 	*/
 	/************************************************************************************************************************/
-	virtual void OnShutDown()
+	virtual unsigned int OnShutDown()
 	{
-
+		return 0;
 	}
-	virtual void OnStartUp(void* _Desc)
+	virtual unsigned int OnStartUp(void* _Desc)
 	{
-
+		return 0;
 	}
 
 	/************************************************************************************************************************/

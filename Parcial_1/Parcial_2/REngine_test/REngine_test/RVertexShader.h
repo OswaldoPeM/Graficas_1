@@ -23,8 +23,7 @@ public:
 	
 	int CompileShaderFromFile(const wchar_t * szFileName, const char * szEntryPoint,
 		const char * szShaderModel, ID3DBlob ** ppBlobOut);
-	int CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob * pShaderBlob,
-		ID3D11VertexShader ** vertexshader);
+	int CreateInputLayoutDescFromVertexShaderSignature();
 
 	RVertexShader();
 	~RVertexShader();

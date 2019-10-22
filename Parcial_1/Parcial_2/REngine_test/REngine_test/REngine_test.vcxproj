@@ -72,22 +72,39 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x64;$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x64;$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);$(ReferencePath)</ReferencePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>
+      </SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -99,7 +116,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;C:\Users\Oswal\Documents\Graficas_1\Parcial_1\Parcial_2\REngine_test\REngine_test\dependences\INCLUDES\glmLib;$(SolutionDir)dependences\INCLUDES\gmlLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -121,7 +138,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\x64;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;D3Dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,7 +148,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>
+      </SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -143,7 +161,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;C:\Users\Oswal\Documents\Graficas_1\Parcial_1\Parcial_2\REngine_test\REngine_test\dependences\INCLUDES\glmLib;$(SolutionDir)dependences\INCLUDES\gmlLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -167,10 +185,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\x64;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;D3Dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="D3DX11async.h" />
     <ClInclude Include="dependences\ImGui\imconfig.h" />
     <ClInclude Include="dependences\ImGui\imgui.h" />
     <ClInclude Include="dependences\ImGui\imgui_impl_dx11.h" />

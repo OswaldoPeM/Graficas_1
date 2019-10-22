@@ -23,21 +23,17 @@ struct RManagerData
 	RRect  WLen;
 };
 
-class RRenderManager :
-	public RModule< RRenderManager>
+class RRenderManager :public RModule<RRenderManager>
 {
-	RRenderManager();
-	~RRenderManager();
 #ifdef DX
 	ID3D11Device *m_Device;
 	ID3D11DeviceContext *m_InterfaceDevice;
 	IDXGISwapChain *m_swapChain;
-
-	static int CompileShaderFromFile(const wchar_t* szFileName, const char* szEntryPoint, const char* szShaderModel, ID3DBlob** ppBlobOut);
-	static int CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11VertexShader** vertexshader);
 #endif // DX
 
 public:
+	~RRenderManager();
+	RRenderManager();
 	void* getDevice() { return m_Device; }
 	void* getInterfaeDevice() { return m_InterfaceDevice; }
 	void* getSwapChain() { return m_swapChain; }
@@ -67,15 +63,16 @@ public:
 	void destroy() {
 	}
 
-	void OnShutDown()
+	unsigned int OnShutDown()
 	{
 		destroy();
+		return 0;
 	}
-	void OnStartUp(void* _Desc)
+	unsigned int OnStartUp(void* _Desc)
 	{
-		DeviceKey* key =(DeviceKey*)_Desc;
+		DeviceKey* key = (DeviceKey*)_Desc;
 		Instance().CreateDeviceAndSwapChain(*key);
-
+		return 0;
 	}
 };
 

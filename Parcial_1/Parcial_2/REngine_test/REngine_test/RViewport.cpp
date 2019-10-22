@@ -5,7 +5,7 @@
 bool RViewport::init(VIEWPORT & viewport)
 {
 	m_viewport = viewport;
-	return _OK;
+	return true;
 }
 
 RViewport::RViewport()
