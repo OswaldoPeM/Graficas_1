@@ -5,6 +5,7 @@
 /**
 	*float[4] {x, y, z, w }
 */
+
 struct RVec4f
 {
 	float x;
@@ -154,14 +155,16 @@ struct RRect {
 
 
 
-//struct STENCIL_VIEW_DESC {
-//	DSV_DIMENSION		viewDimension;
-//	FORMAT				format;
-//	UINT                mipSlice;
-//	UINT                firstArraySlice;
-//	UINT                arraySize;
-//	UINT                flags;
-//};
+struct STENCIL_VIEW_DESC {
+	DSV_DIMENSION		viewDimension;
+	FORMAT				format;
+	UINT                mipSlice;
+	UINT                firstArraySlice;
+	UINT                arraySize;
+	UINT                flags;
+};
+
+	
 /**
 	*init parameters
 */
@@ -169,19 +172,8 @@ struct BufferKey {
 	BUFFER_DESC			desc;
 	SUBRESOURCE_DATA	data; 
 };
-struct DeviceKey {
-	void* pAdapter=NULL;
-	DRIVER_TYPE DriverType;
-	void* Software=NULL;
-	unsigned int Flags;
-	const FEATURE_LEVEL *pFeatureLevels;
-	unsigned int FeatureLevels;
-	unsigned int SDKVersion=7;// = D3D11_SDK_VERSION;
-	const SWAP_CHAIN_DESC * pSwapChainDesc;
-	//void ** ppSwapChain;
-	FEATURE_LEVEL * pFeatureLevel;
-	//void ** ppImmediateContext;
-};
+
+
 /**
 	*Defines the dimensions of a viewport.
 	float[6]{

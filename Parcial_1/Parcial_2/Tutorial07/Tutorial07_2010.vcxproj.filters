@@ -15,6 +15,12 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{9d1ee43d-873c-45bf-b807-0959a301cf01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{17415dc6-c9eb-4519-b322-174ff4ff49b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11">
+      <UniqueIdentifier>{93700a30-b3c6-4dd0-884f-11e461d7b09f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -71,7 +77,6 @@
     <ResourceCompile Include="Tutorial07.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ClInclude Include="CDevice.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="VBuffer.h" />
     <ClInclude Include="IBuffer.h" />
@@ -122,6 +127,12 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="CSingleton.h" />
+    <ClInclude Include="CDevice.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CDeviceDX11.h">
+      <Filter>DX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

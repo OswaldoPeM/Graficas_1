@@ -14,36 +14,22 @@ RRenderManager::~RRenderManager()
 
 
 
-int RRenderManager::CreateDeviceAndSwapChain(DeviceKey & key)
-{
-#ifdef DX
-	D3D11CreateDeviceAndSwapChain(
-		NULL,
-		(D3D_DRIVER_TYPE)key.DriverType,
-		(HMODULE)key.Software,
-		key.Flags,
-		(const D3D_FEATURE_LEVEL*)key.pFeatureLevels,
-		key.FeatureLevels,
-		key.SDKVersion,
-		(DXGI_SWAP_CHAIN_DESC*)key.pSwapChainDesc,
-		&Instance().m_swapChain,
-		&Instance().m_Device,
-		(D3D_FEATURE_LEVEL*)key.pFeatureLevel,
-		&Instance().m_InterfaceDevice
-	);
-#endif // DX
 
-	return _OK;
-}
 
-int RRenderManager::CreateBuffer(RBuffer & buffer)
+int RRenderManager::CreateBuffer(RBuffer & buffer, void * _p_device)
 {
 
 #ifdef DX
-	/*Instance().m_Device->CreateBuffer(
+		
+	auto p_device_dx11 
+		= static_cast<ID3D11Device*>(_p_device);
+
+	p_device_dx11->CreateBuffer
+	(
 		(D3D11_BUFFER_DESC*)buffer.getDesc(),
 		(D3D11_SUBRESOURCE_DATA*)buffer.getData(),
-		(ID3D11Buffer**)buffer.getBuffer());*/
+		(ID3D11Buffer**)buffer.getBuffer()
+	);
 #endif // DX
 #ifdef GL
 	GLuint							*loc = (GLuint*)buffer.getBuffer();
@@ -66,6 +52,7 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 		glBindBuffer(flag, *loc);
 		glBufferData(flag, sizeB, buffer.getData()->pSysMem, GL_STATIC_DRAW);
 	}
+
 	if (flag == GL_ARRAY_BUFFER) {
 		// Enable the four vertex array attributes.
 		glEnableVertexAttribArray(0);  // Vertex position.
@@ -77,9 +64,15 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 
 		// Specify the location and format of the texture coordinate portion of the vertex buffer.
 		glBindBuffer(GL_ARRAY_BUFFER, *loc);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(SimpleVertex), (unsigned char*)NULL + (3 * sizeof(float)));
-	}
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(SimpleVertex), (unsigned char*)NULL + (4 * sizeof(float)));
+		
+		//disable atributes and disbind
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(0);
 
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
 	//glBufferSubData(flag, 0, sizeB, buffer.getData()->pSysMem);
 
 #endif // GL
@@ -87,23 +80,57 @@ int RRenderManager::CreateBuffer(RBuffer & buffer)
 	return _OK;
 }
 
-int RRenderManager::CreateVertexShader(RVertexShader & vertexShader)
+int RRenderManager::CreateVertexShader(RProgramShader& shaderProgram, void * _p_device)
 {
-	/*Instance().m_Device->CreateVertexShader(
-		vertexShader.getBlob()->GetBufferPointer(),
-		vertexShader.getBlob()->GetBufferSize(),
-		NULL, (ID3D11VertexShader**)vertexShader.getVertexShader());*/
+#ifdef DX
+
+
+	auto p_device_dx11
+		= static_cast<ID3D11Device*>(_p_device);
+	RVertexShader* p_vertexShader_dx11
+		= shaderProgram.getVS();
+	p_device_dx11->CreateVertexShader(
+		shaderProgram.getBlob()->GetBufferPointer(),
+		shaderProgram.getBlob()->GetBufferSize(),
+		NULL,p_vertexShader_dx11->getVertexShader()
+		);
+
+#endif // DX
 	return 0;
 }
 
-int RRenderManager::CreateInputLayout(RVertexShader& vertexShader)
+int RRenderManager::CreateInputLayout(RProgramShader& programShader, void * _p_device)
 {
-	/*Instance().m_Device->CreateInputLayout(
-		&vertexShader.getVecILDesc()[0],
-		vertexShader.getVecILDesc().size(),
-		vertexShader.getBlob()->GetBufferPointer(),
-		vertexShader.getBlob()->GetBufferSize(),
-		vertexShader.getInputLayout()
-	);*/
+#ifdef DX
+	auto p_device_dx11
+		= static_cast<ID3D11Device*>(_p_device);
+	p_device_dx11->CreateInputLayout
+	(
+		&programShader.getVecILDesc()[0],
+		programShader.getVecILDesc().size(),
+		programShader.getBlob()->GetBufferPointer(),
+		programShader.getBlob()->GetBufferSize(),
+		programShader.getInputLayout()
+	);
+#endif // DX
+
+	
+	return 0;
+}
+
+int RRenderManager::CreatePixelShader(RProgramShader & shaderProgram, void * _p_device)
+{
+#ifdef DX
+	auto p_device_dx11
+		= static_cast<ID3D11Device*>(_p_device);
+	p_device_dx11->CreatePixelShader
+	(
+		shaderProgram.getBlob()->GetBufferPointer(),
+		shaderProgram.getBlob()->GetBufferSize(),
+		NULL,
+		shaderProgram.getPS()->getPS()
+	);
+	#endif // DX
+
 	return 0;
 }

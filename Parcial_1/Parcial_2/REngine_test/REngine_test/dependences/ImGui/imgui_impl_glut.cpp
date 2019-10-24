@@ -45,7 +45,7 @@
 //  2018-03-22: Added GLUT Platform binding.
 
 
-
+/*
 #include "imgui.h"
 
 #include "imgui_impl_glut.h"
@@ -415,4 +415,4 @@ void ImGui_ImplGLUT_MotionFunc(int x, int y)
 
 	io.MousePos = ImVec2((float)x, (float)y);
 
-}
+}*/

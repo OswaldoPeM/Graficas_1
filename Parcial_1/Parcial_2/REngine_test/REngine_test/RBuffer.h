@@ -14,7 +14,7 @@
 /**
 	*Incudes
 */
-#include "Header.h"	
+#include "requerimientos.h"
 
 class RBuffer
 {
@@ -24,24 +24,20 @@ class RBuffer
 	unsigned int* m_buffer;
 #endif // DX
 
+protected:
 	BUFFER_DESC m_description;
 	SUBRESOURCE_DATA m_initData;
 public:
+	virtual void* getBuffer() = 0;
 
-	void* getBuffer() { return m_buffer; }
-	BUFFER_DESC *getDesc() { return &m_description; }
-	SUBRESOURCE_DATA *getData() { return &m_initData; }
+	virtual BUFFER_DESC *getDesc() { return &m_description; }
+	virtual SUBRESOURCE_DATA *getData() { return &m_initData; }
 
-	bool init(BufferKey &DATA);
-	void render();
-	void update();
-	void destroy();
+	virtual bool init(BufferKey &DATA)=0;
+	virtual void render()=0;
+	virtual void update()=0;
+	virtual void destroy()=0;
 
-#ifdef DX
-
-#elif GL 
-	
-#endif // DX|GL
 
 	RBuffer();
 	~RBuffer();

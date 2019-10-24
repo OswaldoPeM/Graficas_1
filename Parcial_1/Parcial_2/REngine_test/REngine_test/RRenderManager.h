@@ -11,10 +11,26 @@
 #pragma once
 #include"RModule.h"
 #include"RBuffer.h"
-#include"RVertexShader.h"
+#include"RProgramShader.h"
 /**
 	*forward declaration
 */
+
+
+struct DeviceKey {
+	void* pAdapter = nullptr;
+	DRIVER_TYPE DriverType;
+	void* Software = nullptr;
+	unsigned int Flags;
+	const FEATURE_LEVEL *pFeatureLevels;
+	unsigned int FeatureLevels;
+	unsigned int SDKVersion = 7;// = D3D11_SDK_VERSION;
+	SWAP_CHAIN_DESC * pSwapChainDesc;
+	//void* pSwapChainDesc = nullptr;
+	//void ** ppSwapChain;
+	FEATURE_LEVEL * pFeatureLevel;
+	//void ** ppImmediateContext;
+};
 
 
 struct RManagerData
@@ -23,10 +39,10 @@ struct RManagerData
 	RRect  WLen;
 };
 
-class RRenderManager :public RModule<RRenderManager>
+class RRenderManager 
+	:public RModule<RRenderManager>
 {
 #ifdef DX
-	ID3D11Device *m_Device;
 	ID3D11DeviceContext *m_InterfaceDevice;
 	IDXGISwapChain *m_swapChain;
 #endif // DX
@@ -34,14 +50,34 @@ class RRenderManager :public RModule<RRenderManager>
 public:
 	~RRenderManager();
 	RRenderManager();
-	void* getDevice() { return m_Device; }
-	void* getInterfaeDevice() { return m_InterfaceDevice; }
-	void* getSwapChain() { return m_swapChain; }
+	virtual void* getDevice() = 0;
+	virtual void* getInterfaeDevice() = 0;
+	virtual void* getSwapChain() = 0;
 
-	int static CreateDeviceAndSwapChain(DeviceKey &key);
-	int static CreateBuffer(RBuffer& buffer);
-	int static CreateVertexShader(RVertexShader& vertexShader);
-	int static CreateInputLayout(RVertexShader& vertexShader);
+	virtual int  
+		CreateBuffer
+		(
+			RBuffer& buffer,
+			void * device
+		);
+	virtual int 
+		CreateVertexShader
+		(
+			RProgramShader& programShadre,
+			void * _p_device
+		);
+	virtual int 
+		CreateInputLayout
+		(
+			RProgramShader& programShadre,
+			void * _p_device
+		);
+	virtual int 
+		CreatePixelShader
+		(
+			RProgramShader& programShadre,
+			void * _p_device
+		);
 
 /*
 	HRESULT CreateTexture2D();
@@ -51,7 +87,6 @@ public:
 
 
 
-	HRESULT CreatePixelShader();
 
 	HRESULT CreateShaderResourceViewFromFile();
 
@@ -71,7 +106,7 @@ public:
 	unsigned int OnStartUp(void* _Desc)
 	{
 		DeviceKey* key = (DeviceKey*)_Desc;
-		Instance().CreateDeviceAndSwapChain(*key);
+		//Instance().CreateDeviceAndSwapChain(*key);
 		return 0;
 	}
 };

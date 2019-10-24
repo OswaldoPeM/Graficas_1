@@ -424,6 +424,7 @@
     <ClInclude Include="CComp.h" />
     <ClInclude Include="CDepthStencilView.h" />
     <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CDeviceDX11.h" />
     <ClInclude Include="CInputLayout.h" />
     <ClInclude Include="CInterfaceDevice.h" />
     <ClInclude Include="CMesh.h" />

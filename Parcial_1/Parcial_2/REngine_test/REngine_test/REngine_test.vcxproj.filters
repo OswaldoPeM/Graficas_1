@@ -16,6 +16,12 @@
     <Filter Include="ImGuiDx">
       <UniqueIdentifier>{785b0d95-8361-414b-9072-e06e2ce94edc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\core">
+      <UniqueIdentifier>{255e9e8d-c392-405c-a661-cb5e444a3179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\DX11">
+      <UniqueIdentifier>{db081390-3fad-4743-bb61-e20474d5c9f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -34,9 +40,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="enumers.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="RBuffer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="dependences\ImGui\imconfig.h">
@@ -69,9 +72,6 @@
     <ClInclude Include="dependences\ImGui\imstb_truetype.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="RRenderManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="RModule.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -83,6 +83,57 @@
     </ClInclude>
     <ClInclude Include="D3DX11async.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RCamaraManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RShader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RInputLayout.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RProgramShader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RPixelShader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RSwapchain.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RRenderManager.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RRenderManagerDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RDevice.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RDeviceDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RBuffer.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="requerimientos.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="RBufferDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RDepthStencilView.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RDepthStencilViewDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RTexture.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RTextureDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,5 +182,55 @@
     <ClCompile Include="RVertexShader.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="RCamaraManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RShader.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RInputLayout.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RProgramShader.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RPixelShader.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RSwapchain.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RRenderManagerDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RDevice.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RDeviceDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RBufferDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RDepthStencilView.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RDepthStencilViewDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RTexture.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RTextureDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GBufferPS.glsl">
+      <Filter>Archivos de encabezado</Filter>
+    </None>
+    <None Include="GBufferVS.glsl">
+      <Filter>Archivos de encabezado</Filter>
+    </None>
   </ItemGroup>
 </Project>

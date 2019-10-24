@@ -117,7 +117,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;C:\Users\Oswal\Documents\Graficas_1\Parcial_1\Parcial_2\REngine_test\REngine_test\dependences\INCLUDES\glmLib;$(SolutionDir)dependences\INCLUDES\gmlLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;SOIL.lib;opengl32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -162,7 +162,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependences\INCLUDES\soilLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLFW\lib-vc2017;$(SolutionDir)Assimp\lib;$(SolutionDir)dependences\Assimp\lib;$(SolutionDir)dependences\INCLUDES\glew-1.11.0\lib;$(SolutionDIr)dependences\INCLUDES\freeglut\lib;C:\Users\Oswal\Documents\Graficas_1\Parcial_1\Parcial_2\REngine_test\REngine_test\dependences\INCLUDES\glmLib;$(SolutionDir)dependences\INCLUDES\gmlLib;$(SolutionDir)dependences\INCLUDES\OpenGLRoot\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;freeglut.lib;SOIL.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;assimp-vc140-mt.lib;glew32s.lib;glfw3.lib;SOIL.lib;opengl32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -205,9 +205,24 @@
     <ClInclude Include="RAABB.h" />
     <ClInclude Include="RActor.h" />
     <ClInclude Include="RBuffer.h" />
+    <ClInclude Include="RBufferDX.h" />
+    <ClInclude Include="RCamaraManager.h" />
     <ClInclude Include="RComponent.h" />
+    <ClInclude Include="RDepthStencilView.h" />
+    <ClInclude Include="RDepthStencilViewDX.h" />
+    <ClInclude Include="RDevice.h" />
+    <ClInclude Include="RDeviceDX.h" />
+    <ClInclude Include="requerimientos.h" />
+    <ClInclude Include="RInputLayout.h" />
     <ClInclude Include="RModule.h" />
+    <ClInclude Include="RPixelShader.h" />
+    <ClInclude Include="RProgramShader.h" />
     <ClInclude Include="RRenderManager.h" />
+    <ClInclude Include="RRenderManagerDX.h" />
+    <ClInclude Include="RShader.h" />
+    <ClInclude Include="RSwapchain.h" />
+    <ClInclude Include="RTexture.h" />
+    <ClInclude Include="RTextureDX.h" />
     <ClInclude Include="RVertexShader.h" />
     <ClInclude Include="RViewport.h" />
     <ClInclude Include="structures.h" />
@@ -223,11 +238,29 @@
     <ClCompile Include="RAABB.cpp" />
     <ClCompile Include="RActor.cpp" />
     <ClCompile Include="RBuffer.cpp" />
+    <ClCompile Include="RBufferDX.cpp" />
+    <ClCompile Include="RCamaraManager.cpp" />
     <ClCompile Include="RComponent.cpp" />
+    <ClCompile Include="RDepthStencilView.cpp" />
+    <ClCompile Include="RDepthStencilViewDX.cpp" />
+    <ClCompile Include="RDevice.cpp" />
+    <ClCompile Include="RDeviceDX.cpp" />
     <ClCompile Include="REngine_test.cpp" />
+    <ClCompile Include="RInputLayout.cpp" />
+    <ClCompile Include="RPixelShader.cpp" />
+    <ClCompile Include="RProgramShader.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
+    <ClCompile Include="RRenderManagerDX.cpp" />
+    <ClCompile Include="RShader.cpp" />
+    <ClCompile Include="RSwapchain.cpp" />
+    <ClCompile Include="RTexture.cpp" />
+    <ClCompile Include="RTextureDX.cpp" />
     <ClCompile Include="RVertexShader.cpp" />
     <ClCompile Include="RViewport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GBufferPS.glsl" />
+    <None Include="GBufferVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

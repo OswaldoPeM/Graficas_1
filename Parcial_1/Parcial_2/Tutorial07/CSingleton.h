@@ -5,7 +5,5 @@ class CSingleton
 	~CSingleton();
 public:
 	static CSingleton& getInstance();
-	
-
 };
 

@@ -48,10 +48,9 @@
 	//#include <xnamath.h>
 	#include "dependences/ImGui/imgui_impl_dx11.h"
 #elif GL 
+	#include"dependences/INCLUDES/freeglut/include/GL/freeglut.h"
 	#include"dependences/INCLUDES/OpenGLRoot/GLEW/include/GL/glew.h"
-	#include "dependences/ImGui/imgui_impl_opengl3.h"	
-	//#include"dependences/INCLUDES/freeglut/include/GL/freeglut.h"
-
+	#include "dependences/ImGui/imgui_impl_opengl3.h"
 #endif // DX
 
 
