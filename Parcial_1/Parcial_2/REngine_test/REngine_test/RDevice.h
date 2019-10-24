@@ -70,6 +70,6 @@ public:
 		) = 0;
 
 	RDevice();
-	~RDevice();
+	virtual ~RDevice();
 };
 

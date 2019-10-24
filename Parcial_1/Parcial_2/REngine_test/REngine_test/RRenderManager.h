@@ -48,8 +48,9 @@ class RRenderManager
 #endif // DX
 
 public:
-	~RRenderManager();
+	virtual ~RRenderManager();
 	RRenderManager();
+
 	virtual void* getDevice() = 0;
 	virtual void* getInterfaeDevice() = 0;
 	virtual void* getSwapChain() = 0;

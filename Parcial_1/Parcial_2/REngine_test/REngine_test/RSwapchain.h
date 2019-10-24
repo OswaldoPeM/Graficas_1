@@ -2,37 +2,21 @@
 #include "Header.h"
 class RSwapchain
 {
-#ifdef DX
-
-
-		IDXGISwapChain* m_pSwapChain;
-	DXGI_SWAP_CHAIN_DESC sd;
+protected:
+	SWAP_CHAIN_DESC m_SwapChainDesc;
 public:
+	virtual void* getSwapChain() = 0;
 
-	IDXGISwapChain** getSwapChain();
-	DXGI_SWAP_CHAIN_DESC* getSwapChainDesc();
+	virtual unsigned int GetBuffer(SwChBuf& param) = 0;
+	virtual unsigned int Present(SwChPr& param) = 0;
+	virtual unsigned int ResizeBuffer(ReSzSCH& param) = 0;
 
+	virtual bool init(SWAP_CHAIN_DESC& param) = 0;
+	virtual void render() = 0;
+	virtual void update() = 0;
+	virtual void destroy() = 0;
 
-	HRESULT  GetBuffer(
-		UINT Buffer,
-		__in  REFIID riid,
-		__out  void **ppSurface);
-
-	HRESULT  Present(
-		UINT SyncInterval,
-		UINT Flags);
-
-	HRESULT ResizeBuffer(
-		UINT BufferCount,
-		UINT Width,
-		UINT Height,
-		DXGI_FORMAT NewFormat,
-		UINT SwapChainFlags);
-
-
-	bool init(UINT WIDTH, UINT HEIGHT, HWND hWnd);
-#endif // DEBUG
 	RSwapchain();
-	~RSwapchain();
+	virtual ~RSwapchain();
 };
 

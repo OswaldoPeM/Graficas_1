@@ -14,6 +14,6 @@ public:
 	virtual void update() override;
 	virtual void destroy() override;
 	RTextureDX();
-	~RTextureDX();
+	virtual ~RTextureDX();
 };
 

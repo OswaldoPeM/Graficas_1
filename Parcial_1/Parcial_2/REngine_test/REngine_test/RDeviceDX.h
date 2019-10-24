@@ -65,6 +65,6 @@ public:
 			RDevice * _p_device
 		) override;
 	RDeviceDX();
-	~RDeviceDX();
+	virtual ~RDeviceDX();
 };
 

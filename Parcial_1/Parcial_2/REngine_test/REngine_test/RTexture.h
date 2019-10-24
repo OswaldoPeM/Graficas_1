@@ -3,6 +3,8 @@
 
 class RTexture
 {
+protected:	
+	TEXTURE2D_DESC m_TextureDesc;
 public:
 	virtual void* getTexture() = 0;
 
@@ -11,6 +13,6 @@ public:
 	virtual void update() = 0;
 	virtual void destroy() = 0;
 	RTexture();
-	~RTexture();
+	virtual ~RTexture();
 };
 

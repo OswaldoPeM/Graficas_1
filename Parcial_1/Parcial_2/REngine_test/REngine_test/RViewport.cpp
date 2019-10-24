@@ -8,6 +8,18 @@ bool RViewport::init(VIEWPORT & viewport)
 	return true;
 }
 
+void RViewport::render()
+{
+}
+
+void RViewport::update()
+{
+}
+
+void RViewport::destroy()
+{
+}
+
 RViewport::RViewport()
 {
 }

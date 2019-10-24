@@ -1,15 +1,20 @@
 #pragma once
 
-#include "Header.h"
+#include"requerimientos.h"
+
 class RInputLayout
 {
-#ifdef DX
-	ID3D11InputLayout *m_VertexLayout;
-#endif // DX
-
+protected:
+	INPUT_ELEMENT_DESC m_InputLayoutDesc;
 public:
-	void* getIL() { return m_VertexLayout; }
+	virtual void* getIL() = 0;
+	
+
+	virtual bool init(INPUT_ELEMENT_DESC desc) = 0;
+	virtual void render() = 0;
+	virtual void update() = 0;
+	virtual void destroy() = 0;
 	RInputLayout();
-	~RInputLayout();
+	virtual ~RInputLayout();
 };
 

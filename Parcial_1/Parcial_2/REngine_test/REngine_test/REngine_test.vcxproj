@@ -214,6 +214,7 @@
     <ClInclude Include="RDeviceDX.h" />
     <ClInclude Include="requerimientos.h" />
     <ClInclude Include="RInputLayout.h" />
+    <ClInclude Include="RinputLayoutDX.h" />
     <ClInclude Include="RModule.h" />
     <ClInclude Include="RPixelShader.h" />
     <ClInclude Include="RProgramShader.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="RRenderManagerDX.h" />
     <ClInclude Include="RShader.h" />
     <ClInclude Include="RSwapchain.h" />
+    <ClInclude Include="RSwapchainDX.h" />
     <ClInclude Include="RTexture.h" />
     <ClInclude Include="RTextureDX.h" />
     <ClInclude Include="RVertexShader.h" />
@@ -247,12 +249,14 @@
     <ClCompile Include="RDeviceDX.cpp" />
     <ClCompile Include="REngine_test.cpp" />
     <ClCompile Include="RInputLayout.cpp" />
+    <ClCompile Include="RinputLayoutDX.cpp" />
     <ClCompile Include="RPixelShader.cpp" />
     <ClCompile Include="RProgramShader.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
     <ClCompile Include="RRenderManagerDX.cpp" />
     <ClCompile Include="RShader.cpp" />
     <ClCompile Include="RSwapchain.cpp" />
+    <ClCompile Include="RSwapchainDX.cpp" />
     <ClCompile Include="RTexture.cpp" />
     <ClCompile Include="RTextureDX.cpp" />
     <ClCompile Include="RVertexShader.cpp" />

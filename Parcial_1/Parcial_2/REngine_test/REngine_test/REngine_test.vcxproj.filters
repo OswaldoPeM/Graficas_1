@@ -22,11 +22,14 @@
     <Filter Include="Archivos de encabezado\DX11">
       <UniqueIdentifier>{db081390-3fad-4743-bb61-e20474d5c9f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{102f9c86-9eac-44af-9171-b9f646e1a19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Includers">
+      <UniqueIdentifier>{ed87891b-37df-466c-8d47-f4b4f6d734c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="RActor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -34,12 +37,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="RAABB.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="structures.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="enumers.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="dependences\ImGui\imconfig.h">
@@ -72,12 +69,6 @@
     <ClInclude Include="dependences\ImGui\imstb_truetype.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="RModule.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="RViewport.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="RVertexShader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -90,16 +81,7 @@
     <ClInclude Include="RShader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RInputLayout.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="RProgramShader.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="RPixelShader.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="RSwapchain.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="RRenderManager.h">
@@ -117,9 +99,6 @@
     <ClInclude Include="RBuffer.h">
       <Filter>Archivos de encabezado\core</Filter>
     </ClInclude>
-    <ClInclude Include="requerimientos.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="RBufferDX.h">
       <Filter>Archivos de encabezado\DX11</Filter>
     </ClInclude>
@@ -134,6 +113,39 @@
     </ClInclude>
     <ClInclude Include="RTextureDX.h">
       <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RInputLayout.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RinputLayoutDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="enumers.h">
+      <Filter>Archivos de encabezado\Includers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Archivos de encabezado\Includers</Filter>
+    </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>Archivos de encabezado\Includers</Filter>
+    </ClInclude>
+    <ClInclude Include="requerimientos.h">
+      <Filter>Archivos de encabezado\Includers</Filter>
+    </ClInclude>
+    <ClInclude Include="RSwapchain.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RSwapchainDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RModule.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RViewport.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RProgramShader.h">
+      <Filter>Archivos de encabezado\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,13 +236,19 @@
     <ClCompile Include="RTextureDX.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="RinputLayoutDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RSwapchainDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GBufferPS.glsl">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="GBufferVS.glsl">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

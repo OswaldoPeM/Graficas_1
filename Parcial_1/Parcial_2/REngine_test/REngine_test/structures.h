@@ -49,7 +49,22 @@ struct CBChangesEveryFrame
 	glm::mat4 mWorld;
 	RVec4f vMeshColor;
 }; 
-
+struct SwChPr {
+	unsigned int SyncInterval;
+	unsigned int Flags;
+};
+struct Rid {
+	unsigned long  Data1;
+	unsigned short Data2;
+	unsigned short Data3;
+	unsigned char  Data4[8];
+};
+struct SwChBuf
+{
+	unsigned int Buffer;
+	const Rid riid;
+	void **ppSurface;
+};
 struct RATIONAL {
 	unsigned int Numerator;
 	unsigned int Denominator;
@@ -100,6 +115,7 @@ struct TEXTURE2D_DESC {
 	unsigned int             BindFlags;
 	unsigned int             CPUAccessFlags;
 	unsigned int             MiscFlags;
+	void clear() { memset(this, 0, sizeof(this)); }
 };
 /**
 	*Describes a swap chain.
@@ -114,6 +130,17 @@ struct SWAP_CHAIN_DESC
 	bool Windowed;
 	SWAP_EFFECT SwapEffect;
 	unsigned int Flags;
+	void clear() { memset(this, 0, sizeof(this)); }
+};
+struct INPUT_ELEMENT_DESC
+{
+	const char* SemanticName;
+	unsigned int SemanticIndex;
+	FORMAT Format;
+	unsigned int InputSlot;
+	unsigned int AlignedByteOffset;
+	INPUT_CLASSIFICATION InputSlotClass;
+	unsigned int InstanceDataStepRate;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +175,14 @@ struct RRect {
 	long width;
 	long height;
 };
-
+struct ReSzSCH
+{
+	unsigned int BufferCount;
+	unsigned int Width;
+	unsigned int Height;
+	FORMAT NewFormat;
+	unsigned int SwapChainFlags;
+};
 /**
 	*Describes multi-sampling parameters for a resource.
 */

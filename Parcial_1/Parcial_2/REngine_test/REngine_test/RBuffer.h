@@ -40,6 +40,6 @@ public:
 
 
 	RBuffer();
-	~RBuffer();
+	virtual ~RBuffer();
 };
 
