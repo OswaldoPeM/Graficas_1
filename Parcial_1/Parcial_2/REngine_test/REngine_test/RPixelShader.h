@@ -1,14 +1,15 @@
 #pragma once
-#include"Header.h"
+#include"RShader.h"
 class RPixelShader
+	:public RShader
 {
-#ifdef DX
-	ID3D11PixelShader * m_pPixelShader;
-#endif
 public:
-#ifdef DX
-	ID3D11PixelShader ** getPS() { return &m_pPixelShader; }
-#endif
+	virtual void* getPixelShader() = 0;
+
+	virtual bool init() = 0;
+	virtual void render() = 0;
+	virtual void update() = 0;
+	virtual void destroy() = 0;
 	RPixelShader();
 	~RPixelShader();
 };

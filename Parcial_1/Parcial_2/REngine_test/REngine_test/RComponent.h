@@ -27,8 +27,8 @@ class RComponent
 {
 	int m_index;
 public:
-	virtual int getIndex() { return m_index; }
-	virtual void setIndex(int index) { m_index = index; }
+	virtual int getIndex() = 0;
+	virtual void setIndex(int index) = 0;
 
 	virtual bool init() = 0;
 	virtual void render() = 0;

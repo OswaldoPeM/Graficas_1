@@ -1,5 +1,4 @@
 #pragma once
-#include"Header.h"
 #include"RShader.h"
 class RVertexShader
 	:public RShader
