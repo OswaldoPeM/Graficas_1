@@ -1,12 +1,13 @@
 #pragma once
-#include <fstream>
-#include <sstream>
-#include "RPixelShader.h"
-#include "RVertexShader.h"
+#include"requerimientos.h"
+class RVertexShader;
+
 class RProgramShader
 {
-public:
 
+protected:
+	RVertexShader *m_VertexShader;
+public:
 	virtual void
 		chargeShader
 		(
@@ -14,6 +15,10 @@ public:
 			const char * fragment_file_path
 		) = 0;
 
+	virtual bool inti() = 0;
+	virtual void render() = 0;
+	virtual void update() = 0;
+	virtual void destroy() = 0;
 
 
 	RProgramShader();

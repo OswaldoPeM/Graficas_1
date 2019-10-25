@@ -69,9 +69,6 @@
     <ClInclude Include="dependences\ImGui\imstb_truetype.h">
       <Filter>ImGuiDx</Filter>
     </ClInclude>
-    <ClInclude Include="RVertexShader.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="D3DX11async.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -146,6 +143,15 @@
     </ClInclude>
     <ClInclude Include="RProgramShader.h">
       <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RProgramShaderDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RVertexShader.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RVertexShaderDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +246,12 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="RSwapchainDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RProgramShaderDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RVertexShaderDX.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

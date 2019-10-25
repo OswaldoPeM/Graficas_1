@@ -218,6 +218,7 @@
     <ClInclude Include="RModule.h" />
     <ClInclude Include="RPixelShader.h" />
     <ClInclude Include="RProgramShader.h" />
+    <ClInclude Include="RProgramShaderDX.h" />
     <ClInclude Include="RRenderManager.h" />
     <ClInclude Include="RRenderManagerDX.h" />
     <ClInclude Include="RShader.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="RTexture.h" />
     <ClInclude Include="RTextureDX.h" />
     <ClInclude Include="RVertexShader.h" />
+    <ClInclude Include="RVertexShaderDX.h" />
     <ClInclude Include="RViewport.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
@@ -252,6 +254,7 @@
     <ClCompile Include="RinputLayoutDX.cpp" />
     <ClCompile Include="RPixelShader.cpp" />
     <ClCompile Include="RProgramShader.cpp" />
+    <ClCompile Include="RProgramShaderDX.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
     <ClCompile Include="RRenderManagerDX.cpp" />
     <ClCompile Include="RShader.cpp" />
@@ -260,6 +263,7 @@
     <ClCompile Include="RTexture.cpp" />
     <ClCompile Include="RTextureDX.cpp" />
     <ClCompile Include="RVertexShader.cpp" />
+    <ClCompile Include="RVertexShaderDX.cpp" />
     <ClCompile Include="RViewport.cpp" />
   </ItemGroup>
   <ItemGroup>

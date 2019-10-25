@@ -8,7 +8,6 @@ class RTextureDX :
 public:
 	virtual void* getTexture()override;
 
-
 	virtual bool init(TEXTURE2D_DESC& desc) override;
 	virtual void render() override;
 	virtual void update() override;
