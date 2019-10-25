@@ -270,6 +270,9 @@
     <None Include="GBufferPS.glsl" />
     <None Include="GBufferVS.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Tutorial07.fx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

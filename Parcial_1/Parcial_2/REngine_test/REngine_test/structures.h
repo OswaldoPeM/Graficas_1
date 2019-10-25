@@ -1,11 +1,10 @@
 #pragma once
 #include"enumers.h"
-
+#include"dependences/INCLUDES/glmLib/glm.hpp"
 
 /**
 	*float[4] {x, y, z, w }
 */
-
 struct RVec4f
 {
 	float x;
