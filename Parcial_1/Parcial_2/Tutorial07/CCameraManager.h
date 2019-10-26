@@ -10,7 +10,7 @@ class CCameraManager
 	
 	float Near = 0.001f;
 	float Far = 100.0f;
-	float FoV = XM_PIDIV4;
+	float FoV = 0.758456f;
 	float AR;
 	XMMATRIX projection;
 

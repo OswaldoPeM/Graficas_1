@@ -16,6 +16,18 @@ bool RinputLayoutDX::init(INPUT_ELEMENT_DESC desc)
 	return true;
 }
 
+void RinputLayoutDX::render()
+{
+}
+
+void RinputLayoutDX::update()
+{
+}
+
+void RinputLayoutDX::destroy()
+{
+}
+
 RinputLayoutDX::RinputLayoutDX()
 {
 }

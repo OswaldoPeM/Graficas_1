@@ -21,6 +21,9 @@
     <Filter Include="DX11">
       <UniqueIdentifier>{93700a30-b3c6-4dd0-884f-11e461d7b09f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{4f025c47-7b43-4808-a83c-52eb076225da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -77,27 +80,10 @@
     <ResourceCompile Include="Tutorial07.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ClInclude Include="CBuffer.h" />
     <ClInclude Include="VBuffer.h" />
     <ClInclude Include="IBuffer.h" />
-    <ClInclude Include="ConstBuffer.h" />
-    <ClInclude Include="CInterfaceDevice.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="CSwapChain.h" />
-    <ClInclude Include="CRenderTargetView.h" />
     <ClInclude Include="STRUCTS.h" />
-    <ClInclude Include="CDepthStencilView.h" />
-    <ClInclude Include="CVertexShader.h" />
-    <ClInclude Include="CPixelShader.h" />
-    <ClInclude Include="CInputLayout.h" />
-    <ClInclude Include="CShaderResourceView.h" />
-    <ClInclude Include="CSamplerState.h" />
-    <ClInclude Include="CCamera.h" />
-    <ClInclude Include="CCameraManager.h" />
-    <ClInclude Include="CMesh.h" />
-    <ClInclude Include="CMeshManager.h" />
-    <ClInclude Include="CTexture.h" />
-    <ClInclude Include="CViewport.h" />
     <ClInclude Include="dependences\ImGuiDirectX\imconfig.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -122,16 +108,75 @@
     <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="CComp.h" />
-    <ClInclude Include="CActor.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="AABB.h" />
     <ClInclude Include="CSingleton.h" />
     <ClInclude Include="CDevice.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="CDeviceDX11.h">
       <Filter>DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CActor.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CBuffer.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CComp.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraManager.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CInputLayout.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CInterfaceDevice.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshManager.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBuffer.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CPixelShader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CDepthStencilView.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderTargetView.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CSamplerState.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CSwapChain.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CShaderResourceView.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CVertexShader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CViewport.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

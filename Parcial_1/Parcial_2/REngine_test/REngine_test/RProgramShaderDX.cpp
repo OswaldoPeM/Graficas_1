@@ -115,6 +115,23 @@ void RProgramShaderDX::chargeShader(const char * vertex_file_path, const char * 
 	return;
 }
 
+bool RProgramShaderDX::inti()
+{
+	return false;
+}
+
+void RProgramShaderDX::render()
+{
+}
+
+void RProgramShaderDX::update()
+{
+}
+
+void RProgramShaderDX::destroy()
+{
+}
+
 RProgramShaderDX::RProgramShaderDX()
 {
 }

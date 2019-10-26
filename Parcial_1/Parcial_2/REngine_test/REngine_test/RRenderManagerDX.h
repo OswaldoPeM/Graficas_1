@@ -1,6 +1,10 @@
 #pragma once
-#include "RRenderManager.h"
-#include"RDevice.h"
+#include"RRenderManager.h"
+
+class RDevice;
+class ID3D11DeviceContext;
+class IDXGISwapChain;
+
 class RRenderManagerDX :
 	public RRenderManager
 {
@@ -8,9 +12,9 @@ class RRenderManagerDX :
 	ID3D11DeviceContext *m_InterfaceDevice;
 	IDXGISwapChain *m_swapChain;
 public:
-	void* getDevice() { return m_Device; }
-	void* getInterfaeDevice() { return m_InterfaceDevice; }
-	void* getSwapChain() { return m_swapChain; }
+	//void* getDevice() { return m_Device; }
+	//void* getInterfaeDevice() { return m_InterfaceDevice; }
+	//void* getSwapChain() { return m_swapChain; }
 
 	int
 		CreateDeviceAndSwapChain

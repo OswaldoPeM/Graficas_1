@@ -159,6 +159,12 @@
     <ClInclude Include="D3DX11async.h">
       <Filter>Archivos de encabezado\Includers</Filter>
     </ClInclude>
+    <ClInclude Include="RCamera.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="math_help.h">
+      <Filter>Archivos de encabezado\Includers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependences\ImGui\imgui.cpp">
@@ -260,6 +266,9 @@
     <ClCompile Include="RRenderManager.cpp">
       <Filter>Archivos de origen\core</Filter>
     </ClCompile>
+    <ClCompile Include="RCamera.cpp">
+      <Filter>Archivos de origen\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GBufferPS.glsl">
@@ -268,10 +277,8 @@
     <None Include="GBufferVS.glsl">
       <Filter>Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Tutorial07.fx">
+    <None Include="Tutorial07.fx">
       <Filter>Shaders</Filter>
-    </FxCompile>
+    </None>
   </ItemGroup>
 </Project>

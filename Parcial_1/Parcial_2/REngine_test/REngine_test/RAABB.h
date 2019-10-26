@@ -20,7 +20,7 @@
 /************************************************************************/
 
 #include "RComponent.h"
-#include"Header.h"
+#include"requerimientos.h"
 
 
 class RAABB :

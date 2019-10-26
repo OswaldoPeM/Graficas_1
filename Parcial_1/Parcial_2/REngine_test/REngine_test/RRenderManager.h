@@ -10,12 +10,13 @@
 /********************************************************************/
 #pragma once
 #include"RModule.h"
-#include"RBuffer.h"
-#include"RProgramShader.h"
+#include"requerimientos.h"
 /**
 	*forward declaration
 */
-
+class RBuffer;
+class RProgramShader;
+class RProgramShader;
 
 struct DeviceKey {
 	void* pAdapter = nullptr;
@@ -42,11 +43,6 @@ struct RManagerData
 class RRenderManager 
 	:public RModule<RRenderManager>
 {
-#ifdef DX
-	ID3D11DeviceContext *m_InterfaceDevice;
-	IDXGISwapChain *m_swapChain;
-#endif // DX
-
 public:
 	virtual ~RRenderManager();
 	RRenderManager();
@@ -55,31 +51,33 @@ public:
 	virtual void* getInterfaeDevice() = 0;
 	virtual void* getSwapChain() = 0;
 
-	virtual int  
+	virtual int
 		CreateBuffer
 		(
 			RBuffer& buffer,
 			void * device
-		);
-	virtual int 
+		) =0;
+
+	virtual int
 		CreateVertexShader
 		(
 			RProgramShader& programShadre,
 			void * _p_device
-		);
-	virtual int 
+		) =0;
+
+	virtual int
 		CreateInputLayout
 		(
 			RProgramShader& programShadre,
 			void * _p_device
-		);
-	virtual int 
+		) =0;
+
+	virtual int
 		CreatePixelShader
 		(
 			RProgramShader& programShadre,
 			void * _p_device
-		);
-
+		) = 0;
 /*
 	HRESULT CreateTexture2D();
 

@@ -1,6 +1,16 @@
 #pragma once
 #include"enumers.h"
-#include"dependences/INCLUDES/glmLib/glm.hpp"
+#include "math_help.h"
+//#include"dependences/INCLUDES/glmLib/glm.hpp"
+
+
+/**
+	*long[2]{x,y}
+*/
+struct RPoint {
+	long x;
+	long y;
+};
 
 /**
 	*float[4] {x, y, z, w }
@@ -158,15 +168,6 @@ struct SUBRESOURCE_DATA
 
 
 /**
-	*Cordenates at space.
-	long {x,y}
-*/
-struct RPoint {
-	long x;
-	long y;
-};
-
-/**
 	*size of a rectangle
 	long{width, height}
 */
@@ -191,10 +192,10 @@ struct ReSzSCH
 struct STENCIL_VIEW_DESC {
 	DSV_DIMENSION		viewDimension;
 	FORMAT				format;
-	UINT                mipSlice;
-	UINT                firstArraySlice;
-	UINT                arraySize;
-	UINT                flags;
+	unsigned int                mipSlice;
+	unsigned int                firstArraySlice;
+	unsigned int                arraySize;
+	unsigned int                flags;
 };
 
 	

@@ -44,6 +44,7 @@ XMMATRIX  CCamera::getViewMatrix()
 void CCamera::setEye(XMVECTOR * vec)
 { 
 	Eye = *vec;
+	
 }
 
 void CCamera::setLookAt(XMVECTOR * vec)

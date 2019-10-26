@@ -202,11 +202,13 @@
     <ClInclude Include="dependences\ImGui\imstb_truetype.h" />
     <ClInclude Include="enumers.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="math_help.h" />
     <ClInclude Include="RAABB.h" />
     <ClInclude Include="RActor.h" />
     <ClInclude Include="RBuffer.h" />
     <ClInclude Include="RBufferDX.h" />
     <ClInclude Include="RCamaraManager.h" />
+    <ClInclude Include="RCamera.h" />
     <ClInclude Include="RComponent.h" />
     <ClInclude Include="RDepthStencilView.h" />
     <ClInclude Include="RDepthStencilViewDX.h" />
@@ -244,6 +246,7 @@
     <ClCompile Include="RBuffer.cpp" />
     <ClCompile Include="RBufferDX.cpp" />
     <ClCompile Include="RCamaraManager.cpp" />
+    <ClCompile Include="RCamera.cpp" />
     <ClCompile Include="RComponent.cpp" />
     <ClCompile Include="RDepthStencilView.cpp" />
     <ClCompile Include="RDepthStencilViewDX.cpp" />
@@ -271,7 +274,9 @@
     <None Include="GBufferVS.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Tutorial07.fx" />
+    <None Include="Tutorial07.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

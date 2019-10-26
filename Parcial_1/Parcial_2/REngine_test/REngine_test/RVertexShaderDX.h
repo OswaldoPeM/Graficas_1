@@ -1,5 +1,7 @@
 #pragma once
 #include "RVertexShader.h"
+class ID3D11VertexShader;
+
 class RVertexShaderDX :
 	public RVertexShader
 {
@@ -13,6 +15,6 @@ public:
 	virtual void destroy() override;
 
 	RVertexShaderDX();
-	~RVertexShaderDX();
+	virtual ~RVertexShaderDX();
 };
 
