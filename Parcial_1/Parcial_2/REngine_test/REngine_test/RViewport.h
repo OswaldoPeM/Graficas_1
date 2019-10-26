@@ -1,5 +1,6 @@
 #pragma once
-#include "Header.h"
+#include"requerimientos.h"
+
 class RViewport
 {
 	VIEWPORT m_viewport;

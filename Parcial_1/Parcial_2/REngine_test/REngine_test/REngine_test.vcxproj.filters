@@ -165,6 +165,18 @@
     <ClInclude Include="math_help.h">
       <Filter>Archivos de encabezado\Includers</Filter>
     </ClInclude>
+    <ClInclude Include="RSamplerState.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RShaderResourceView.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RSamplerStateDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RShaderResourceViewDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependences\ImGui\imgui.cpp">
@@ -268,6 +280,21 @@
     </ClCompile>
     <ClCompile Include="RCamera.cpp">
       <Filter>Archivos de origen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="RSamplerState.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RSamplerStateDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderResourceView.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RShaderResourceView.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RShaderResourceViewDX.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

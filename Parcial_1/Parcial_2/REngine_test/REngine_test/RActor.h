@@ -17,6 +17,7 @@
 /* Header Class inclusion								                */
 /************************************************************************/
 #include<vector>
+#include"requerimientos.h"
 #include"RComponent.h"
 
 class RActor

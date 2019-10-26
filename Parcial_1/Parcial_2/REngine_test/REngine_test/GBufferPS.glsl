@@ -15,5 +15,4 @@ void main()
 {
 	color = texture(renderedTexture, TexCoord).rgb;
 	color = color * colorfiesta.rgb;
-	//color = vec3( 1.0,0.5,0.3 );
 }

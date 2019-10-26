@@ -11,6 +11,7 @@ class RSamplerState;
 class RDevice
 {
 public:
+
 	virtual void* getDevice()=0;
 
 	virtual int

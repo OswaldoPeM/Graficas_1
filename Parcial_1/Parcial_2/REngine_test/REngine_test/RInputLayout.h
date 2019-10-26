@@ -1,5 +1,4 @@
 #pragma once
-
 #include"requerimientos.h"
 
 class RInputLayout

@@ -223,7 +223,11 @@
     <ClInclude Include="RProgramShaderDX.h" />
     <ClInclude Include="RRenderManager.h" />
     <ClInclude Include="RRenderManagerDX.h" />
+    <ClInclude Include="RSamplerState.h" />
+    <ClInclude Include="RSamplerStateDX.h" />
     <ClInclude Include="RShader.h" />
+    <ClInclude Include="RShaderResourceView.h" />
+    <ClInclude Include="RShaderResourceViewDX.h" />
     <ClInclude Include="RSwapchain.h" />
     <ClInclude Include="RSwapchainDX.h" />
     <ClInclude Include="RTexture.h" />
@@ -260,7 +264,11 @@
     <ClCompile Include="RProgramShaderDX.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
     <ClCompile Include="RRenderManagerDX.cpp" />
+    <ClCompile Include="RSamplerState.cpp" />
+    <ClCompile Include="RSamplerStateDX.cpp" />
     <ClCompile Include="RShader.cpp" />
+    <ClCompile Include="RShaderResourceView.cpp" />
+    <ClCompile Include="RShaderResourceViewDX.cpp" />
     <ClCompile Include="RSwapchain.cpp" />
     <ClCompile Include="RSwapchainDX.cpp" />
     <ClCompile Include="RTexture.cpp" />
@@ -268,6 +276,7 @@
     <ClCompile Include="RVertexShader.cpp" />
     <ClCompile Include="RVertexShaderDX.cpp" />
     <ClCompile Include="RViewport.cpp" />
+    <ClCompile Include="ShaderResourceView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GBufferPS.glsl" />

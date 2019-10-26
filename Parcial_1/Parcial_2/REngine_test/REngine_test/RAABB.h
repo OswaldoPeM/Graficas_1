@@ -37,15 +37,14 @@ class RAABB :
 	  *[6]Front	Bottom	Left
 	  *[7]Front	Bottom	Right 
 	*/
-	glm::vec4 m_vertex[8];
+	glm::vec3 m_vertex[8];
 public:
 
-	bool init();
+	bool init(glm::vec3 &max, glm::vec3 &min);
 	void render();
 	void update();
 	void destroy();
 
-	RAABB(glm::vec4 &max, glm::vec4 &min);
 	RAABB();
 	~RAABB();
 };

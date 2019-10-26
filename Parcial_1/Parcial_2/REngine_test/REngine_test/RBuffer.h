@@ -18,26 +18,19 @@
 
 class RBuffer
 {
-#ifdef DX
-	ID3D10Buffer* m_buffer;
-#elif GL
-	unsigned int* m_buffer;
-#endif // DX
-
 protected:
 	BUFFER_DESC m_description;
 	SUBRESOURCE_DATA m_initData;
 public:
 	virtual void* getBuffer() = 0;
 
-	virtual BUFFER_DESC *getDesc() { return &m_description; }
-	virtual SUBRESOURCE_DATA *getData() { return &m_initData; }
+	virtual BUFFER_DESC *getDesc() = 0;
+	virtual SUBRESOURCE_DATA *getData() = 0;
 
 	virtual bool init(BufferKey &DATA)=0;
 	virtual void render()=0;
 	virtual void update()=0;
 	virtual void destroy()=0;
-
 
 	RBuffer();
 	virtual ~RBuffer();

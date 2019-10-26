@@ -17,6 +17,8 @@
 class RBuffer;
 class RProgramShader;
 class RProgramShader;
+class RTexture;
+class RRenderTargetView;
 
 struct DeviceKey {
 	void* pAdapter = nullptr;
@@ -55,37 +57,45 @@ public:
 		CreateBuffer
 		(
 			RBuffer& buffer,
-			void * device
+			void* device
 		) =0;
 
 	virtual int
 		CreateVertexShader
 		(
 			RProgramShader& programShadre,
-			void * _p_device
+			void* _p_device
 		) =0;
 
 	virtual int
 		CreateInputLayout
 		(
 			RProgramShader& programShadre,
-			void * _p_device
+			void* _p_device
 		) =0;
 
 	virtual int
 		CreatePixelShader
 		(
 			RProgramShader& programShadre,
-			void * _p_device
+			void* _p_device
 		) = 0;
-/*
-	HRESULT CreateTexture2D();
 
-	HRESULT CreateRenderTargetView();
+	virtual int
+		CreateTexture2D(
+			RTexture& texture,
+			void* _p_device
+		) = 0;
+
+	virtual int
+		CreateRenderTargetView
+		(
+			RRenderTargetView& TargetView,
+			void* _p_device
+		) = 0;
+
+	/*
 	HRESULT CreateDepthStencilView();
-
-
-
 
 	HRESULT CreateShaderResourceViewFromFile();
 

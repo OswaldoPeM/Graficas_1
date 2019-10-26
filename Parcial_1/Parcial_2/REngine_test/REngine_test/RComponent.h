@@ -13,6 +13,8 @@
 /* Header include files									                */
 /************************************************************************/
 #pragma once
+#include"requerimientos.h"
+
 enum ComponentType
 {
 	Transform,
