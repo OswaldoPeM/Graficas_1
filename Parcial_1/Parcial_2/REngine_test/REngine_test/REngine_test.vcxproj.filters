@@ -34,6 +34,9 @@
     <Filter Include="Archivos de origen\DX11">
       <UniqueIdentifier>{712aaaf4-5f1a-4532-8882-c5d61429c219}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\core\Componentes">
+      <UniqueIdentifier>{e7a70d70-6acb-4c79-81d6-55704a8f15aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependences\ImGui\imconfig.h">
@@ -138,13 +141,7 @@
     <ClInclude Include="RVertexShaderDX.h">
       <Filter>Archivos de encabezado\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="RAABB.h">
-      <Filter>Archivos de encabezado\core</Filter>
-    </ClInclude>
     <ClInclude Include="RActor.h">
-      <Filter>Archivos de encabezado\core</Filter>
-    </ClInclude>
-    <ClInclude Include="RComponent.h">
       <Filter>Archivos de encabezado\core</Filter>
     </ClInclude>
     <ClInclude Include="RCamaraManager.h">
@@ -176,6 +173,15 @@
     </ClInclude>
     <ClInclude Include="RShaderResourceViewDX.h">
       <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RAABB.h">
+      <Filter>Archivos de encabezado\core\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="RComponent.h">
+      <Filter>Archivos de encabezado\core\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="RTransform.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +300,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="RShaderResourceViewDX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RTransform.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

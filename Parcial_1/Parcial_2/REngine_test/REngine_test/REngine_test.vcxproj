@@ -232,6 +232,7 @@
     <ClInclude Include="RSwapchainDX.h" />
     <ClInclude Include="RTexture.h" />
     <ClInclude Include="RTextureDX.h" />
+    <ClInclude Include="RTransform.h" />
     <ClInclude Include="RVertexShader.h" />
     <ClInclude Include="RVertexShaderDX.h" />
     <ClInclude Include="RViewport.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="RSwapchainDX.cpp" />
     <ClCompile Include="RTexture.cpp" />
     <ClCompile Include="RTextureDX.cpp" />
+    <ClCompile Include="RTransform.cpp" />
     <ClCompile Include="RVertexShader.cpp" />
     <ClCompile Include="RVertexShaderDX.cpp" />
     <ClCompile Include="RViewport.cpp" />
