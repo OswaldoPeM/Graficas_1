@@ -5,10 +5,14 @@ class RTexture;
 class RDepthStencilView
 {
 protected:
+	RTexture* m_texture;
+
 	STENCIL_VIEW_DESC stencilVDesc;
 public:
 	virtual void* getDSV() = 0;	
 	virtual void* getDSVdesc() = 0;
+	virtual void* getTexture() = 0;
+	virtual void* getTextDesc()=0;
 
 	virtual bool inti(STENCIL_VIEW_DESC svDesc, TEXTURE2D_DESC tDesc) = 0;
 	virtual void render() = 0;

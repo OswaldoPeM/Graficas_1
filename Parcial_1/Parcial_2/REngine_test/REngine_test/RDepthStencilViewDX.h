@@ -9,7 +9,8 @@ class RDepthStencilViewDX :
 public:
 	virtual void* getDSV()override;
 	virtual void* getDSVdesc()override;
-
+	virtual void* getTexture()override;
+	virtual void* getTextDesc()override;
 
 	virtual bool inti(STENCIL_VIEW_DESC desc, TEXTURE2D_DESC tDesc)override;
 	virtual void render()override;

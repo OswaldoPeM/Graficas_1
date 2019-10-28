@@ -105,19 +105,30 @@ int RDeviceDX::CreatePixelShader(RProgramShader & programShader)
 	);
 }
 //cambiar funcion de device por create texture 2d quitar textura de depth stencil
-int RDeviceDX::CreateTexture2D(RDepthStencilView & Stencilview)
+int RDeviceDX::CreateTexture2D(RDepthStencilView & depthStencilView)
 {
-	ID3D11Texture2D* tex = 
-		reinterpret_cast<ID3D11Texture2D*>(Stencilview.getTexture());
-	ID3D11RenderTargetView* RTV =
-		reinterpret_cast<ID3D11RenderTargetView*>(Stencilview.getDSV());
+	TEXTURE2D_DESC* tDesc =
+		reinterpret_cast<TEXTURE2D_DESC*>(depthStencilView.getTextDesc());
 
-	return m_pDevice->CreateRenderTargetView
-	(
-		tex,
-		NULL, 
-		&RTV
-	);
+	///copia de descripcion de textura
+	D3D11_TEXTURE2D_DESC textDesc;
+	textDesc.Width = tDesc->Width;
+	textDesc.Height = tDesc->Height;
+	textDesc.MipLevels = tDesc->MipLevels;
+	textDesc.ArraySize = tDesc->ArraySize;
+	textDesc.Format = (DXGI_FORMAT)tDesc->Format;
+	textDesc.SampleDesc.Count = tDesc->SampleDesc.Count;
+	textDesc.SampleDesc.Quality = tDesc->SampleDesc.Quality;
+	textDesc.Usage = (D3D11_USAGE)tDesc->Usage;
+	textDesc.BindFlags = tDesc->BindFlags;
+	textDesc.CPUAccessFlags = tDesc->CPUAccessFlags;
+	textDesc.MiscFlags = tDesc->MiscFlags;
+	///copia de descripcion de textura
+
+	ID3D11Texture2D* tex =
+		reinterpret_cast<ID3D11Texture2D*>(depthStencilView.getTexture());
+
+	return m_pDevice->CreateTexture2D(&textDesc, NULL, &tex);
 }
 
 int RDeviceDX::CreateRenderTargetView
