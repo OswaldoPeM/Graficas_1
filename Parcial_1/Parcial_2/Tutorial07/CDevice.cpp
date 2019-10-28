@@ -57,9 +57,14 @@ HRESULT CDevice::CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC * pInputElemen
 	SIZE_T BytecodeLength, 
 	ID3D11InputLayout ** ppInputLayout)
 {
-	return g_pd3dDevice->CreateInputLayout(pInputElementDescs, NumElements,
+	return g_pd3dDevice->CreateInputLayout
+	(
+		pInputElementDescs, 
+		NumElements,
 		pShaderBytecodeWithInputSignature,
-		BytecodeLength, ppInputLayout);
+		BytecodeLength, 
+		ppInputLayout
+	);
 }
 
 HRESULT CDevice::CreatePixelShader(

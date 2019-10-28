@@ -78,7 +78,18 @@ struct RATIONAL {
 	unsigned int Numerator;
 	unsigned int Denominator;
 };
-
+struct SAMPLER_DESC {
+	FILTER Filter;
+	TEXTURE_ADDRESS_MODE AddressU;
+	TEXTURE_ADDRESS_MODE AddressV;
+	TEXTURE_ADDRESS_MODE AddressW;
+	float MipLODBias;
+	unsigned int MaxAnisotropy;
+	COMPARISON_FUNC ComparisonFunc;
+	float BorderColor[4];
+	float MinLOD;
+	float MaxLOD;
+};
 struct SAMPLE_DESC {
 	unsigned int Count;
 	unsigned int Quality;
@@ -207,6 +218,16 @@ struct BufferDesc {
 	SUBRESOURCE_DATA	data; 
 };
 
+struct DEPTH_STENCIL_VIEW_DESC
+{
+	FORMAT Format;
+	DSV_DIMENSION ViewDimension;
+	unsigned int Flags;
+
+	unsigned int MipSlice;
+	unsigned int FirstArraySlice;
+	unsigned int ArraySize;
+};
 
 /**
 	*Defines the dimensions of a viewport.

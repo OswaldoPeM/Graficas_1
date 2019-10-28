@@ -38,7 +38,7 @@ bool CBuffer::init(int size, BFlags FLAG)
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = size;
 	bd.BindFlags = FLAG;
-	bd.CPUAccessFlags = 0;
+	bd.CPUAccessFlags = 0;	
 
 	
 	ZeroMemory(&InitData, sizeof(InitData));

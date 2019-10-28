@@ -9,6 +9,11 @@ void * RSamplerStateDX::getSamplerLinear()
 	return reinterpret_cast<void*>(m_samplerLinear);
 }
 
+void * RSamplerStateDX::getSamplerDesc()
+{
+	return reinterpret_cast<void*>(&samplerDesc);
+}
+
 bool RSamplerStateDX::init()
 {
 	return false;

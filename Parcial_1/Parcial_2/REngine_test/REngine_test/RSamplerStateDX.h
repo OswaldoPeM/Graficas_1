@@ -7,6 +7,7 @@ class RSamplerStateDX :
 	ID3D11SamplerState* m_samplerLinear;
 public:
 	virtual void* getSamplerLinear() override;
+	virtual void* getSamplerDesc()override;
 
 	virtual bool init() override;
 	virtual void render() override;
