@@ -20,7 +20,7 @@ bool RBuffer::init(BufferDesc &DATA)
 	m_description	 = DATA.desc;
 	m_initData		 = DATA.data;
 
-	RRenderManager::Instance().CreateBuffer(*this, RRenderManager::InstancePtr()->getDevice());
+	RRenderManager::Instance().CreateBuffer(*this);
 	return true;
 }
 

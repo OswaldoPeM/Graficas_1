@@ -8,8 +8,10 @@ class RDepthStencilViewDX :
 	ID3D11DepthStencilView* m_pDepthStencilView=nullptr;
 public:
 	virtual void* getDSV()override;
+	virtual void* getDSVdesc()override;
 
-	virtual bool inti(STENCIL_VIEW_DESC desc)override;
+
+	virtual bool inti(STENCIL_VIEW_DESC desc, TEXTURE2D_DESC tDesc)override;
 	virtual void render()override;
 	virtual void update() override;
 	virtual void destroy() override;

@@ -192,10 +192,10 @@ struct ReSzSCH
 struct STENCIL_VIEW_DESC {
 	DSV_DIMENSION		viewDimension;
 	FORMAT				format;
-	unsigned int                mipSlice;
-	unsigned int                firstArraySlice;
-	unsigned int                arraySize;
-	unsigned int                flags;
+	unsigned int        mipSlice;
+	unsigned int        firstArraySlice;
+	unsigned int        arraySize;
+	unsigned int        flags;
 };
 
 	
@@ -211,12 +211,12 @@ struct BufferDesc {
 /**
 	*Defines the dimensions of a viewport.
 	float[6]{
-	 TopLeftX,
-	 TopLeftY,
-	 Width,
-	 Height,
-	 MinDepth,
-	 MaxDepth,
+		TopLeftX,
+		TopLeftY,
+		Width,
+		Height,
+		MinDepth,
+		MaxDepth
 	 }
 
 */

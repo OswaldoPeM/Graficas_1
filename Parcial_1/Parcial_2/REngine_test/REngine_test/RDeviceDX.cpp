@@ -1,10 +1,11 @@
 #include "RShaderResourceViewDX.h"
 #include "RRenderTargetViewDX.h"
 #include "RDepthStencilViewDX.h"
-#include "RSamplerStateDX.h"
 #include "RProgramShaderDX.h"
+#include "RSamplerStateDX.h"
 #include "RinputLayoutDX.h"
 #include "RViewportDX.h"
+#include "RTextureDX.h"
 #include "RBufferDX.h"
 #include "RDeviceDX.h"
 
@@ -78,13 +79,63 @@ int RDeviceDX::CreateInputLayout(RProgramShader & programShader)
 		inputLayoutDesc.push_back(temp);
 	}
 
-	m_pDevice->CreateInputLayout
+	return m_pDevice->CreateInputLayout
 	(
 		&inputLayoutDesc[0],
 		inputLayoutDesc.size(),
 		Blob->GetBufferPointer(),
 		Blob->GetBufferSize(),
 		&VertexLayout
+	);
+}
+
+int RDeviceDX::CreatePixelShader(RProgramShader & programShader)
+{
+	ID3D10Blob* Blob =
+		reinterpret_cast<ID3D10Blob*>(programShader.getBlob());
+	ID3D11PixelShader* PixelShader =
+		reinterpret_cast<ID3D11PixelShader*>(programShader.getPixelShader());
+
+	return m_pDevice->CreatePixelShader
+	(
+		Blob->GetBufferPointer(),
+		Blob->GetBufferSize(),
+		NULL,
+		&PixelShader
+	);
+}
+//cambiar funcion de device por create texture 2d quitar textura de depth stencil
+int RDeviceDX::CreateTexture2D(RDepthStencilView & Stencilview)
+{
+	ID3D11Texture2D* tex = 
+		reinterpret_cast<ID3D11Texture2D*>(Stencilview.getTexture());
+	ID3D11RenderTargetView* RTV =
+		reinterpret_cast<ID3D11RenderTargetView*>(Stencilview.getDSV());
+
+	return m_pDevice->CreateRenderTargetView
+	(
+		tex,
+		NULL, 
+		&RTV
+	);
+}
+
+int RDeviceDX::CreateRenderTargetView
+(
+	RRenderTargetView & renderTargetView,
+	void* backbuffer
+)
+{
+	ID3D11Texture2D* tex =
+		reinterpret_cast<ID3D11Texture2D*>(backbuffer);
+	ID3D11RenderTargetView* RTV =
+		reinterpret_cast<ID3D11RenderTargetView*>(renderTargetView.getRenderTargetView());
+
+	return m_pDevice->CreateRenderTargetView
+	(
+		tex,
+		NULL,
+		&RTV
 	);
 }
 

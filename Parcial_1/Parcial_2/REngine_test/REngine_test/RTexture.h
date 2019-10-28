@@ -7,6 +7,7 @@ protected:
 	TEXTURE2D_DESC m_TextureDesc;
 public:
 	virtual void* getTexture() = 0;
+	virtual void* getTextDesc() = 0;
 
 	virtual bool init(TEXTURE2D_DESC& desc) = 0;
 	virtual void render() = 0;

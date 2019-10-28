@@ -1,5 +1,6 @@
 #pragma once
 #include "RProgramShader.h"
+class ID3D10Blob;
 class RProgramShaderDX :
 	public RProgramShader
 {

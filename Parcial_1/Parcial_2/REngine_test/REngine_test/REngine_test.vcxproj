@@ -290,7 +290,6 @@
     <ClCompile Include="RVertexShaderDX.cpp" />
     <ClCompile Include="RViewport.cpp" />
     <ClCompile Include="RViewportDX.cpp" />
-    <ClCompile Include="ShaderResourceView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GBufferPS.glsl" />

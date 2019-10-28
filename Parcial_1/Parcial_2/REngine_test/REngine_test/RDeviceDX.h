@@ -36,13 +36,14 @@ public:
 	virtual int
 		CreateTexture2D
 		(
-			RTexture2D& Texture
+			RDepthStencilView& Texture
 		) override;
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& renderTargetView
+			RRenderTargetView& renderTargetView,
+			void* backbuffer
 		) override;
 
 	virtual int

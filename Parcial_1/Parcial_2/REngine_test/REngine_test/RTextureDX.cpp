@@ -9,6 +9,11 @@ void* RTextureDX::getTexture()
 	return reinterpret_cast<void*>(m_pTexture);
 }
 
+void * RTextureDX::getTextDesc()
+{
+	return reinterpret_cast<void*>(&m_TextureDesc);
+}
+
 bool RTextureDX::init(TEXTURE2D_DESC & desc)
 {
 	m_TextureDesc = desc;

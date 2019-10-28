@@ -12,7 +12,6 @@ void * RInputLayoutDX::getIL()
 
 bool RInputLayoutDX::init(INPUT_ELEMENT_DESC desc)
 {
-	m_InputLayoutDesc = desc;
 	return true;
 }
 

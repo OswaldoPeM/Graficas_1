@@ -317,9 +317,6 @@
     <ClCompile Include="RShaderResourceViewDX.cpp">
       <Filter>Archivos de origen\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderResourceView.cpp">
-      <Filter>Archivos de origen\core</Filter>
-    </ClCompile>
     <ClCompile Include="RTransform.cpp">
       <Filter>Archivos de origen\core</Filter>
     </ClCompile>

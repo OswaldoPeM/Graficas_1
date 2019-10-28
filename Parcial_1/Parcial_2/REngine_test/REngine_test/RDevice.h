@@ -3,7 +3,7 @@
 //forward declaration
 class RBuffer;
 class RProgramShader;
-class RTexture2D;
+class RTextureDX;
 class RRenderTargetView;
 class RDepthStencilView;
 class RSamplerState;
@@ -41,13 +41,14 @@ public:
 	virtual int
 		CreateTexture2D
 		(
-			RTexture2D& Texture
+			RDepthStencilView& Texture
 		) = 0;
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& renderTargetView
+			RRenderTargetView& renderTargetView,
+			void* backbuffer
 		) = 0;
 
 	virtual int 
