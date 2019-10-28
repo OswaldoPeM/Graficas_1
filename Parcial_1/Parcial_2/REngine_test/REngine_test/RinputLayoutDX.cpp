@@ -5,34 +5,34 @@
 
 
 
-void * RinputLayoutDX::getIL()
+void * RInputLayoutDX::getIL()
 {
 	return reinterpret_cast<void*> (m_pInputLayout);
 }
 
-bool RinputLayoutDX::init(INPUT_ELEMENT_DESC desc)
+bool RInputLayoutDX::init(INPUT_ELEMENT_DESC desc)
 {
 	m_InputLayoutDesc = desc;
 	return true;
 }
 
-void RinputLayoutDX::render()
+void RInputLayoutDX::render()
 {
 }
 
-void RinputLayoutDX::update()
+void RInputLayoutDX::update()
 {
 }
 
-void RinputLayoutDX::destroy()
+void RInputLayoutDX::destroy()
 {
 }
 
-RinputLayoutDX::RinputLayoutDX()
+RInputLayoutDX::RInputLayoutDX()
 {
 }
 
 
-RinputLayoutDX::~RinputLayoutDX()
+RInputLayoutDX::~RInputLayoutDX()
 {
 }

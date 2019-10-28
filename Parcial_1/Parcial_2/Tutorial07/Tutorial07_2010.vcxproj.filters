@@ -30,7 +30,6 @@
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="VBuffer.cpp" />
-    <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="CInterfaceDevice.cpp" />
     <ClCompile Include="CSwapChain.cpp" />
@@ -81,7 +80,6 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ClInclude Include="VBuffer.h" />
-    <ClInclude Include="IBuffer.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="STRUCTS.h" />
     <ClInclude Include="dependences\ImGuiDirectX\imconfig.h">

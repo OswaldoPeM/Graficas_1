@@ -180,8 +180,26 @@
     <ClInclude Include="RComponent.h">
       <Filter>Archivos de encabezado\core\Componentes</Filter>
     </ClInclude>
+    <ClInclude Include="RDeviceInterface.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RRenderTargetView.h">
+      <Filter>Archivos de encabezado\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RDeviceInterfaceDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RViewportDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RRenderTargetViewDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="RPixelShaderDX.h">
+      <Filter>Archivos de encabezado\DX11</Filter>
+    </ClInclude>
     <ClInclude Include="RTransform.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\core\Componentes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -288,22 +306,40 @@
       <Filter>Archivos de origen\core</Filter>
     </ClCompile>
     <ClCompile Include="RSamplerState.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\core</Filter>
     </ClCompile>
     <ClCompile Include="RSamplerStateDX.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderResourceView.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\DX11</Filter>
     </ClCompile>
     <ClCompile Include="RShaderResourceView.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\core</Filter>
     </ClCompile>
     <ClCompile Include="RShaderResourceViewDX.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderResourceView.cpp">
+      <Filter>Archivos de origen\core</Filter>
     </ClCompile>
     <ClCompile Include="RTransform.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="RDeviceInterface.cpp">
+      <Filter>Archivos de origen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="RDeviceInterfaceDX.cpp">
+      <Filter>Archivos de origen\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="RPixelShaderDX.cpp">
+      <Filter>Archivos de origen\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="RRenderTargetView.cpp">
+      <Filter>Archivos de origen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="RRenderTargetViewDX.cpp">
+      <Filter>Archivos de origen\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="RViewportDX.cpp">
+      <Filter>Archivos de origen\DX11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

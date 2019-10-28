@@ -10,22 +10,27 @@ RRenderManagerDX::RRenderManagerDX()
 }
 
 
-int RRenderManagerDX::CreateBuffer(RBuffer & buffer, void * device)
+int RRenderManagerDX::CreateDeviceAndSwapChain(DeviceKey & key)
 {
 	return 0;
 }
 
-int RRenderManagerDX::CreateVertexShader(RProgramShader & programShadre, void * _p_device)
+int RRenderManagerDX::CreateBuffer(RBuffer & buffer)
 {
 	return 0;
 }
 
-int RRenderManagerDX::CreateInputLayout(RProgramShader & programShadre, void * _p_device)
+int RRenderManagerDX::CreateVertexShader(RProgramShader & programShadre)
 {
 	return 0;
 }
 
-int RRenderManagerDX::CreatePixelShader(RProgramShader & programShadre, void * _p_device)
+int RRenderManagerDX::CreateInputLayout(RProgramShader & programShadre)
+{
+	return 0;
+}
+
+int RRenderManagerDX::CreatePixelShader(RProgramShader & programShadre)
 {
 	return 0;
 }

@@ -9,7 +9,7 @@ void * RBufferDX::getBuffer()
 	return reinterpret_cast<void*>(m_pBuffer);
 }
 
-bool RBufferDX::init(BufferKey & desData)
+bool RBufferDX::init(BufferDesc & desData)
 {
 	m_description = desData.desc;
 	m_initData = desData.data;
@@ -36,4 +36,5 @@ RBufferDX::RBufferDX()
 
 RBufferDX::~RBufferDX()
 {
+	m_pBuffer->Release();
 }

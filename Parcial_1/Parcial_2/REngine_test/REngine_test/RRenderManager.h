@@ -14,11 +14,12 @@
 /**
 	*forward declaration
 */
-class RBuffer;
-class RProgramShader;
+class RDeviceInterface;
+class RRenderTargetView;
 class RProgramShader;
 class RTexture;
-class RRenderTargetView;
+class RDevice;
+class RBuffer;
 
 struct DeviceKey {
 	void* pAdapter = nullptr;
@@ -45,6 +46,8 @@ struct RManagerData
 class RRenderManager 
 	:public RModule<RRenderManager>
 {
+	RDevice* Device;
+	RDeviceInterface* InterfaceDeivice;
 public:
 	virtual ~RRenderManager();
 	RRenderManager();
@@ -56,42 +59,36 @@ public:
 	virtual int
 		CreateBuffer
 		(
-			RBuffer& buffer,
-			void* device
+			RBuffer& buffer
 		) =0;
 
 	virtual int
 		CreateVertexShader
 		(
-			RProgramShader& programShadre,
-			void* _p_device
+			RProgramShader& programShadre
 		) =0;
 
 	virtual int
 		CreateInputLayout
 		(
-			RProgramShader& programShadre,
-			void* _p_device
+			RProgramShader& programShadre
 		) =0;
 
 	virtual int
 		CreatePixelShader
 		(
-			RProgramShader& programShadre,
-			void* _p_device
+			RProgramShader& programShadre
 		) = 0;
 
 	virtual int
 		CreateTexture2D(
-			RTexture& texture,
-			void* _p_device
+			RTexture& texture
 		) = 0;
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& TargetView,
-			void* _p_device
+			RRenderTargetView& TargetView
 		) = 0;
 
 	/*

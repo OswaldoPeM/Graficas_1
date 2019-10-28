@@ -17,57 +17,49 @@ public:
 	virtual int
 		CreateBuffer
 		(
-			RBuffer& buffer,
-			RDevice * device
+			RBuffer& buffer
 		) = 0;
 
 	virtual int
 		CreateVertexShader
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) = 0;
 
 	virtual int
 		CreateInputLayout
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) = 0;
 
 	virtual int
 		CreatePixelShader
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) = 0;
 
 	virtual int
 		CreateTexture2D
 		(
-			RTexture2D& Texture,
-			RDevice * _p_device
+			RTexture2D& Texture
 		) = 0;
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& renderTargetView,
-			RDevice * _p_device
+			RRenderTargetView& renderTargetView
 		) = 0;
 
 	virtual int 
 		CreateDepthStencilView
 		(
-			RDepthStencilView& depthStencilView,
-			RDevice * _p_device
+			RDepthStencilView& depthStencilView
 		) = 0;
 
 	virtual int
 		CreateSamplerState
 		(
-			RSamplerState& samplerState,
-			RDevice * _p_device
+			RSamplerState& samplerState
 		) = 0;
 
 	RDevice();

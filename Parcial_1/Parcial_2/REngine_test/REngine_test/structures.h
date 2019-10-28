@@ -202,7 +202,7 @@ struct STENCIL_VIEW_DESC {
 /**
 	*init parameters
 */
-struct BufferKey {
+struct BufferDesc {
 	BUFFER_DESC			desc;
 	SUBRESOURCE_DATA	data; 
 };
@@ -228,4 +228,14 @@ struct VIEWPORT
 	float Height;
 	float MinDepth;
 	float MaxDepth;
+};
+
+struct RBOX
+{
+	unsigned int left;
+	unsigned int top;
+	unsigned int front;
+	unsigned int right;
+	unsigned int bottom;
+	unsigned int back;
 };

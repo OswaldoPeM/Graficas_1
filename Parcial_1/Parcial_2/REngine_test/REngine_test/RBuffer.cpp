@@ -2,7 +2,17 @@
 #include"RRenderManager.h"
 
 
-bool RBuffer::init(BufferKey &DATA)
+BUFFER_DESC * RBuffer::getDesc()
+{
+	return &m_description;
+}
+
+SUBRESOURCE_DATA * RBuffer::getData()
+{
+	return &m_initData;
+}
+
+bool RBuffer::init(BufferDesc &DATA)
 {
 	m_description.clear();
 	m_initData.clear();

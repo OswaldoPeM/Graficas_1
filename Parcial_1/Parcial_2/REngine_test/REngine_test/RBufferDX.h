@@ -9,10 +9,11 @@ class RBufferDX :
 public:
 	virtual void* getBuffer() override;
 
-	virtual bool init(BufferKey &desData)override;
+	virtual bool init(BufferDesc &desData)override;
 	virtual void render()override;
 	virtual void update()override;
 	virtual void destroy()override;
+
 	RBufferDX();
 	virtual ~RBufferDX();
 };

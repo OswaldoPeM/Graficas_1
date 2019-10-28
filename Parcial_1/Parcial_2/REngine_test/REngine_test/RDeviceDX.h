@@ -12,57 +12,49 @@ public:
 	virtual int
 		CreateBuffer
 		(
-			RBuffer& buffer,
-			RDevice * device
+			RBuffer& buffer
 		) override;
 
 	virtual int
 		CreateVertexShader
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) override;
 
 	virtual int
 		CreateInputLayout
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) override;
 
 	virtual int
 		CreatePixelShader
 		(
-			RProgramShader& programShader,
-			RDevice * _p_device
+			RProgramShader& programShader
 		) override;
 
 	virtual int
 		CreateTexture2D
 		(
-			RTexture2D& Texture,
-			RDevice * _p_device
+			RTexture2D& Texture
 		) override;
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& renderTargetView,
-			RDevice * _p_device
+			RRenderTargetView& renderTargetView
 		) override;
 
 	virtual int
 		CreateDepthStencilView
 		(
-			RDepthStencilView& depthStencilView,
-			RDevice * _p_device
+			RDepthStencilView& depthStencilView
 		) override;
 
 	virtual int
 		CreateSamplerState
 		(
-			RSamplerState& samplerState,
-			RDevice * _p_device
+			RSamplerState& samplerState
 		) override;
 	RDeviceDX();
 	virtual ~RDeviceDX();

@@ -407,7 +407,6 @@
     <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_dx11.cpp" />
     <ClCompile Include="dependences\ImGuiDirectX\imgui_impl_win32.cpp" />
     <ClCompile Include="dependences\ImGuiDirectX\imgui_widgets.cpp" />
-    <ClCompile Include="IBuffer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
     <ClCompile Include="VBuffer.cpp" />
@@ -447,7 +446,6 @@
     <ClInclude Include="dependences\ImGuiDirectX\imstb_rectpack.h" />
     <ClInclude Include="dependences\ImGuiDirectX\imstb_textedit.h" />
     <ClInclude Include="dependences\ImGuiDirectX\imstb_truetype.h" />
-    <ClInclude Include="IBuffer.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="STRUCTS.h" />

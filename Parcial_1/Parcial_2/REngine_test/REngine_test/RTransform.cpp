@@ -11,7 +11,7 @@ RTransform::~RTransform()
 {
 }
 
-void RTransform::setPos(glm::mat4 pos)
+void RTransform::setPos(glm::vec3 pos)
 {
 }
 
@@ -27,10 +27,12 @@ void RTransform::setRotation(glm::vec3 rotation)
 
 bool RTransform::init(RTransform_Desc & desc)
 {
+	world = glm::identity<glm::mat4>();
 	m_scale = desc.SCALE;
 	m_rotation = desc.ROTATION;
-	world = desc.POSITION;
+	m_pos = desc.POSITION;
 
+	//glm::rotate(world,m_rotation, m_rotation);
 	return true;
 }
 

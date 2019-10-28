@@ -67,8 +67,9 @@ void CMeshManager::render(CInterfaceDevice* DeviceContext, RenderBuffers SB)
 		cb.vMeshColor = g_vMeshColor;
 		cb.mWorld = XMMatrixTranspose(meshes[i].getPosition());
 		UINT stride = sizeof(SimpleVertex);
-		UINT offset = 0;
-
+		UINT offset = 0;	
+			/*i & 1 ? DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST)
+				: DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);*/
 		DeviceContext->VSSetShader(*SB.VS->getVertexShader(), NULL, 0);
 		DeviceContext->VSSetConstantBuffers(0, 1, SB.NCh->getBuffer());
 		DeviceContext->VSSetConstantBuffers(1, 1, SB.ChR->getBuffer());

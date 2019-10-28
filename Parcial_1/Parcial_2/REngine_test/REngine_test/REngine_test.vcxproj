@@ -214,15 +214,20 @@
     <ClInclude Include="RDepthStencilViewDX.h" />
     <ClInclude Include="RDevice.h" />
     <ClInclude Include="RDeviceDX.h" />
+    <ClInclude Include="RDeviceInterface.h" />
+    <ClInclude Include="RDeviceInterfaceDX.h" />
     <ClInclude Include="requerimientos.h" />
     <ClInclude Include="RInputLayout.h" />
     <ClInclude Include="RinputLayoutDX.h" />
     <ClInclude Include="RModule.h" />
     <ClInclude Include="RPixelShader.h" />
+    <ClInclude Include="RPixelShaderDX.h" />
     <ClInclude Include="RProgramShader.h" />
     <ClInclude Include="RProgramShaderDX.h" />
     <ClInclude Include="RRenderManager.h" />
     <ClInclude Include="RRenderManagerDX.h" />
+    <ClInclude Include="RRenderTargetView.h" />
+    <ClInclude Include="RRenderTargetViewDX.h" />
     <ClInclude Include="RSamplerState.h" />
     <ClInclude Include="RSamplerStateDX.h" />
     <ClInclude Include="RShader.h" />
@@ -236,6 +241,7 @@
     <ClInclude Include="RVertexShader.h" />
     <ClInclude Include="RVertexShaderDX.h" />
     <ClInclude Include="RViewport.h" />
+    <ClInclude Include="RViewportDX.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
@@ -257,14 +263,19 @@
     <ClCompile Include="RDepthStencilViewDX.cpp" />
     <ClCompile Include="RDevice.cpp" />
     <ClCompile Include="RDeviceDX.cpp" />
+    <ClCompile Include="RDeviceInterface.cpp" />
+    <ClCompile Include="RDeviceInterfaceDX.cpp" />
     <ClCompile Include="REngine_test.cpp" />
     <ClCompile Include="RInputLayout.cpp" />
     <ClCompile Include="RinputLayoutDX.cpp" />
     <ClCompile Include="RPixelShader.cpp" />
+    <ClCompile Include="RPixelShaderDX.cpp" />
     <ClCompile Include="RProgramShader.cpp" />
     <ClCompile Include="RProgramShaderDX.cpp" />
     <ClCompile Include="RRenderManager.cpp" />
     <ClCompile Include="RRenderManagerDX.cpp" />
+    <ClCompile Include="RRenderTargetView.cpp" />
+    <ClCompile Include="RRenderTargetViewDX.cpp" />
     <ClCompile Include="RSamplerState.cpp" />
     <ClCompile Include="RSamplerStateDX.cpp" />
     <ClCompile Include="RShader.cpp" />
@@ -278,6 +289,7 @@
     <ClCompile Include="RVertexShader.cpp" />
     <ClCompile Include="RVertexShaderDX.cpp" />
     <ClCompile Include="RViewport.cpp" />
+    <ClCompile Include="RViewportDX.cpp" />
     <ClCompile Include="ShaderResourceView.cpp" />
   </ItemGroup>
   <ItemGroup>

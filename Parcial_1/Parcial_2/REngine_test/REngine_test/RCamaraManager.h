@@ -23,7 +23,8 @@ public:
 	void render();
 	void update();
 	void destroy();
+
 	RCamaraManager();
-	~RCamaraManager();
+	virtual ~RCamaraManager();
 };
 

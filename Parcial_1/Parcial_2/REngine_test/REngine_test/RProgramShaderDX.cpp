@@ -1,16 +1,40 @@
 #include "RProgramShaderDX.h"
+#include "RPixelShaderDX.h"
+#include "RVertexShaderDX.h"
+#include "RinputLayoutDX.h"
+
 #include<sstream>
 #include<fstream>
+
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 
 
+void * RProgramShaderDX::getVertexShader()
+{
+	return reinterpret_cast<void*>(m_VertexShader);
+}
+
+void * RProgramShaderDX::getPixelShader()
+{
+	return reinterpret_cast<void*>(m_PixelShader);
+}
+
+void * RProgramShaderDX::getInputLayout()
+{
+	return reinterpret_cast<void*>(m_InputLayout);
+}
+
+void * RProgramShaderDX::getBlob()
+{
+	return reinterpret_cast<void*>(pVSBlob);
+}
+
 void RProgramShaderDX::chargeShader(const char * vertex_file_path, const char * fragment_file_path)
 {
 	//VERTEX SHADER
 	////////////////////////////////////////////////////////////////////////////////////
-	ID3D10Blob* pVSBlob;
 	ID3D10Blob* pErroMsg = nullptr;
 	if (pVSBlob != nullptr) {
 		pVSBlob->Release();
@@ -117,6 +141,9 @@ void RProgramShaderDX::chargeShader(const char * vertex_file_path, const char * 
 
 bool RProgramShaderDX::inti()
 {
+	m_VertexShader = new RVertexShaderDX();
+	m_PixelShader = new RPixelShaderDX();
+
 	return false;
 }
 

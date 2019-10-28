@@ -3,8 +3,13 @@
 class RProgramShaderDX :
 	public RProgramShader
 {
-
+	ID3D10Blob* pVSBlob;
 public:
+
+	virtual void* getVertexShader()override;
+	virtual void* getPixelShader()override;
+	virtual void* getInputLayout()override;
+	virtual void* getBlob() override;
 	virtual void
 		chargeShader
 		(

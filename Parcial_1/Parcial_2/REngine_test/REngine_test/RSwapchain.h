@@ -1,5 +1,6 @@
 #pragma once
 #include"requerimientos.h"
+
 class RSwapchain
 {
 protected:

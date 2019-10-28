@@ -16,7 +16,7 @@ RRenderManager::~RRenderManager()
 
 
 
-int RRenderManager::CreateBuffer(RBuffer & buffer, void * _p_device)
+int RRenderManager::CreateBuffer(RBuffer & buffer)
 {
 
 #ifdef DX
@@ -42,7 +42,7 @@ int RRenderManager::CreateBuffer(RBuffer & buffer, void * _p_device)
 	case BIND_CONSTANT_BUFFER:		flag = GL_UNIFORM_BUFFER; break;
 	default:break;
 	}
-
+	
 	if (flag == GL_ARRAY_BUFFER || flag == GL_ELEMENT_ARRAY_BUFFER) {
 
 		// Generate an ID for the vertex buffer.
@@ -80,7 +80,7 @@ int RRenderManager::CreateBuffer(RBuffer & buffer, void * _p_device)
 	return _OK;
 }
 
-int RRenderManager::CreateVertexShader(RProgramShader& shaderProgram, void * _p_device)
+int RRenderManager::CreateVertexShader(RProgramShader& shaderProgram)
 {
 #ifdef DX
 
@@ -99,7 +99,7 @@ int RRenderManager::CreateVertexShader(RProgramShader& shaderProgram, void * _p_
 	return 0;
 }
 
-int RRenderManager::CreateInputLayout(RProgramShader& programShader, void * _p_device)
+int RRenderManager::CreateInputLayout(RProgramShader& programShader)
 {
 #ifdef DX
 	auto p_device_dx11
@@ -118,7 +118,7 @@ int RRenderManager::CreateInputLayout(RProgramShader& programShader, void * _p_d
 	return 0;
 }
 
-int RRenderManager::CreatePixelShader(RProgramShader & shaderProgram, void * _p_device)
+int RRenderManager::CreatePixelShader(RProgramShader & shaderProgram)
 {
 #ifdef DX
 	auto p_device_dx11

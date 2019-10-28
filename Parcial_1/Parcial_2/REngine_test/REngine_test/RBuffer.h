@@ -24,10 +24,10 @@ protected:
 public:
 	virtual void* getBuffer() = 0;
 
-	virtual BUFFER_DESC *getDesc() = 0;
-	virtual SUBRESOURCE_DATA *getData() = 0;
+	virtual BUFFER_DESC *getDesc();
+	virtual SUBRESOURCE_DATA *getData();
 
-	virtual bool init(BufferKey &DATA)=0;
+	virtual bool init(BufferDesc &DATA)=0;
 	virtual void render()=0;
 	virtual void update()=0;
 	virtual void destroy()=0;

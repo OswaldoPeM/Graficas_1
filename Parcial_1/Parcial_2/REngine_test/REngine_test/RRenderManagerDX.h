@@ -25,29 +25,25 @@ public:
 	virtual int
 		CreateBuffer
 		(
-			RBuffer& buffer,
-			void * device
+			RBuffer& buffer
 		) override;
 
 	virtual int
 		CreateVertexShader
 		(
-			RProgramShader& programShadre,
-			void * _p_device
+			RProgramShader& programShadre
 		) override;
 
 	virtual int
 		CreateInputLayout
 		(
-			RProgramShader& programShadre,
-			void * _p_device
+			RProgramShader& programShadre
 		) override;
 
 	virtual int
 		CreatePixelShader
 		(
-			RProgramShader& programShadre,
-			void * _p_device
+			RProgramShader& programShadre
 		) override;
 
 	 virtual ~RRenderManagerDX();

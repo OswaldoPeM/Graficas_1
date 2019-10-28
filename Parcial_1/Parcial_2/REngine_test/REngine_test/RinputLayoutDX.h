@@ -1,7 +1,7 @@
 #pragma once
 #include "RInputLayout.h"
 class ID3D11InputLayout;
-class RinputLayoutDX :
+class RInputLayoutDX :
 	public RInputLayout
 {
 	ID3D11InputLayout* m_pInputLayout;
@@ -12,7 +12,8 @@ public:
 	virtual void render() override;
 	virtual void update() override;
 	virtual void destroy() override;
-	RinputLayoutDX();
-	virtual ~RinputLayoutDX();
+
+	RInputLayoutDX();
+	virtual ~RInputLayoutDX();
 };
 
