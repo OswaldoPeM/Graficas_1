@@ -27,7 +27,8 @@ enum ComponentType
 /************************************************************************/
 class RComponent 
 {
-	int m_index;
+protected:
+	int indexComp;
 public:
 	virtual int getIndex() = 0;
 	virtual void setIndex(int index) = 0;

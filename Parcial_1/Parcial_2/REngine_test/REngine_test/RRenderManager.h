@@ -14,27 +14,16 @@
 /**
 	*forward declaration
 */
-class RDeviceInterface;
+class RDepthStencilView;
 class RRenderTargetView;
+class RDeviceInterface;
 class RProgramShader;
+class RSamplerState;
+class RSwapchain;
 class RTexture;
 class RDevice;
 class RBuffer;
-
-struct DeviceKey {
-	void* pAdapter = nullptr;
-	DRIVER_TYPE DriverType;
-	void* Software = nullptr;
-	unsigned int Flags;
-	const FEATURE_LEVEL *pFeatureLevels;
-	unsigned int FeatureLevels;
-	unsigned int SDKVersion = 7;// = D3D11_SDK_VERSION;
-	SWAP_CHAIN_DESC * pSwapChainDesc;
-	//void* pSwapChainDesc = nullptr;
-	//void ** ppSwapChain;
-	FEATURE_LEVEL * pFeatureLevel;
-	//void ** ppImmediateContext;
-};
+class RActor;
 
 
 struct RManagerData
@@ -48,61 +37,191 @@ class RRenderManager
 {
 	RDevice* Device;
 	RDeviceInterface* InterfaceDeivice;
+	RSwapchain * SwapChain;
 public:
 	virtual ~RRenderManager();
 	RRenderManager();
-
-	virtual void* getDevice() = 0;
-	virtual void* getInterfaeDevice() = 0;
-	virtual void* getSwapChain() = 0;
-
+	virtual int 
+		CreateDeviceAndSwapChain
+		(
+			RenderManagerDesc& desc
+		);
 	virtual int
 		CreateBuffer
 		(
 			RBuffer& buffer
-		) =0;
+		);
 
 	virtual int
 		CreateVertexShader
 		(
-			RProgramShader& programShadre
-		) =0;
+			RProgramShader& programShader
+		);
 
 	virtual int
 		CreateInputLayout
 		(
-			RProgramShader& programShadre
-		) =0;
+			RProgramShader& programShader
+		);
 
 	virtual int
 		CreatePixelShader
 		(
-			RProgramShader& programShadre
-		) = 0;
+			RProgramShader& programShader
+		);
 
 	virtual int
-		CreateTexture2D(
-			RTexture& texture
-		) = 0;
+		CreateTexture2D
+		(
+			RDepthStencilView& Texture
+		);
 
 	virtual int
 		CreateRenderTargetView
 		(
-			RRenderTargetView& TargetView
-		) = 0;
+			RRenderTargetView& renderTargetView
+		);
 
-	/*
-	HRESULT CreateDepthStencilView();
+	virtual int
+		CreateDepthStencilView
+		(
+			RDepthStencilView& depthStencilView
+		);
 
-	HRESULT CreateShaderResourceViewFromFile();
+	virtual int
+		CreateSamplerState
+		(
+			RSamplerState& samplerState
+		);
 
-	HRESULT CreateSamplerState();
+	virtual void
+		OMSetRenderTargets
+		(
+			unsigned int NumViews,
+			RRenderTargetView *ppRenderTargetViews,
+			RDepthStencilView *pDepthStencilView
+		);
 
-	ULONG Release() { return  m_Device->Release(); }
-*/
+	virtual void
+		RSSetViewports
+		(
+			unsigned int NumViewports,
+			RViewport *pViewports
+		);
 
-	void destroy() {
-	}
+	virtual void
+		IASetInputLayout
+		(
+			RInputLayout *pInputLayout
+		);
+
+	virtual void
+		IASetVertexBuffers
+		(
+			unsigned int StartSlot,
+			unsigned int NumBuffers,
+			RBuffer *ppVertexBuffers,
+			const unsigned int *pStrides,
+			const unsigned int *pOffsets
+		);
+
+	virtual void
+		IASetIndexBuffer
+		(
+			RBuffer *pIndexBuffer,
+			FORMAT Format,
+			unsigned int Offset
+		);
+
+	virtual void
+		IASetPrimitiveTopology
+		(
+			PRIMITIVE_TOPOLOGY Topology
+		);
+
+	virtual void
+		UpdateSubresource
+		(
+			RBuffer *pDstResource,
+			unsigned int DstSubresource,
+			RBOX *pDstBox,
+			void *pSrcData,
+			unsigned int SrcRowPitch,
+			unsigned int SrcDepthPitch
+		);
+
+	virtual void
+		ClearRenderTargetView
+		(
+			RRenderTargetView *pRenderTargetView,
+			float ColorRGBA[4]
+		);
+
+	virtual void
+		ClearDepthStencilView
+		(
+			RDepthStencilView *pDepthStencilView,
+			unsigned int ClearFlags,
+			float Depth,
+			unsigned char Stencil
+		);
+
+	virtual void
+		VSSetShader
+		(
+			RVertexShader *pVertexShader
+		);
+
+	virtual void VSSetConstantBuffers
+	(
+		unsigned int StartSlot,
+		unsigned int NumBuffers,
+		RBuffer  *ppConstantBuffers
+	);
+
+	virtual void
+		PSSetShader
+		(
+			RPixelShader *pPixelShader
+		);
+
+	virtual void
+		PSSetConstantBuffers
+		(
+			unsigned int StartSlot,
+			unsigned int NumBuffer,
+			RBuffer *ppConstantBuffers
+		);
+
+	virtual void
+		PSSetShaderResources
+		(
+			unsigned int StartSlot,
+			unsigned int NumViews,
+			RShaderResourceView* ppShaderResourceViews
+		);
+
+	virtual void
+		PSSetSamplers
+		(
+			unsigned int StartSlot,
+			unsigned int NumSamplers,
+			RSamplerState *ppSamplers
+		);
+
+	virtual void
+		DrawIndexed
+		(
+			unsigned int IndexCount,
+			unsigned int StartIndexLocation,
+			int BaseVertexLocation
+		);
+	virtual unsigned int Present(SwChPr& param);
+	virtual unsigned int ResizeBuffer(ReSzSCH& param);
+
+	void update();
+	void render();
+	void destroy();
 
 	unsigned int OnShutDown()
 	{
@@ -111,7 +230,7 @@ public:
 	}
 	unsigned int OnStartUp(void* _Desc)
 	{
-		DeviceKey* key = (DeviceKey*)_Desc;
+		RenderManagerDesc* key = reinterpret_cast<RenderManagerDesc*>(_Desc);
 		//Instance().CreateDeviceAndSwapChain(*key);
 		return 0;
 	}

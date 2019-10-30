@@ -9,7 +9,7 @@ class RSwapchainDX :
 public:
 	virtual void* getSwapChain()override;
 
-	virtual unsigned int GetBuffer(SwChBuf& param) override;
+	virtual unsigned int GetBuffer(SwChBuf& param, void* texture) override;
 	virtual unsigned int Present(SwChPr& param) override;
 	virtual unsigned int ResizeBuffer(ReSzSCH& param) override;
 

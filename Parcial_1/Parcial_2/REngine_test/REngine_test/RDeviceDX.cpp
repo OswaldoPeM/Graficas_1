@@ -19,6 +19,47 @@ void * RDeviceDX::getDevice()
 	return reinterpret_cast<void*>(m_pDevice);
 }
 
+int RDeviceDX::CreateDeviceAndSwapChain(RenderManagerDesc & desc)
+{
+	IDXGIAdapter* adapter =
+		reinterpret_cast<IDXGIAdapter*>(desc.pAdapter);
+	D3D_DRIVER_TYPE* driverType =
+		reinterpret_cast<D3D_DRIVER_TYPE*>(desc.DriverType);
+	HMODULE* hModule = reinterpret_cast<HMODULE*>(desc.Software);
+	unsigned int flags = desc.Flags;
+	D3D_FEATURE_LEVEL * pFeatures_levels =
+		reinterpret_cast<D3D_FEATURE_LEVEL *>(desc.pFeatureLevels);
+	unsigned int FeatureLevels = desc.FeatureLevels;
+	unsigned int SDKVersion = desc.SDKVersion;
+	DXGI_SWAP_CHAIN_DESC* pSwapChainDesc =
+		reinterpret_cast<DXGI_SWAP_CHAIN_DESC*>(desc.pSwapChainDescr);
+	IDXGISwapChain* SwapChain =
+		reinterpret_cast<IDXGISwapChain *>(desc.ppSwapChain);
+	D3D_FEATURE_LEVEL* pFeatureLevel =
+		reinterpret_cast<D3D_FEATURE_LEVEL*>(desc.pFeatureLevel);
+	ID3D11DeviceContext* deviceInterface =
+		reinterpret_cast<ID3D11DeviceContext*>(desc.ppImmediateContext);
+	ID3D11Device* device =
+		reinterpret_cast<ID3D11Device*>(getDevice());
+
+	return D3D11CreateDeviceAndSwapChain
+	(
+		adapter,
+		*driverType,
+		*hModule,
+		flags,
+		pFeatures_levels,
+		FeatureLevels,
+		SDKVersion,
+		pSwapChainDesc,
+		&SwapChain,
+		&device,
+		pFeatureLevel,
+		&deviceInterface
+	);
+
+}
+
 int RDeviceDX::CreateBuffer(RBuffer & buffer)
 {
 	ID3D11Buffer* buf =
@@ -137,10 +178,13 @@ int RDeviceDX::CreateRenderTargetView
 	void* backbuffer
 )
 {
+	RTexture* bBuffer = 
+		reinterpret_cast<RTexture*>(backbuffer);
 	ID3D11Texture2D* tex =
-		reinterpret_cast<ID3D11Texture2D*>(backbuffer);
+		reinterpret_cast<ID3D11Texture2D*>(bBuffer->getTexture());
 	ID3D11RenderTargetView* RTV =
 		reinterpret_cast<ID3D11RenderTargetView*>(renderTargetView.getRenderTargetView());
+
 
 	return m_pDevice->CreateRenderTargetView(tex, NULL, &RTV);
 }

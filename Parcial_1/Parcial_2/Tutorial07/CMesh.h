@@ -39,9 +39,6 @@ public:
 	bool init();
 	void render();
 	void update();
-	void destroy();bool init();
-	void render();
-	void update();
 	void destroy();
 
 

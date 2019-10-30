@@ -8,7 +8,7 @@ protected:
 public:
 	virtual void* getSwapChain() = 0;
 
-	virtual unsigned int GetBuffer(SwChBuf& param) = 0;
+	virtual unsigned int GetBuffer(SwChBuf& param,void* texture) = 0;
 	virtual unsigned int Present(SwChPr& param) = 0;
 	virtual unsigned int ResizeBuffer(ReSzSCH& param) = 0;
 

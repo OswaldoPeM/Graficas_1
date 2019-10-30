@@ -16,10 +16,10 @@ public:
 	//void* getInterfaeDevice() { return m_InterfaceDevice; }
 	//void* getSwapChain() { return m_swapChain; }
 
-	int
+	/*int
 		CreateDeviceAndSwapChain
 		(
-			DeviceKey &key
+			RenderManagerDesc &key
 		);
 	
 	virtual int
@@ -44,7 +44,7 @@ public:
 		CreatePixelShader
 		(
 			RProgramShader& programShadre
-		) override;
+		) override;*/
 
 	 virtual ~RRenderManagerDX();
 	 RRenderManagerDX();

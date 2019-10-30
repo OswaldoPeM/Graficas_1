@@ -31,6 +31,9 @@ void RTextureDX::update()
 
 void RTextureDX::destroy()
 {
+	if (m_pTexture != NULL) {
+		m_pTexture->Release();
+	}
 }
 
 RTextureDX::RTextureDX()

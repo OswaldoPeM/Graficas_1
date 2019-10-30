@@ -7,12 +7,18 @@ class RTextureDX;
 class RRenderTargetView;
 class RDepthStencilView;
 class RSamplerState;
+struct RenderManagerDesc;
 
 class RDevice
 {
 public:
 
 	virtual void* getDevice()=0;
+	virtual int
+		CreateDeviceAndSwapChain
+		(
+			RenderManagerDesc& desc
+		) = 0;
 
 	virtual int
 		CreateBuffer

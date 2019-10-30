@@ -219,6 +219,8 @@
     <ClInclude Include="requerimientos.h" />
     <ClInclude Include="RInputLayout.h" />
     <ClInclude Include="RinputLayoutDX.h" />
+    <ClInclude Include="RMesh.h" />
+    <ClInclude Include="RModel.h" />
     <ClInclude Include="RModule.h" />
     <ClInclude Include="RPixelShader.h" />
     <ClInclude Include="RPixelShaderDX.h" />
@@ -268,6 +270,8 @@
     <ClCompile Include="REngine_test.cpp" />
     <ClCompile Include="RInputLayout.cpp" />
     <ClCompile Include="RinputLayoutDX.cpp" />
+    <ClCompile Include="RMesh.cpp" />
+    <ClCompile Include="RModel.cpp" />
     <ClCompile Include="RPixelShader.cpp" />
     <ClCompile Include="RPixelShaderDX.cpp" />
     <ClCompile Include="RProgramShader.cpp" />

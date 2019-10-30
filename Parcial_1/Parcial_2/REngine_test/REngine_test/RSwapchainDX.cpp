@@ -1,4 +1,5 @@
 #include "RSwapchainDX.h"
+#include "RTextureDX.h"
 #include <d3d11.h>
 #include <d3dx11.h>
 
@@ -19,22 +20,19 @@ void * RSwapchainDX::getSwapChain()
 	return reinterpret_cast<void*>(m_swapChain);
 }
 
-unsigned int RSwapchainDX::GetBuffer(SwChBuf & param)
+unsigned int RSwapchainDX::GetBuffer(SwChBuf & param, void* texture)
 {
-	const IID riid
-	{ 
-		param.riid.Data1 ,
-		param.riid.Data2 ,
-		param.riid.Data3 ,
-		*param.riid.Data4 
-	};
+	
+	RTexture* bBuffer =
+		reinterpret_cast<RTexture*>(texture);
+	bBuffer = new RTextureDX();
 
 	return
 		m_swapChain->GetBuffer
 		(
-			param.Buffer,
-			riid, 
-			param.ppSurface
+			0,
+			__uuidof(ID3D11Texture2D),
+			(LPVOID*)bBuffer->getTexture()
 		);
 }
 

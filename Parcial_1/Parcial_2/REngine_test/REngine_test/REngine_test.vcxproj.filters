@@ -201,6 +201,12 @@
     <ClInclude Include="RTransform.h">
       <Filter>Archivos de encabezado\core\Componentes</Filter>
     </ClInclude>
+    <ClInclude Include="RModel.h">
+      <Filter>Archivos de encabezado\core\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="RMesh.h">
+      <Filter>Archivos de encabezado\core\Componentes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependences\ImGui\imgui.cpp">
@@ -337,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="RViewportDX.cpp">
       <Filter>Archivos de origen\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="RModel.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="RMesh.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

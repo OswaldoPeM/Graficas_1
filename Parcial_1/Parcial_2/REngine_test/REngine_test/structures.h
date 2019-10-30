@@ -71,13 +71,29 @@ struct Rid {
 struct SwChBuf
 {
 	unsigned int Buffer;
-	const Rid riid;
+	Rid riid;
 	void **ppSurface;
 };
 struct RATIONAL {
 	unsigned int Numerator;
 	unsigned int Denominator;
 };
+
+//struct RenderManagerDesc {
+//
+//	void* pAdapter = NULL;
+//	DRIVER_TYPE* DriverType;
+//	void* Software = NULL;
+//	unsigned int Flags;
+//	FEATURE_LEVEL *pFeatureLevels;
+//	unsigned int FeatureLevels;
+//	unsigned int SDKVersion = 7;// = D3D11_SDK_VERSION;
+//	SWAP_CHAIN_DESC * pSwapChainDescr;
+//	void* pDevice = nullptr;
+//	void ** ppSwapChain;
+//	FEATURE_LEVEL * pFeatureLevel;
+//	void ** ppImmediateContext;
+//};
 struct SAMPLER_DESC {
 	FILTER Filter;
 	TEXTURE_ADDRESS_MODE AddressU;
@@ -146,7 +162,7 @@ struct SWAP_CHAIN_DESC
 	SAMPLE_DESC SampleDesc;
 	unsigned int BufferUsage;
 	unsigned int BufferCount;
-	void* OutputWindow;
+	int OutputWindow;
 	bool Windowed;
 	SWAP_EFFECT SwapEffect;
 	unsigned int Flags;
@@ -259,4 +275,19 @@ struct RBOX
 	unsigned int right;
 	unsigned int bottom;
 	unsigned int back;
+};
+struct RenderManagerDesc {
+
+	void* pAdapter = NULL;
+	DRIVER_TYPE* DriverType;
+	void* Software = NULL;
+	unsigned int Flags;
+	FEATURE_LEVEL *pFeatureLevels;
+	unsigned int FeatureLevels;
+	unsigned int SDKVersion = 7;// = D3D11_SDK_VERSION;
+	SWAP_CHAIN_DESC * pSwapChainDescr;
+	void* pDevice = nullptr;
+	void ** ppSwapChain;
+	FEATURE_LEVEL * pFeatureLevel;
+	void ** ppImmediateContext;
 };

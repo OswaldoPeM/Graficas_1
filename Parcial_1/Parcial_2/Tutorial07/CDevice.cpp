@@ -14,8 +14,22 @@ HRESULT CDevice::CreateDeviceAndSwapChain(IDXGIAdapter * pAdapter,
 	D3D_FEATURE_LEVEL * pFeatureLevel,
 	ID3D11DeviceContext ** ppImmediateContext)
 {
-	return D3D11CreateDeviceAndSwapChain(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels,
-		D3D11_SDK_VERSION, pSwapChainDesc, ppSwapChain, &g_pd3dDevice, pFeatureLevel, ppImmediateContext);;
+	return D3D11CreateDeviceAndSwapChain
+	(
+		pAdapter,
+		DriverType, 
+		Software, 
+		Flags,
+		pFeatureLevels,
+		FeatureLevels,
+		D3D11_SDK_VERSION,
+		pSwapChainDesc,
+		ppSwapChain,
+		&g_pd3dDevice,
+		pFeatureLevel,
+		ppImmediateContext
+	);
+
 }
 
 HRESULT CDevice::CreateRenderTargetView(

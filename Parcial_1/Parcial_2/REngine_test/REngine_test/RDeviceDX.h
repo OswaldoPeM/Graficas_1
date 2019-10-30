@@ -8,6 +8,11 @@ class RDeviceDX :
 	ID3D11Device * m_pDevice;
 public:
 	virtual void* getDevice()override;
+	virtual int
+		CreateDeviceAndSwapChain
+		(
+			RenderManagerDesc& desc
+		)override;
 
 	virtual int
 		CreateBuffer

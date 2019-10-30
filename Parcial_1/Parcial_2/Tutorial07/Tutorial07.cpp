@@ -407,8 +407,19 @@ HRESULT InitDevice()
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
         g_driverType = driverTypes[driverTypeIndex];
-		hr = g_Device->CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-			D3D11_SDK_VERSION, g_SwapChain->getSwapChainDesc(), g_SwapChain->getSwapChain(), &g_featureLevel, g_DeviceContext->getInterface());
+		hr = g_Device->CreateDeviceAndSwapChain
+		(
+			NULL,
+			g_driverType,
+			NULL,
+			createDeviceFlags,
+			featureLevels,
+			numFeatureLevels,
+			D3D11_SDK_VERSION,
+			g_SwapChain->getSwapChainDesc(),
+			g_SwapChain->getSwapChain(),
+			&g_featureLevel,
+			g_DeviceContext->getInterface());
         if( SUCCEEDED( hr ) )
             break;
     }

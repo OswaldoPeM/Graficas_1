@@ -27,7 +27,7 @@ void * RDepthStencilViewDX::getTextDesc()
 	return m_texture->getTextDesc();
 }
 
-bool RDepthStencilViewDX::inti(STENCIL_VIEW_DESC desc, TEXTURE2D_DESC tDesc)
+bool RDepthStencilViewDX::inti(DEPTH_STENCIL_VIEW_DESC desc, TEXTURE2D_DESC tDesc)
 {
 	stencilVDesc = desc;
 	return false;
